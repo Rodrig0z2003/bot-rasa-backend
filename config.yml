@@ -18,10 +18,10 @@ pipeline:
   - name: EntitySynonymMapper
   
   # --- AÑADIDO DUCKLING PARA EXTRAER NÚMEROS (CANTIDAD) ---
-  - name: DucklingEntityExtractor
-    url: "http://localhost:8000"
-    dimensions:
-      - number
+  # - name: DucklingEntityExtractor
+  #  url: "http://localhost:8000"
+  #  dimensions:
+  #    - number
   
   - name: FallbackClassifier
     threshold: 0.7
