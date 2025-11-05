@@ -1,4 +1,4 @@
-# data/stories.yml (V11.0 - Más inteligente)
+# data/stories.yml (VERSIÓN 3.1 - CORREGIDA)
 version: "3.1"
 
 stories:
@@ -9,40 +9,97 @@ stories:
   - intent: goodbye
   - action: utter_goodbye
 
-# --- HISTORIAS DE PRECIOS (Sin cambios) ---
-- story: Path - Ask Price (con entidad) DESPUÉS DE SALUDO
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: ask_price
-    entities:
-    - sheet_size: "22x36"
-  - slot_was_set:
-    - sheet_size: "22x36"
-  - action: action_get_price
-
-- story: Path - Ask Price (sin entidad) DESPUÉS DE SALUDO
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: ask_price
-  - action: action_get_price
-
-- story: Path - Ask Price (con entidad) SIN SALUDO
-  steps:
-  - intent: ask_price
-    entities:
-    - sheet_size: "22x36"
-  - slot_was_set:
-    - sheet_size: "22x36"
-  - action: action_get_price
-
 - story: Path - Ask Price (sin entidad) SIN SALUDO
   steps:
   - intent: ask_price
   - action: action_get_price
 
-# --- HISTORIA CORREGIDA: Preguntar precio y luego ordenar ---
+- story: Path - Ask FAQ then Ask Price
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: faq # <-- CORREGIDO
+  - action: utter_faq 
+  - intent: ask_price
+    entities:
+    - sheet_size: "22x36"
+  - slot_was_set:
+    - sheet_size: "22x36"
+  - action: action_get_price
+
+- story: Path - Ask questions then order
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: faq # <-- CORREGIDO
+  - action: utter_faq
+  - intent: faq # <-- CORREGIDO
+  - action: utter_faq
+  - intent: create_order_dtf
+  - action: order_form
+  - active_loop: order_form
+
+- story: Path - Ask price then instructions
+  steps:
+  - intent: ask_price
+    entities:
+    - product_name: "6 Pack T-Shirts"
+  - slot_was_set:
+    - product_name: "6 Pack T-Shirts"
+  - action: action_get_price
+  - intent: faq # <-- CORREGIDO
+  - action: utter_faq
+  - intent: thankyou
+  - action: utter_you_are_welcome
+
+- story: Path - Order with FAQ interruption
+  steps:
+  - intent: create_order_dtf
+  - action: order_form
+  - active_loop: order_form
+  - slot_was_set:
+    - product_name: "DTF Custom Gang Sheet"
+  - intent: faq # <-- CORREGIDO
+  - action: utter_faq
+  - action: order_form
+  - active_loop: order_form
+  - intent: inform
+    entities:
+    - sheet_size: "22x36"
+  - slot_was_set:
+    - sheet_size: "22x36"
+  - action: order_form
+  - active_loop: order_form
+  - intent: inform
+    entities:
+    - number: 5
+  - slot_was_set:
+    - quantity: 5.0
+  - action: order_form
+  - active_loop: null
+  - action: action_submit_order_to_api
+
+- story: Path - Order where user just says a number
+  steps:
+  - intent: create_order_dtf
+  - action: order_form
+  - active_loop: order_form
+  - intent: inform
+    entities:
+    - product_name: "6 Pack T-Shirts"
+  - slot_was_set:
+    - product_name: "6 Pack T-Shirts"
+  - action: order_form
+  - active_loop: order_form
+  - intent: inform
+    entities:
+    - number: 5
+  - slot_was_set:
+    - quantity: 5.0
+  - action: order_form
+  - active_loop: null
+  - action: action_submit_order_to_api
+
 - story: Path - Ask price then order
   steps:
   - intent: ask_price
@@ -51,64 +108,16 @@ stories:
   - slot_was_set:
     - product_name: "6 Pack T-Shirts"
   - action: action_get_price
-  - intent: affirm # "Yes, I want that"
+  - intent: affirm
   - action: order_form
   - active_loop: order_form
   - slot_was_set:
     - product_name: "6 Pack T-Shirts"
-  # El formulario pregunta automáticamente por la cantidad...
-  # Y aquí mostramos la respuesta del usuario (ESTA ES LA CORRECCIÓN):
-  - intent: inform_quantity
+  - intent: inform
     entities:
-    - number: "2"
+    - number: 2
   - slot_was_set:
     - quantity: 2.0
-  # (El formulario continúa y se cierra mediante la regla)
-
-# --- HISTORIAS DE Q&A (Sin cambios) ---
-- story: Path - Ask for instructions
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: ask_instructions_dtf
-  - action: utter_ask_instructions_dtf
-  - intent: ask_instructions_uv
-  - action: utter_ask_instructions_uv
-
-- story: Path - Ask about company
-  steps:
-  - intent: ask_about_us
-  - action: utter_ask_about_us
-  - intent: ask_contact_info
-  - action: utter_ask_contact_info
-  - intent: ask_pickup_locations
-  - action: utter_ask_pickup_locations
-
-- story: Path - Ask about products
-  steps:
-  - intent: what_is_dtf
-  - action: utter_what_is_dtf
-  - intent: ask_file_requirements
-  - action: utter_ask_file_requirements
-  - intent: ask_tshirt_fabrics
-  - action: utter_ask_tshirt_fabrics
-
-# --- NUEVAS HISTORIAS DE CHIT-CHAT ---
-- story: User says thanks
-  steps:
-  - intent: thankyou
-  - action: utter_you_are_welcome
-
-- story: User compliments bot
-  steps:
-  - intent: compliment
-  - action: utter_good_bot
-  - intent: ask_how_are_you
-  - action: utter_how_are_you
-
-- story: Bot asks for help, user thanks
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: thankyou
-  - action: utter_you_are_welcome
+  - action: order_form
+  - active_loop: null
+  - action: action_submit_order_to_api

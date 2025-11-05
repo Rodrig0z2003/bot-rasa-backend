@@ -1,4 +1,4 @@
-# domain.yml (V11.0 - Más inteligente)
+# domain.yml (¡VERSIÓN 3.1 - CON FORMS CORREGIDO!)
 version: "3.1"
 session_config:
   session_expiration_time: 60
@@ -17,24 +17,8 @@ intents:
   - ask_how_are_you
   - stop_order
   - bot_challenge
-  - what_is_dtf
-  - what_is_uv_dtf
-  - ask_shipping_time
-  - ask_file_requirements
-  - ask_available_sizes
-  - ask_dtf_vs_others
-  - ask_dtf_durability
-  - ask_pre_cutting_service
-  - ask_tshirt_service
-  - ask_instructions_dtf
-  - ask_instructions_uv
-  - ask_contact_info
-  - ask_pickup_locations
-  - ask_tshirt_fabrics
-  - ask_about_us
-  - ask_minimum_order
-  - ask_difference_dtf_uv
-  - inform_quantity
+  - faq:
+      is_retrieval_intent: true
 
 entities:
   - sheet_size
@@ -80,98 +64,115 @@ responses:
   utter_order_cancelled:
   - text: "OK, I've cancelled this order. What can I help you with next?"
 
-  # --- RESPUESTAS Q&A ---
-  # ... (Todas tus respuestas Q&A existentes (utter_what_is_dtf, etc.) se quedan igual) ...
-  utter_what_is_dtf:
-  - text: "DTF (Direct-to-Film) transfers are printed onto a special film. Our technology is Instant Hot Peel, which means you can peel the film immediately after pressing while it's still hot, saving you time. It's perfect for custom t-shirts, bulk production, and heat press projects."
-  utter_what_is_uv_dtf:
-  - text: "UV DTF (Ultraviolet DTF) is used for hard surfaces, not apparel. It uses UV light to cure the ink, creating a durable, long-lasting print. It works on various surfaces like mugs, metal, glass, or plastic. No heat is needed for application!"
-  utter_ask_shipping_time:
-  - text: "Our standard processing time is 1-2 business days. Shipping then takes 3-5 days via USPS. You can find more info here: https://dtftransfersaffordable.com/content/1-delivery"
-  utter_ask_file_requirements:
-  - text: "We accept .PNG and .PDF files. For .PNG files, please ensure they have a transparent background and are at least 300 DPI for the best quality."
-  utter_ask_available_sizes:
-  - text: "We have a huge range of sizes! For DTF Gang Sheets, we offer sizes from 22x12 all the way up to 22x300. For UV DTF Gang Sheets, we have sizes from 11x12 up to 11x300. You can see the full list on our product pages."
-  utter_ask_dtf_vs_others:
-  - text: "DTF transfers offer the ability to print vibrant, full-color designs with fine details on a variety of materials, including fabrics, plastics, and more."
-  utter_ask_dtf_durability:
-  - text: "Yes, DTF transfers are known for their durability and longevity, providing vibrant and sharp prints that withstand washing and wear."
-  utter_ask_pre_cutting_service:
-  - text: "Yes, we provide DTF transfer pre-cutting services, saving you time and ensuring precise dimensions for easy application."
-  utter_ask_tshirt_service:
-  - text: "Yes! We offer T-Shirt Heat Pressing Services at our shop in San Dimas, CA. We can press your transfers onto garments for you using our commercial-grade machines. This is perfect for small businesses, events, or last-minute orders. We also sell 6-packs and 12-packs of T-shirts!"
-  utter_ask_instructions_dtf:
-  - text: "Our Instant Hot Peel transfers are easy to apply! \n1. Set your heat press to 310°F (154°C). \n2. Press with high pressure for 10 seconds. \n3. Peel the film immediately while it's still hot (no cooling needed!). \n4. For best results, do a 2nd press for 4 seconds (with a teflon sheet or parchment paper)."
-  utter_ask_instructions_uv:
-  - text: "UV DTF transfers are for hard surfaces and require no heat. They are applied like a sticker. \n1. Make sure the surface (like a mug or glass) is clean and dry. \n2. Peel the backing paper off the transfer. \n3. Carefully place the transfer on the item, rubbing it down firmly. \n4. Peel off the top transparent carrier film."
-  utter_ask_contact_info:
-  - text: "You can reach us by phone at (866) 985-3606 or (626) 663-5863. You can also email us at info@dtftransfersaffordable.com."
-  utter_ask_pickup_locations:
-  - text: "Yes, we offer free local pickup at two locations in California: \n* San Dimas: 457 W. Allen Ave. # 101, San Dimas CA 91773\n* Covina: 200 E. Rowland St, Covina CA 91723"
-  utter_ask_tshirt_fabrics:
-  - text: "Our DTF transfers work great on many fabrics! This includes cotton, polyester, blends, and more. Our T-Shirt pressing service is available for all of them."
-  utter_ask_about_us:
-  - text: "We are dtftransfersaffordable.com (B V Graphics CA LLC), a team of passionate creators committed to transforming your ideas into tangible expressions. We specialize in providing top-notch, customizable DTF and UV DTF transfers for both businesses (bulk orders) and personal projects."
-  utter_ask_minimum_order:
-  - text: "For our 'DTF + Heat Press' service (where we press the shirt for you), there is a minimum order of 24 pieces. For regular DTF and UV DTF Gang Sheet orders, you can order just one!"
-  utter_ask_difference_dtf_uv:
-  - text: "Great question! \n- DTF (Direct-to-Film) is for fabric like T-shirts, hoodies, and cotton/polyester blends. It requires a heat press to apply. \n- UV DTF is for hard surfaces like glass, metal, plastic, and wood. It applies like a permanent sticker and does not need heat."
-  utter_default:
-  - text: "Sorry, I'm not sure how to respond to that. I'm still learning. Can you try rephrasing? You can also ask me about prices, instructions, or our locations."
-
-  # --- PREGUNTAS DEL FORMULARIO (CORREGIDAS CON TITLE y PAYLOAD) ---
+  # --- FORMULARIO (CORREGIDO CON DOBLE LLAVE) ---
   utter_ask_product_name:
   - custom:
       type: "buttons"
       text: "What product would you like to order?"
-      options: # Esto ahora es una lista de OBJETOS
+      options:
       - title: "DTF Gang Sheet"
-        payload: '/inform{"product_name":"DTF Custom Gang Sheet"}'
+        payload: '/inform{{"product_name":"DTF Custom Gang Sheet"}}'
       - title: "UV DTF Gang Sheet"
-        payload: '/inform{"product_name":"UV DTF Gang Sheet"}'
+        payload: '/inform{{"product_name":"UV DTF Gang Sheet"}}'
       - title: "6 Pack T-Shirts"
-        payload: '/inform{"product_name":"6 Pack T-Shirts"}'
+        payload: '/inform{{"product_name":"6 Pack T-Shirts"}}'
       - title: "DTF + Heat Press"
-        payload: '/inform{"product_name":"DTF + Heat Press"}'
-
+        payload: '/inform{{"product_name":"DTF + Heat Press"}}'
   utter_ask_sheet_size:
   - custom:
       type: "buttons"
       text: "What size gang sheet do you need?"
-      options: # He añadido más tamaños
+      options:
       - title: "22x12"
-        payload: '/inform{"sheet_size":"22x12"}'
+        payload: '/inform{{"sheet_size":"22x12"}}'
       - title: "22x36"
-        payload: '/inform{"sheet_size":"22x36"}'
+        payload: '/inform{{"sheet_size":"22x36"}}'
       - title: "22x60"
-        payload: '/inform{"sheet_size":"22x60"}'
-      - title: "22x120"
-        payload: '/inform{"sheet_size":"22x120"}'
+        payload: '/inform{{"sheet_size":"22x60"}}'
       - title: "11x12 (UV)"
-        payload: '/inform{"sheet_size":"11x12"}'
+        payload: '/inform{{"sheet_size":"11x12"}}'
       - title: "11x24 (UV)"
-        payload: '/inform{"sheet_size":"11x24"}'
-
+        payload: '/inform{{"sheet_size":"11x24"}}'
+  
+  # --- RESPUESTAS DE FORMULARIO ---
   utter_ask_quantity:
   - text: "How many would you like?"
-  
   utter_submit_order:
   - text: "Great, I've got that! I'll be placing an order for {quantity} x {product_name}."
-  
   utter_submit_order_with_size:
   - text: "Great, I've got that! I'll be placing an order for {quantity} x {product_name} ({sheet_size})."
-
   utter_ask_continue:
   - text: "Are you sure you want to cancel the order process?"
+  utter_default:
+  - text: "Sorry, I'm not sure how to respond to that. I'm still learning. Can you try rephrasing? You can also ask me about prices, instructions, or our locations."
+
+  # --- RESPUESTAS DE Q&A (Estas están bien) ---
+  utter_faq/what_is_dtf:
+  - text: "DTF transfers, or Direct Film transfers, involve printing designs onto a special film, which is then transferred onto various surfaces using heat and pressure."
+  utter_faq/what_is_uv_dtf:
+  - text: "UV DTF (Ultraviolet DTF) is used for hard surfaces, not apparel. It uses UV light to cure the ink... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
+  utter_faq/ask_dtf_vs_others:
+  - text: "DTF transfers offer the ability to print vibrant, full-color designs... \n\n**DTF VS DGT**\n[Learn the difference between DTF and DGT](https://youtu.be/dDdiubZjYwM)"
+  utter_faq/ask_dtf_durability:
+  - text: "Yes, DTF transfers are known for their durability and longevity, providing vibrant and sharp prints that withstand washing and wear."
+  utter_faq/how_to_order:
+  - text: "You can place an order for DTF transfers through our website or by contacting our customer service. Specify your design, quantity, and any customization preferences."
+  utter_faq/ask_pre_cutting_service:
+  - text: "Yes, we provide DTF transfer pre-cutting services, saving you time and ensuring precise dimensions for easy application."
+  utter_faq/ask_instructions_dtf:
+  - text: "Our Instant Hot Peel transfers are easy to apply! ... \n\n**How to use DTF Transfers**\n[Learn on how to press DTF](https://youtu.be/cx0ARO5z8xE)"
+  utter_faq/ask_instructions_uv:
+  - text: "UV DTF transfers are for hard surfaces and require no heat. ... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
+  utter_faq/ask_contact_info:
+  - text: "You can contact us here:\n\n**Phone:**\n(866) 985-3606\n(626) 663-5863\n\n**Email:**\ninfo@dtftransfersaffordable.com"
+  utter_faq/ask_pickup_locations:
+  - text: "Yes, we offer free local pickup at two locations:\n\n**San Dimas:**\n457 W. Allen Ave. # 101, San Dimas CA 91773\n\n**Covina:**\n200 E. Rowland St, Covina CA 91723"
+  utter_faq/ask_shipping_time:
+  - text: "Our standard processing time is 1-2 business days. Shipping then takes 3-5 days via USPS. You can find more info here: https://dtftransfersaffordable.com/content/1-delivery"
+  utter_faq/ask_file_requirements:
+  - text: "We accept .PNG and .PDF files. For .PNG files, please ensure they have a transparent background and are at least 300 DPI for the best quality."
+  utter_faq/ask_available_sizes:
+  - text: "We have a huge range of sizes! For DTF Gang Sheets, we offer sizes from 22x12 up to 22x300. For UV DTF Gang Sheets, we have sizes from 11x12 up to 11x300."
+  utter_faq/ask_tshirt_service:
+  - text: "Yes! We offer T-Shirt Heat Pressing Services at our shop in San Dimas, CA. We also sell 6-packs and 12-packs of T-shirts!"
+  utter_faq/ask_tshirt_fabrics:
+  - text: "Our DTF transfers work great on many fabrics! This includes cotton, polyester, blends, and more."
+  utter_faq/ask_about_us:
+  - text: "We are dtftransfersaffordable.com (B V Graphics CA LLC), a team of passionate creators committed to transforming your ideas into tangible expressions."
+  utter_faq/ask_minimum_order:
+  - text: "For our 'DTF + Heat Press' service (where we press the shirt for you), there is a minimum order of 24 pieces. For regular DTF and UV DTF Gang Sheet orders, you can order just one!"
+  utter_faq/ask_difference_dtf_uv:
+  - text: "Great question! \n- DTF (Direct-to-Film) is for fabric like T-shirts. \n- UV DTF is for hard surfaces like glass, metal, plastic."
+  # --- NUEVA INFORMACIÓN (V4.0) ---
+
+  utter_faq/what_is_hot_peel:
+  - text: "Instant Hot Peel means you can peel the transfer film off *immediately* after the heat press, while it's still hot. This is much faster than 'Cold Peel' transfers, which require you to wait for it to cool down completely. It saves a lot of time, especially for bulk orders!"
+
+  utter_faq/wash_instructions:
+  - text: "To make your DTF print last long, we recommend: \n1. Wait 24 hours before the first wash. \n2. Turn the garment inside out. \n3. Wash in cold water on a gentle cycle. \n4. Tumble dry on low heat or hang dry. \n5. Do not iron directly on the print!"
+
+  utter_faq/tshirt_materials:
+  - text: "Our T-Shirt packs (like the 6-Pack and 12-Pack) are typically 100% Ring-Spun Cotton for a soft feel and great printing results. If you use our 'DTF + Heat Press' service, you can often provide your own garments as well, including polyester and blends."
+
+  utter_faq/what_tools_do_i_need_dtf:
+  - text: "For DTF transfers, you **must** use a heat press. A regular home iron will not work, as it cannot provide the consistent high pressure and even temperature required. \nFor UV DTF, you don't need any tools! Just clean the surface and apply it like a sticker."
+
+  utter_faq/uv_durability:
+  - text: "Our UV DTF transfers are highly durable, waterproof, and scratch-resistant. They are great for items like mugs, water bottles, and laptops. However, for maximum lifespan, we recommend hand-washing items with UV transfers. A dishwasher's high heat and harsh detergents can slowly degrade the adhesive over time."
+
+  utter_faq/bulk_discount:
+  - text: "Yes, we do! Our pricing is tiered, so the more you order, the lower the price per sheet. For very large or wholesale inquiries (over 100+ sheets), please contact our sales team directly at info@dtftransfersaffordable.com for a custom quote."
+
+
 
 actions:
   - action_get_price
   - validate_order_form
   - action_submit_order_to_api
-  - action_cancel_order # <--- AÑADIDA NUEVA ACCIÓN
+  - action_cancel_order
 
+# --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+# Esta sección faltaba
 forms:
   order_form:
-    required_slots:
-      - product_name
-      - quantity
+    required_slots: [] # <-- ESTA ES LA LÍNEA CORRECTA

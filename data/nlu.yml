@@ -1,7 +1,9 @@
-# data/nlu.yml (V11.1 - Fusionado y Mejorado)
+# data/nlu.yml (VERSIÓN 3.0)
 version: "3.1"
 
 nlu:
+# ... (Todos los intents de greet, goodbye, ask_price, create_order_dtf, etc. se quedan igual que antes) ...
+
 - intent: greet
   examples: |
     - hey
@@ -9,15 +11,19 @@ nlu:
     - hi
     - good morning
     - hello there
-
+    - helo
+    - hye
+    - howdy
+    - star
+    - good afternoon
 - intent: goodbye
   examples: |
     - bye
     - goodbye
     - see you later
     - talk to you later
-
-# --- NUEVOS INTENTS "CHIT-CHAT" ---
+    - cya
+    - bye bye
 - intent: thankyou
   examples: |
     - thanks
@@ -25,7 +31,7 @@ nlu:
     - thx
     - appreciate it
     - ok thanks
-
+    - tnx
 - intent: compliment
   examples: |
     - you are helpful
@@ -33,13 +39,13 @@ nlu:
     - great service
     - awesome
     - nice
-
+    - ur great
 - intent: ask_how_are_you
   examples: |
     - how are you
     - how are you doing
     - hows it going
-
+    - how r u
 - intent: ask_price
   examples: |
     - how much does it cost?
@@ -57,9 +63,10 @@ nlu:
     - [UV DTF Gang Sheet](product_name) price
     - cost of [DTF + Heat Press](product_name)
     - [DTF Fluorescent Gang Sheets](product_name) cost
-
+    - cunto cuesta
+    - q presio tiene
+    - wats the price
 - intent: create_order_dtf
-  # --- ACTUALIZADO CON MÁS EJEMPLOS (V11.1) ---
   examples: |
     - I want to place an order
     - I want to buy a gang sheet
@@ -84,8 +91,9 @@ nlu:
     - i want to buy something
     - can you take my order
     - new order please
-
-# --- NUEVO INTENT PARA CANCELAR ---
+    - i wnt to buy
+    - can i orderr
+    - plece an order
 - intent: stop_order
   examples: |
     - stop
@@ -94,9 +102,7 @@ nlu:
     - nevermind
     - i dont want to order anymore
     - forget it
-
 - intent: inform
-  # --- MANTENIDO DE LA VERSIÓN ANTERIOR ---
   examples: |
     - I need a [22x36](sheet_size)
     - [22x12](sheet_size)
@@ -105,39 +111,30 @@ nlu:
     - it's [22x60](sheet_size)
     - [11x12](sheet_size)
     - [Dtf + Heat Press](product_name)
-
-- intent: inform_quantity
-  examples: |
-    - [5](number)
-    - I need [10](number)
-    - [24](number) please
-    - just [one](number)
-    - how about [3](number)
-    - [ten](number)
-    - [twenty](number)
-
 - intent: affirm
   examples: |
     - yes
     - indeed
     - of course
     - that sounds good
-
+    - yup
+    - correct
 - intent: deny
   examples: |
     - no
     - never
     - I don't think so
     - no way
-
+    - nope
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you human?
     - am I talking to a bot?
 
-# --- RESTO DE INTENCIONES (Q&A) MANTENIDAS ---
-- intent: what_is_dtf
+# --- SECCIÓN DE FAQ (con el nuevo intent) ---
+
+- intent: faq/what_is_dtf
   examples: |
     - What is DTF?
     - What are DTF transfers?
@@ -145,8 +142,9 @@ nlu:
     - tell me about dtf
     - what is instant hot peel
     - hot peel dtf
-
-- intent: what_is_uv_dtf
+    - wht is dtf
+    - dtf info
+- intent: faq/what_is_uv_dtf
   examples: |
     - What is UV DTF?
     - what is a uv
@@ -154,16 +152,19 @@ nlu:
     - tell me about uv stickers
     - uv for hard surfaces
     - what is a uv gang sheet
-
-- intent: ask_shipping_time
+    - uv dtf info
+    - wut is uv
+- intent: faq/ask_shipping_time
   examples: |
     - how long is shipping?
     - shipping time
     - when will I get my order
     - what is the turnaround time
     - processing time
-
-- intent: ask_file_requirements
+    - how fast do you ship
+    - shpping time
+    - when order arrive
+- intent: faq/ask_file_requirements
   examples: |
     - what file type do I need?
     - file requirements
@@ -172,8 +173,9 @@ nlu:
     - what dpi
     - 300 dpi?
     - does the background need to be transparent
-
-- intent: ask_available_sizes
+    - file reqs
+    - what file type
+- intent: faq/ask_available_sizes
   examples: |
     - what sizes do you have?
     - what size existing
@@ -181,27 +183,40 @@ nlu:
     - what uv dtf sizes do you offer
     - max size
     - smallest size
-
-- intent: ask_dtf_vs_others
+    - list of sizes
+    - do u have 22x60
+- intent: faq/ask_dtf_vs_others
   examples: |
     - How do DTF transfers differ from other printing methods?
     - dtf vs vinyl
     - dtf vs screen printing
-
-- intent: ask_dtf_durability
+    - why is dtf better
+    - dtf or vinyl
+    - dtf vs dgt
+- intent: faq/ask_dtf_durability
   examples: |
     - Are DTF transfers durable and long-lasting?
     - does dtf wash well
     - how many washes
     - will it crack or peel
-
-- intent: ask_pre_cutting_service
+    - is it durable
+    - washability
+- intent: faq/ask_pre_cutting_service
   examples: |
     - Do you offer pre-cutting services for DTF transfers?
     - do you pre-cut
     - can you cut my designs
+    - cut service
 
-- intent: ask_tshirt_service
+# --- ¡NUEVO INTENT! ---
+- intent: faq/how_to_order
+  examples: |
+    - How can I order DTF transfers?
+    - how do I order
+    - how to place an order
+    - where to order
+
+- intent: faq/ask_tshirt_service
   examples: |
     - do you sell t-shirts
     - t-shirt services
@@ -210,8 +225,8 @@ nlu:
     - I need a custom t-shirt
     - do you sell 12 pack of shirts
     - t-shirt bundle
-
-- intent: ask_instructions_dtf
+    - can i buy shirts
+- intent: faq/ask_instructions_dtf
   examples: |
     - how do I press the dtf transfer
     - what are the heat press instructions
@@ -222,23 +237,30 @@ nlu:
     - dtf instructions
     - 1st press 10 seconds?
     - how to apply dtf
-
-- intent: ask_instructions_uv
+    - how to use dtf
+    - usage dtf
+    - instructions for dtf
+- intent: faq/ask_instructions_uv
   examples: |
     - how do I apply uv dtf
     - instructions for uv dtf
     - does uv dtf need heat
     - how to put uv sticker on a mug
     - uv transfer application
-
-- intent: ask_contact_info
+    - how to use uv transfer
+    - uv instructions
+- intent: faq/ask_contact_info
   examples: |
     - what is your phone number
     - how can I contact you
     - what's your email address
     - customer service number
-
-- intent: ask_pickup_locations
+    - call u
+    - phone?
+    - contact info
+    - email
+    - info@dtftransfersaffordable.com
+- intent: faq/ask_pickup_locations
   examples: |
     - where are you located
     - what is your address
@@ -246,30 +268,30 @@ nlu:
     - do you have local pickup
     - san dimas address
     - covina address
-
-- intent: ask_tshirt_fabrics
+    - location
+    - where r u
+- intent: faq/ask_tshirt_fabrics
   examples: |
     - what fabrics does dtf work on
     - can I use dtf on polyester
     - does dtf work on cotton
     - what about blends
-
-- intent: ask_about_us
+    - fabric types
+- intent: faq/ask_about_us
   examples: |
     - tell me about your company
     - who are you
     - who is dtftransfersaffordable
     - B V Graphics?
-
-- intent: ask_minimum_order
+    - about you
+- intent: faq/ask_minimum_order
   examples: |
     - is there a minimum order
     - moq
     - what is the minimum order for heat press
     - can I just buy one
     - minimum 24 pieces?
-
-- intent: ask_difference_dtf_uv
+- intent: faq/ask_difference_dtf_uv
   examples: |
     - What's the difference between DTF and UV DTF?
     - dtf vs uv dtf
@@ -279,7 +301,55 @@ nlu:
     - diference betwen dtf and uv
     - what is different about uv and dtf
 
-# --- SINÓNIMOS (MANTENIDOS) ---
+- intent: faq/what_is_hot_peel
+  examples: |
+    - what is instant hot peel?
+    - what does hot peel mean?
+    - hot peel vs cold peel
+    - diferencia entre hot peel y cold peel
+    - do i have to wait to peel?
+
+- intent: faq/wash_instructions
+  examples: |
+    - how do I wash my DTF shirt?
+    - washing instructions
+    - care instructions for dtf
+    - how to make dtf print last
+    - can i machine wash dtf?
+    - se puede lavar en lavadora?
+
+- intent: faq/tshirt_materials
+  examples: |
+    - what are your tshirts made of?
+    - what kind of shirts do you sell?
+    - are your tshirts cotton or polyester?
+    - tshirt brand
+
+- intent: faq/what_tools_do_i_need_dtf
+  examples: |
+    - what do I need to apply dtf?
+    - do i need a heat press?
+    - can I use a home iron for dtf?
+    - tools for dtf
+    - necesito una plancha?
+
+- intent: faq/uv_durability
+  examples: |
+    - Is UV DTF waterproof?
+    - is uv dtf dishwasher safe?
+    - how long do uv transfers last?
+    - uv dtf durability
+    - uv es resistente al agua?
+
+- intent: faq/bulk_discount
+  examples: |
+    - Do you offer bulk discounts?
+    - what if I order 100 sheets?
+    - wholesale pricing
+    - precio por mayoreo
+    - discount for big order
+
+# --- SINÓNIMOS (Sin cambios) ---
 - synonym: "22x12"
   examples: |
     - 22 by 12

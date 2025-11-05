@@ -1,4 +1,4 @@
-# data/rules.yml (V11.1 - Arreglado el bug de SPAM)
+# data/rules.yml (¡VERSIÓN INTELIGENTE Y LIMPIA!)
 version: "3.1"
 
 rules:
@@ -12,7 +12,7 @@ rules:
   - intent: bot_challenge
   - action: utter_iamabot
 
-# --- REGLAS DE CHIT-CHAT ---
+# --- REGLAS DE CHIT-CHAT (Sin cambios) ---
 - rule: Respond to thankyou
   steps:
   - intent: thankyou
@@ -28,7 +28,7 @@ rules:
   - intent: ask_how_are_you
   - action: utter_how_are_you
 
-# --- REGLAS DEL FORMULARIO DE PEDIDO ---
+# --- REGLAS DEL FORMULARIO DE PEDIDO (Sin cambios) ---
 - rule: Activate Order Form
   steps:
   - intent: create_order_dtf
@@ -45,7 +45,6 @@ rules:
     - requested_slot: null
   - action: action_submit_order_to_api
 
-# --- REGLA DE CANCELACIÓN DE FORMULARIO ---
 - rule: Cancel order form with 'stop_order' or 'deny'
   condition:
   - active_loop: order_form
@@ -56,10 +55,24 @@ rules:
   - action: action_cancel_order
   - active_loop: null
 
-# --- REGLAS DE INTERRUPCIÓN (ANTI-BUGUEO) ---
-# ¡ESTA ES LA SECCIÓN CORREGIDA!
-# Una regla para cada Q&A, en lugar de una regla gigante.
+# --- ¡CLAVE! REGLAS DE Q&A INTELIGENTES ---
+# Esta regla reemplaza TUS 20 REGLAS de Q&A
+- rule: Respond to any FAQ
+  steps:
+  - intent: faq # Esto captura CUALQUIER intent "faq/..."
+  - action: utter_faq # Esto responde con la respuesta "utter_faq/..." correcta
 
+# Esta regla reemplaza TUS 20 REGLAS de interrupción
+- rule: Handle any FAQ during form
+  condition:
+  - active_loop: order_form
+  steps:
+  - intent: faq # Captura CUALQUIER pregunta
+  - action: utter_faq # Responde la pregunta
+  - action: order_form # Vuelve al formulario
+  - active_loop: order_form
+
+# (Nota: Mantenemos tu regla de 'ask_price' por si acaso)
 - rule: Handle ask_price during form
   condition:
   - active_loop: order_form
@@ -68,226 +81,3 @@ rules:
   - action: action_get_price
   - action: order_form
   - active_loop: order_form
-
-- rule: Handle what_is_dtf during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: what_is_dtf
-  - action: utter_what_is_dtf
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle what_is_uv_dtf during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: what_is_uv_dtf
-  - action: utter_what_is_uv_dtf
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_shipping_time during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_shipping_time
-  - action: utter_ask_shipping_time
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_file_requirements during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_file_requirements
-  - action: utter_ask_file_requirements
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_available_sizes during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_available_sizes
-  - action: utter_ask_available_sizes
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_dtf_vs_others during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_dtf_vs_others
-  - action: utter_ask_dtf_vs_others
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_dtf_durability during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_dtf_durability
-  - action: utter_ask_dtf_durability
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_pre_cutting_service during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_pre_cutting_service
-  - action: utter_ask_pre_cutting_service
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_tshirt_service during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_tshirt_service
-  - action: utter_ask_tshirt_service
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_instructions_dtf during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_instructions_dtf
-  - action: utter_ask_instructions_dtf
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_instructions_uv during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_instructions_uv
-  - action: utter_ask_instructions_uv
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_contact_info during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_contact_info
-  - action: utter_ask_contact_info
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_pickup_locations during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_pickup_locations
-  - action: utter_ask_pickup_locations
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_tshirt_fabrics during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_tshirt_fabrics
-  - action: utter_ask_tshirt_fabrics
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_about_us during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_about_us
-  - action: utter_ask_about_us
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_minimum_order during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_minimum_order
-  - action: utter_ask_minimum_order
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Handle ask_difference_dtf_uv during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_difference_dtf_uv
-  - action: utter_ask_difference_dtf_uv
-  - action: order_form
-  - active_loop: order_form
-
-# --- REGLAS DE Q&A (Normales, fuera del formulario) ---
-- rule: Respond to what_is_dtf
-  steps:
-  - intent: what_is_dtf
-  - action: utter_what_is_dtf
-- rule: Respond to what_is_uv_dtf
-  steps:
-  - intent: what_is_uv_dtf
-  - action: utter_what_is_uv_dtf
-- rule: Respond to ask_shipping_time
-  steps:
-  - intent: ask_shipping_time
-  - action: utter_ask_shipping_time
-- rule: Respond to ask_file_requirements
-  steps:
-  - intent: ask_file_requirements
-  - action: utter_ask_file_requirements
-- rule: Respond to ask_available_sizes
-  steps:
-  - intent: ask_available_sizes
-  - action: utter_ask_available_sizes
-- rule: Respond to ask_dtf_vs_others
-  steps:
-  - intent: ask_dtf_vs_others
-  - action: utter_ask_dtf_vs_others
-- rule: Respond to ask_dtf_durability
-  steps:
-  - intent: ask_dtf_durability
-  - action: utter_ask_dtf_durability
-- rule: Respond to ask_pre_cutting_service
-  steps:
-  - intent: ask_pre_cutting_service
-  - action: utter_ask_pre_cutting_service
-- rule: Respond to ask_tshirt_service
-  steps:
-  - intent: ask_tshirt_service
-  - action: utter_ask_tshirt_service
-- rule: Respond to ask_instructions_dtf
-  steps:
-  - intent: ask_instructions_dtf
-  - action: utter_ask_instructions_dtf
-- rule: Respond to ask_instructions_uv
-  steps:
-  - intent: ask_instructions_uv
-  - action: utter_ask_instructions_uv
-- rule: Respond to ask_contact_info
-  steps:
-  - intent: ask_contact_info
-  - action: utter_ask_contact_info
-- rule: Respond to ask_pickup_locations
-  steps:
-  - intent: ask_pickup_locations
-  - action: utter_ask_pickup_locations
-- rule: Respond to ask_tshirt_fabrics
-  steps:
-  - intent: ask_tshirt_fabrics
-  - action: utter_ask_tshirt_fabrics
-- rule: Respond to ask_about_us
-  steps:
-  - intent: ask_about_us
-  - action: utter_ask_about_us
-- rule: Respond to ask_minimum_order
-  steps:
-  - intent: ask_minimum_order
-  - action: utter_ask_minimum_order
-- rule: Respond to ask_difference_dtf_uv
-  steps:
-  - intent: ask_difference_dtf_uv
-  - action: utter_ask_difference_dtf_uv

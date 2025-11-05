@@ -1,7 +1,7 @@
-# config.yml (V10.0 - AÑADIDO DUCKLING)
+# config.yml (¡VERSIÓN INTELIGENTE!)
 recipe: default.v1
 language: en
-assistant_id: 20251031-135016-cool-contract
+assistant_id: 20251105-smart-bot # Nuevo ID de asistente
 
 pipeline:
   - name: WhitespaceTokenizer
@@ -15,13 +15,19 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
+  
+  # --- ¡CLAVE! AÑADIDO PARA Q&A INTELIGENTE ---
+  - name: ResponseSelector
+    epochs: 100
+    retrieval_intent: faq # Le decimos que todas las intenciones "faq/..." son para Q&A
+
   - name: EntitySynonymMapper
   
-  # --- AÑADIDO DUCKLING PARA EXTRAER NÚMEROS (CANTIDAD) ---
-  # - name: DucklingEntityExtractor
-  #  url: "http://localhost:8000"
-  #  dimensions:
-  #    - number
+  # --- ¡CLAVE! ACTIVADO PARA ENTENDER NÚMEROS ---
+  - name: DucklingEntityExtractor
+    url: "http://localhost:8000" # Asegúrate de tener Duckling corriendo
+    dimensions:
+      - number # Extraerá cantidades (1, 5, 10, "twenty")
   
   - name: FallbackClassifier
     threshold: 0.7
@@ -33,7 +39,7 @@ policies:
   - name: UnexpecTEDIntentPolicy
     max_history: 5
     epochs: 100
-  - name: TEDPolicy
+  - name: TEDPolicy # Esta es la "IA" que aprende de las stories
     max_history: 5
     epochs: 100
     constrain_similarities: true
