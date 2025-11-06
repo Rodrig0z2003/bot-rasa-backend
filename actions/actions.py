@@ -41,11 +41,15 @@ FORM_SLOTS = [
 # --- ¡CONFIGURA ESTAS URLS! ---
 # URL de tu Webhook en Laravel
 #LARAVEL_WEBHOOK_URL = "https://72.60.24.115/api/rasa-order" # <-- ¡USA TU IP O DOMINIO!
-LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
+#LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
+
+LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
 
 # URL base para tu página de subida de archivos
 #LARAVEL_UPLOAD_PAGE_URL = "https://72.60.24.115/upload-order-file" # <-- ¡USA TU IP O DOMINIO!
-LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
+#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
+
+LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 # ---------------------------------
 
 
@@ -224,7 +228,7 @@ class ActionSubmitOrderToApi(Action):
         try:
             # ¡Importante! 'verify=False' es solo para pruebas si tienes problemas de SSL
             # En producción, deberías tener un certificado SSL válido
-            response = requests.post(LARAVEL_WEBHOOK_URL, json=order_data, verify=False)
+            response = requests.post(LARAVEL_WEBHOOK_URL, json=order_data)
             
             response.raise_for_status() # Lanza un error si la respuesta es 4xx o 5xx
 
