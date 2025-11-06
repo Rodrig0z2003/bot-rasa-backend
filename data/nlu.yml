@@ -1,9 +1,8 @@
-# data/nlu.yml (VERSIÓN 3.0)
+# data/nlu.yml (VERSIÓN 3.1 - Actualizado)
 version: "3.1"
 
 nlu:
-# ... (Todos los intents de greet, goodbye, ask_price, create_order_dtf, etc. se quedan igual que antes) ...
-
+# --- Intents Básicos ---
 - intent: greet
   examples: |
     - hey
@@ -46,6 +45,8 @@ nlu:
     - how are you doing
     - hows it going
     - how r u
+
+# --- Intents de Formulario ---
 - intent: ask_price
   examples: |
     - how much does it cost?
@@ -111,6 +112,27 @@ nlu:
     - it's [22x60](sheet_size)
     - [11x12](sheet_size)
     - [Dtf + Heat Press](product_name)
+    - [5](number)
+    - [ten](number)
+
+# --- ¡Nuevos Intents para capturar datos de usuario! ---
+- intent: inform_email
+  examples: |
+    - my email is [test@example.com](email)
+    - [sandro.capira@tecsup.edu.pe](email)
+    - [rodrigo@gmail.com](email)
+    - es [mi.correo@dominio.com](email)
+    - [ejemplo123@proveedor.net](email)
+- intent: inform_name
+  examples: |
+    - My name is [Rodrigo](user_name)
+    - [Rodrigo Capira](user_name)
+    - [Sandro](user_name)
+    - Me llamo [Juan Perez](user_name)
+    - [Ana](user_name)
+    - [Jose](user_name)
+
+# --- Intents de Afirmación / Negación / Reto ---
 - intent: affirm
   examples: |
     - yes
@@ -132,7 +154,7 @@ nlu:
     - are you human?
     - am I talking to a bot?
 
-# --- SECCIÓN DE FAQ (con el nuevo intent) ---
+# --- SECCIÓN DE FAQ (Completa) ---
 
 - intent: faq/what_is_dtf
   examples: |
@@ -207,15 +229,12 @@ nlu:
     - do you pre-cut
     - can you cut my designs
     - cut service
-
-# --- ¡NUEVO INTENT! ---
 - intent: faq/how_to_order
   examples: |
     - How can I order DTF transfers?
     - how do I order
     - how to place an order
     - where to order
-
 - intent: faq/ask_tshirt_service
   examples: |
     - do you sell t-shirts
@@ -300,7 +319,6 @@ nlu:
     - compare dtf and uv
     - diference betwen dtf and uv
     - what is different about uv and dtf
-
 - intent: faq/what_is_hot_peel
   examples: |
     - what is instant hot peel?
@@ -308,7 +326,6 @@ nlu:
     - hot peel vs cold peel
     - diferencia entre hot peel y cold peel
     - do i have to wait to peel?
-
 - intent: faq/wash_instructions
   examples: |
     - how do I wash my DTF shirt?
@@ -317,14 +334,12 @@ nlu:
     - how to make dtf print last
     - can i machine wash dtf?
     - se puede lavar en lavadora?
-
 - intent: faq/tshirt_materials
   examples: |
     - what are your tshirts made of?
     - what kind of shirts do you sell?
     - are your tshirts cotton or polyester?
     - tshirt brand
-
 - intent: faq/what_tools_do_i_need_dtf
   examples: |
     - what do I need to apply dtf?
@@ -332,7 +347,6 @@ nlu:
     - can I use a home iron for dtf?
     - tools for dtf
     - necesito una plancha?
-
 - intent: faq/uv_durability
   examples: |
     - Is UV DTF waterproof?
@@ -340,7 +354,6 @@ nlu:
     - how long do uv transfers last?
     - uv dtf durability
     - uv es resistente al agua?
-
 - intent: faq/bulk_discount
   examples: |
     - Do you offer bulk discounts?
@@ -349,7 +362,7 @@ nlu:
     - precio por mayoreo
     - discount for big order
 
-# --- SINÓNIMOS (Sin cambios) ---
+# --- SINÓNIMOS ---
 - synonym: "22x12"
   examples: |
     - 22 by 12
