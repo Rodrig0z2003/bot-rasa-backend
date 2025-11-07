@@ -1,4 +1,4 @@
-# domain.yml
+# domain.yml (Versión 4.1 - Corregida)
 version: "3.1"
 session_config:
   session_expiration_time: 60
@@ -22,6 +22,7 @@ intents:
   # Nuevos intents para texto libre
   - inform_email
   - inform_name
+  - faq/do_you_make_dtf
 
 entities:
   - sheet_size
@@ -60,7 +61,6 @@ slots:
     - type: from_entity
       entity: category
       
-  # --- ¡AQUÍ ESTÁ LA CORRECCIÓN PARA EL NOMBRE! ---
   # --- ¡ESTA ES LA CORRECCIÓN DEFINITIVA PARA EL NOMBRE! ---
   user_name:
     type: text
@@ -107,46 +107,140 @@ responses:
   - text: "Sorry, I'm not sure how to respond to that. Can you try rephrasing?"
 
   # --- Respuestas del Formulario (con doble llave) ---
+  
+  # --- BLOQUE ACTUALIZADO (B) ---
   utter_ask_product_name:
   - custom:
-      type: "buttons"
+      type: "grid"
       text: "What product would you like to order?"
       options:
       - title: "DTF Gang Sheet"
         payload: '/inform{{"product_name":"DTF Custom Gang Sheet"}}'
       - title: "UV DTF Gang Sheet"
         payload: '/inform{{"product_name":"UV DTF Gang Sheet"}}'
-      - title: "6 Pack T-Shirts"
-        payload: '/inform{{"product_name":"6 Pack T-Shirts"}}'
-      - title: "DTF + Heat Press"
-        payload: '/inform{{"product_name":"DTF + Heat Press"}}'
   
-  utter_ask_sheet_size:
+  # --- BLOQUE ACTUALIZADO (A) ---
+  # --- ESTE BLOQUE SE HA ELIMINADO ---
+  # utter_ask_sheet_size:
+  # - custom:
+  # ... (bloque de 25 tallas eliminado) ...
+  #     - title: "11x300"
+  #       payload: '/inform{{"sheet_size":"11x300"}}'
+
+  # --- NUEVAS RESPUESTAS DE TALLA (REEMPLAZAN LA ANTIGUA) ---
+  utter_ask_sheet_size_dtf:
   - custom:
-      type: "buttons"
-      text: "What size gang sheet do you need?"
+      type: "dropdown"
+      text: "What size DTF Gang Sheet do you need? (Sizes 22x...)"
       options:
       - title: "22x12"
         payload: '/inform{{"sheet_size":"22x12"}}'
+      - title: "22x24"
+        payload: '/inform{{"sheet_size":"22x24"}}'
       - title: "22x36"
         payload: '/inform{{"sheet_size":"22x36"}}'
+      - title: "22x48"
+        payload: '/inform{{"sheet_size":"22x48"}}'
       - title: "22x60"
         payload: '/inform{{"sheet_size":"22x60"}}'
-      - title: "11x12 (UV)"
+      - title: "22x72"
+        payload: '/inform{{"sheet_size":"22x72"}}'
+      - title: "22x84"
+        payload: '/inform{{"sheet_size":"22x84"}}'
+      - title: "22x96"
+        payload: '/inform{{"sheet_size":"22x96"}}'
+      - title: "22x120"
+        payload: '/inform{{"sheet_size":"22x120"}}'
+      - title: "22x132"
+        payload: '/inform{{"sheet_size":"22x132"}}'
+      - title: "22x144"
+        payload: '/inform{{"sheet_size":"22x144"}}'
+      - title: "22x156"
+        payload: '/inform{{"sheet_size":"22x156"}}'
+      - title: "22x168"
+        payload: '/inform{{"sheet_size":"22x168"}}'
+      - title: "22x180"
+        payload: '/inform{{"sheet_size":"22x180"}}'
+      - title: "22x192"
+        payload: '/inform{{"sheet_size":"22x192"}}'
+      - title: "22x204"
+        payload: '/inform{{"sheet_size":"22x204"}}'
+      - title: "22x216"
+        payload: '/inform{{"sheet_size":"22x216"}}'
+      - title: "22x238"
+        payload: '/inform{{"sheet_size":"22x238"}}'
+      - title: "22x274"
+        payload: '/inform{{"sheet_size":"22x274"}}'
+      - title: "22x286"
+        payload: '/inform{{"sheet_size":"22x286"}}'
+      - title: "22x300"
+        payload: '/inform{{"sheet_size":"22x300"}}'
+
+  utter_ask_sheet_size_uv:
+  - custom:
+      type: "dropdown"
+      text: "What size UV DTF Gang Sheet do you need? (Sizes 11x...)"
+      options:
+      - title: "11x12"
         payload: '/inform{{"sheet_size":"11x12"}}'
-      - title: "11x24 (UV)"
+      - title: "11x24"
         payload: '/inform{{"sheet_size":"11x24"}}'
-  
+      - title: "11x36"
+        payload: '/inform{{"sheet_size":"11x36"}}'
+      - title: "11x48"
+        payload: '/inform{{"sheet_size":"11x48"}}'
+      - title: "11x60"
+        payload: '/inform{{"sheet_size":"11x60"}}'
+      - title: "11x72"
+        payload: '/inform{{"sheet_size":"11x72"}}'
+      - title: "11x84"
+        payload: '/inform{{"sheet_size":"11x84"}}'
+      - title: "11x96"
+        payload: '/inform{{"sheet_size":"11x96"}}'
+      - title: "11x108"
+        payload: '/inform{{"sheet_size":"11x108"}}'
+      - title: "11x120"
+        payload: '/inform{{"sheet_size":"11x120"}}'
+      - title: "11x132"
+        payload: '/inform{{"sheet_size":"11x132"}}'
+      - title: "11x144"
+        payload: '/inform{{"sheet_size":"11x144"}}'
+      - title: "11x156"
+        payload: '/inform{{"sheet_size":"11x156"}}'
+      - title: "11x168"
+        payload: '/inform{{"sheet_size":"11x168"}}'
+      - title: "11x180"
+        payload: '/inform{{"sheet_size":"11x180"}}'
+      - title: "11x192"
+        payload: '/inform{{"sheet_size":"11x192"}}'
+      - title: "11x204"
+        payload: '/inform{{"sheet_size":"11x204"}}'
+      - title: "11x216"
+        payload: '/inform{{"sheet_size":"11x216"}}'
+      - title: "11x228"
+        payload: '/inform{{"sheet_size":"11x228"}}'
+      - title: "11x240"
+        payload: '/inform{{"sheet_size":"11x240"}}'
+      - title: "11x252"
+        payload: '/inform{{"sheet_size":"11x252"}}'
+      - title: "11x264"
+        payload: '/inform{{"sheet_size":"11x264"}}'
+      - title: "11x276"
+        payload: '/inform{{"sheet_size":"11x276"}}'
+      - title: "11x288"
+        payload: '/inform{{"sheet_size":"11x288"}}'
+      - title: "11x300"
+        payload: '/inform{{"sheet_size":"11x300"}}'
+
   utter_ask_quantity:
   - text: "How many would you like?"
   
+  # --- BLOQUE ACTUALIZADO (C) ---
   utter_ask_category:
   - custom:
-      type: "buttons"
+      type: "grid"
       text: "Please select a category for your product."
       options:
-      - title: "Heat Press"
-        payload: '/inform{{"category":"Heat Press"}}'
       - title: "DTF Fluorescent Gang Sheets"
         payload: '/inform{{"category":"DTF Fluorescent Gang Sheets"}}'
       - title: "UV DTF Gang Sheet"
@@ -168,7 +262,7 @@ responses:
 
   utter_ask_carrier:
   - custom:
-      type: "buttons"
+      type: "grid"
       text: "How would you like to receive your order?"
       options:
       - title: "Store Pickup (San Dimas)"
@@ -186,10 +280,69 @@ responses:
 
   # --- Todas tus respuestas de FAQ (faq/...) ---
   utter_faq/what_is_dtf:
-  - text: "DTF (Direct-to-Film) transfers are printed onto a special film... (etc)"
+  - text: "DTF transfers, or Direct Film transfers, involve printing designs onto a special film, which is then transferred onto various surfaces using heat and pressure."
   utter_faq/what_is_uv_dtf:
-  - text: "UV DTF is for hard surfaces... (etc) \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
-  # ... (Pega el resto de tus respuestas de FAQ aquí) ...
+  - text: "UV DTF (Ultraviolet DTF) is used for hard surfaces, not apparel. It uses UV light to cure the ink... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
+  utter_faq/ask_dtf_vs_others:
+  - text: "DTF transfers offer the ability to print vibrant, full-color designs... \n\n**DTF VS DGT**\n[Learn the difference between DTF and DGT](https://youtu.be/dDdiubZjYwM)"
+  utter_faq/ask_dtf_durability:
+  - text: "Yes, DTF transfers are known for their durability and longevity, providing vibrant and sharp prints that withstand washing and wear."
+  utter_faq/how_to_order:
+  - text: "You can place an order for DTF transfers through our website or by contacting our customer service. Specify your design, quantity, and any customization preferences."
+  utter_faq/ask_pre_cutting_service:
+  - text: "Yes, we provide DTF transfer pre-cutting services, saving you time and ensuring precise dimensions for easy application."
+  utter_faq/ask_instructions_dtf:
+  - text: "Our Instant Hot Peel transfers are easy to apply! ... \n\n**How to use DTF Transfers**\n[Learn on how to press DTF](https://youtu.be/cx0ARO5z8xE)"
+  utter_faq/ask_instructions_uv:
+  - text: "UV DTF transfers are for hard surfaces and require no heat. ... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
+  utter_faq/ask_contact_info:
+  - text: "You can contact us here:\n\n**Phone:**\n(866) 985-3606\n(626) 663-5863\n\n**Email:**\ninfo@dtftransfersaffordable.com"
+  utter_faq/ask_pickup_locations:
+  - text: "Yes, we offer free local pickup at two locations:\n\n**San Dimas:**\n457 W. Allen Ave. # 101, San Dimas CA 91773\n\n**Covina:**\n200 E. Rowland St, Covina CA 91723"
+  utter_faq/ask_shipping_time:
+  - text: "Our standard processing time is 1-2 business days. Shipping then takes 3-5 days via USPS. You can find more info here: https://dtftransfersaffordable.com/content/1-delivery"
+  utter_faq/ask_file_requirements:
+  - text: "We accept .PNG and .PDF files. For .PNG files, please ensure they have a transparent background and are at least 300 DPI for the best quality."
+  utter_faq/ask_available_sizes:
+  - text: "We have a huge range of sizes! For DTF Gang Sheets, we offer sizes from 22x12 up to 22x300. For UV DTF Gang Sheets, we have sizes from 11x12 up to 11x300."
+  utter_faq/ask_tshirt_service:
+  - text: "Yes! We offer T-Shirt Heat Pressing Services at our shop in San Dimas, CA. We also sell 6-packs and 12-packs of T-shirts!"
+  utter_faq/ask_tshirt_fabrics:
+  - text: "Our DTF transfers work great on many fabrics! This includes cotton, polyester, blends, and more."
+  utter_faq/ask_about_us:
+  - text: "We are dtftransfersaffordable.com (B V Graphics CA LLC), a team of passionate creators committed to transforming your ideas into tangible expressions."
+  utter_faq/ask_minimum_order:
+  - text: "For our 'DTF + Heat Press' service (where we press the shirt for you), there is a minimum order of 24 pieces. For regular DTF and UV DTF Gang Sheet orders, you can order just one!"
+  utter_faq/ask_difference_dtf_uv:
+  - text: "Great question! \n- DTF (Direct-to-Film) is for fabric like T-shirts. \n- UV DTF is for hard surfaces like glass, metal, plastic."
+  
+  # --- Respuestas FAQ Adicionales ---
+  utter_faq/what_is_hot_peel:
+  - text: "Instant Hot Peel means you can peel the transfer film off *immediately* after the heat press, while it's still hot. This is much faster than 'Cold Peel' transfers, which require you to wait for it to cool down completely. It saves a lot of time, especially for bulk orders!"
+  utter_faq/wash_instructions:
+  - text: "To make your DTF print last long, we recommend: \n1. Wait 24 hours before the first wash. \n2. Turn the garment inside out. \n3. Wash in cold water on a gentle cycle. \n4. Tumble dry on low heat or hang dry. \n5. Do not iron directly on the print!"
+  utter_faq/tshirt_materials:
+  - text: "Our T-Shirt packs (like the 6-Pack and 12-Pack) are typically 100% Ring-Spun Cotton for a soft feel and great printing results. If you use our 'DTF + Heat Press' service, you can often provide your own garments as well, including polyester and blends."
+  utter_faq/what_tools_do_i_need_dtf:
+  - text: "For DTF transfers, you **must** use a heat press. A regular home iron will not work, as it cannot provide the consistent high pressure and even temperature required. \nFor UV DTF, you don't need any tools! Just clean the surface and apply it like a sticker."
+  utter_faq/uv_durability:
+  - text: "Our UV DTF transfers are highly durable, waterproof, and scratch-resistant. They are great for items like mugs, water bottles, and laptops. However, for maximum lifespan, we recommend hand-washing items with UV transfers. A dishwasher's high heat and harsh detergents can slowly degrade the adhesive over time."
+  utter_faq/bulk_discount:
+  - text: "Yes, we do! Our pricing is tiered, so the more you order, the lower the price per sheet. For very large or wholesale inquiries (over 100+ sheets), please contact our sales team directly at info@dtftransfersaffordable.com for a custom quote."
+
+  # --- INICIO DE NUEVAS PREGUNTAS FRECUENTES ---
+  utter_faq/what_is_gang_sheet:
+  - text: "A 'Gang Sheet' is a printing term. It means arranging multiple designs onto one single, large film to be printed all at once.\n\nInstead of paying for 10 small, separate prints, you fit all 10 designs onto one big sheet (like 22x36) and pay for the sheet. It's the #1 way to save money on DTF transfers!\n\n**Here's a great explanation:**\n[What is a Gang Sheet? Save Big on DTF](http://www.youtube.com/watch?v=moVWkUuEiSg)"
+
+  utter_faq/do_i_mirror:
+  - text: "Great question! **NO, you do not need to mirror your design.**\n\nJust upload your artwork exactly as you want it to appear on the shirt (facing the correct way). Our software automatically handles the mirroring process before printing.\n\nIf you upload a mirrored file, it will be printed backwards!\n\n**Learn about setting up files:**\n[How to Get DTF (Direct to Film Transfers) For Custom Shirts](http://www.youtube.com/watch?v=MKJqpwGhpJ8)"
+
+  utter_faq/dtf_vs_vinyl:
+  - text: "DTF and Vinyl (HTV) are both great, but they're very different!\n\n* **Vinyl (HTV):** You cut designs from solid-color sheets. It's great for simple text or one-color logos. You have to 'weed' (peel away) the extra vinyl. It can feel thick.\n* **DTF:** You print full-color, complex designs (like photos) directly to film. There is **no weeding**. It's softer, more flexible, and more durable than most vinyl.\n\n**Here's a comparison video:**\n[Direct to Film DTF vs Vinyl | What's the Difference](http://www.youtube.com/watch?v=GW3ybQgSwbg)"
+  # --- FIN DE NUEVAS PREGUNTAS FRECUENTES ---
+
+  utter_faq/do_you_make_dtf:
+  - text: "Yes, we do! We specialize in high-quality DTF (Direct-to-Film) transfers. That's our main business! We also make UV DTF transfers for hard surfaces."
 
 
 actions:
@@ -197,6 +350,7 @@ actions:
   - validate_order_form
   - action_submit_order_to_api
   - action_cancel_order
+  - action_ask_sheet_size
 
 forms:
   order_form:

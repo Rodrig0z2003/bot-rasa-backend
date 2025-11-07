@@ -81,3 +81,10 @@ rules:
   - action: action_get_price
   - action: order_form
   - active_loop: order_form
+
+- rule: Handle ask_price OUTSIDE form
+  condition:
+  - active_loop: null  # <-- Le dice a Rasa que esto es solo cuando NINGÚN formulario está activo
+  steps:
+  - intent: ask_price
+  - action: action_get_price

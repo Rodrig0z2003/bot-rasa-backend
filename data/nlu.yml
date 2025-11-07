@@ -49,24 +49,16 @@ nlu:
 # --- Intents de Formulario ---
 - intent: ask_price
   examples: |
-    - how much does it cost?
-    - what's the price?
-    - price for a [22x36](sheet_size)
-    - price for [11x12](sheet_size)
-    - cost of [11x24](sheet_size)
-    - how much is [22x60](sheet_size)
-    - how much for a gang sheet
-    - what are your prices
-    - uv dtf price
-    - how much is a [6 Pack T-Shirts](product_name)
-    - price for [12 Pack T-Shirts](product_name)
-    - whats the price of [DTF Custom Gang Sheet](product_name)
-    - [UV DTF Gang Sheet](product_name) price
+    # ... (ejemplos existentes)
     - cost of [DTF + Heat Press](product_name)
     - [DTF Fluorescent Gang Sheets](product_name) cost
     - cunto cuesta
     - q presio tiene
     - wats the price
+    - price for [11x300](sheet_size)
+    - how much is [22x300](sheet_size)
+    - cost of [22x72](sheet_size)
+    - [11x48](sheet_size) price
 - intent: create_order_dtf
   examples: |
     - I want to place an order
@@ -361,6 +353,34 @@ nlu:
     - wholesale pricing
     - precio por mayoreo
     - discount for big order
+
+# --- NUEVOS INTENTS DE FAQ AÑADIDOS ---
+- intent: faq/what_is_gang_sheet
+  examples: |
+    - what is a gang sheet?
+    - what does gang sheet mean?
+    - how do gang sheets work?
+    - why is it called a gang sheet
+- intent: faq/do_i_mirror
+  examples: |
+    - do I need to mirror my design?
+    - should I flip my image?
+    - mirror image for dtf?
+    - my design is backwards
+    - flip horizontal?
+- intent: faq/dtf_vs_vinyl
+  examples: |
+    - dtf vs vinyl
+    - is dtf better than vinyl?
+    - what's the difference between dtf and htv
+    - dtf or htv
+    - dtf vs htv
+- intent: faq/do_you_make_dtf
+  examples: |
+    - do you make dtf?
+    - do you guys sell dtf
+    - you make dtf transfers?
+    - can I buy dtf from you
 
 # --- SINÓNIMOS ---
 - synonym: "22x12"
