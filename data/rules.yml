@@ -1,4 +1,3 @@
-# data/rules.yml (¡VERSIÓN INTELIGENTE Y LIMPIA!)
 version: "3.1"
 
 rules:
@@ -28,32 +27,32 @@ rules:
   - intent: ask_how_are_you
   - action: utter_how_are_you
 
-# --- REGLAS DEL FORMULARIO DE PEDIDO (Sin cambios) ---
-- rule: Activate Order Form
-  steps:
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
-
-- rule: Submit Order Form
-  condition:
-  - active_loop: order_form
-  steps:
-  - action: order_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_submit_order_to_api
-
-- rule: Cancel order form with 'stop_order' or 'deny'
-  condition:
-  - active_loop: order_form
-  steps:
-  - or:
-    - intent: stop_order
-    - intent: deny
-  - action: action_cancel_order
-  - active_loop: null
+# --- REGLAS DEL FORMULARIO DE PEDIDO (AHORA COMENTADAS) ---
+# - rule: Activate Order Form
+#   steps:
+#   - intent: create_order_dtf
+#   - action: order_form
+#   - active_loop: order_form
+#
+# - rule: Submit Order Form
+#   condition:
+#   - active_loop: order_form
+#   steps:
+#   - action: order_form
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: action_submit_order_to_api
+#
+# - rule: Cancel order form with 'stop_order' or 'deny'
+#   condition:
+#   - active_loop: order_form
+#   steps:
+#   - or:
+#     - intent: stop_order
+#     - intent: deny
+#   - action: action_cancel_order
+#   - active_loop: null
 
 # --- ¡CLAVE! REGLAS DE Q&A INTELIGENTES ---
 # Esta regla reemplaza TUS 20 REGLAS de Q&A
@@ -63,24 +62,24 @@ rules:
   - action: utter_faq # Esto responde con la respuesta "utter_faq/..." correcta
 
 # Esta regla reemplaza TUS 20 REGLAS de interrupción
-- rule: Handle any FAQ during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: faq # Captura CUALQUIER pregunta
-  - action: utter_faq # Responde la pregunta
-  - action: order_form # Vuelve al formulario
-  - active_loop: order_form
+#- rule: Handle any FAQ during form
+#  condition:
+#  - active_loop: order_form
+#  steps:
+#  - intent: faq # Captura CUALQUIER pregunta
+#  - action: utter_faq # Responde la pregunta
+#  - action: order_form # Vuelve al formulario
+#  - active_loop: order_form
 
 # (Nota: Mantenemos tu regla de 'ask_price' por si acaso)
-- rule: Handle ask_price during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_price
-  - action: action_get_price
-  - action: order_form
-  - active_loop: order_form
+#- rule: Handle ask_price during form
+#  condition:
+#  - active_loop: order_form
+#  steps:
+#  - intent: ask_price
+#  - action: action_get_price
+#  - action: order_form
+#  - active_loop: order_form
 
 - rule: Handle ask_price OUTSIDE form
   condition:

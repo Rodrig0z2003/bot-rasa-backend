@@ -26,17 +26,17 @@ stories:
     - sheet_size: "22x36"
   - action: action_get_price
 
-- story: Path - Ask questions then order
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: faq # <-- CORREGIDO
-  - action: utter_faq
-  - intent: faq # <-- CORREGIDO
-  - action: utter_faq
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
+# - story: Path - Ask questions then order
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: faq # <-- CORREGIDO
+#   - action: utter_faq
+#   - intent: faq # <-- CORREGIDO
+#   - action: utter_faq
+#   - intent: create_order_dtf
+#   - action: order_form
+#   - active_loop: order_form
 
 - story: Path - Ask price then instructions
   steps:
@@ -51,136 +51,136 @@ stories:
   - intent: thankyou
   - action: utter_you_are_welcome
 
-- story: Path - Order with FAQ interruption
-  steps:
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
-  - slot_was_set:
-    - product_name: "DTF Custom Gang Sheet"
-  - intent: faq # <-- CORREGIDO
-  - action: utter_faq
-  - action: order_form
-  - active_loop: order_form
-  - intent: inform
-    entities:
-    - sheet_size: "22x36"
-  - slot_was_set:
-    - sheet_size: "22x36"
-  - action: order_form
-  - active_loop: order_form
-  - intent: inform
-    entities:
-    - number: 5
-  - slot_was_set:
-    - quantity: 5.0
-  - action: order_form
-  - active_loop: null
-  - action: action_submit_order_to_api
+# - story: Path - Order with FAQ interruption
+#   steps:
+#   - intent: create_order_dtf
+#   - action: order_form
+#   - active_loop: order_form
+#   - slot_was_set:
+#     - product_name: "DTF Custom Gang Sheet"
+#   - intent: faq # <-- CORREGIDO
+#   - action: utter_faq
+#   - action: order_form
+#   - active_loop: order_form
+#   - intent: inform
+#     entities:
+#     - sheet_size: "22x36"
+#   - slot_was_set:
+#     - sheet_size: "22x36"
+#   - action: order_form
+#   - active_loop: order_form
+#   - intent: inform
+#     entities:
+#     - number: 5
+#   - slot_was_set:
+#     - quantity: 5.0
+#   - action: order_form
+#   - active_loop: null
+#   - action: action_submit_order_to_api
 
-- story: Path - Order where user just says a number
-  steps:
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
-  - intent: inform
-    entities:
-    - product_name: "6 Pack T-Shirts"
-  - slot_was_set:
-    - product_name: "6 Pack T-Shirts"
-  - action: order_form
-  - active_loop: order_form
-  - intent: inform
-    entities:
-    - number: 5
-  - slot_was_set:
-    - quantity: 5.0
-  - action: order_form
-  - active_loop: null
-  - action: action_submit_order_to_api
+# - story: Path - Order where user just says a number
+#   steps:
+#   - intent: create_order_dtf
+#   - action: order_form
+#   - active_loop: order_form
+#   - intent: inform
+#     entities:
+#     - product_name: "6 Pack T-Shirts"
+#   - slot_was_set:
+#     - product_name: "6 Pack T-Shirts"
+#   - action: order_form
+#   - active_loop: order_form
+#   - intent: inform
+#     entities:
+#     - number: 5
+#   - slot_was_set:
+#     - quantity: 5.0
+#   - action: order_form
+#   - active_loop: null
+#   - action: action_submit_order_to_api
 
-- story: Path - Ask price then order
-  steps:
-  - intent: ask_price
-    entities:
-    - product_name: "6 Pack T-Shirts"
-  - slot_was_set:
-    - product_name: "6 Pack T-Shirts"
-  - action: action_get_price
-  - intent: affirm
-  - action: order_form
-  - active_loop: order_form
-  - slot_was_set:
-    - product_name: "6 Pack T-Shirts"
-  - intent: inform
-    entities:
-    - number: 2
-  - slot_was_set:
-    - quantity: 2.0
-  - action: order_form
-  - active_loop: null
-  - action: action_submit_order_to_api
+# - story: Path - Ask price then order
+#   steps:
+#   - intent: ask_price
+#     entities:
+#     - product_name: "6 Pack T-Shirts"
+#   - slot_was_set:
+#     - product_name: "6 Pack T-Shirts"
+#   - action: action_get_price
+#   - intent: affirm
+#   - action: order_form
+#   - active_loop: order_form
+#   - slot_was_set:
+#     - product_name: "6 Pack T-Shirts"
+#   - intent: inform
+#     entities:
+#     - number: 2
+#   - slot_was_set:
+#     - quantity: 2.0
+#   - action: order_form
+#   - active_loop: null
+#   - action: action_submit_order_to_api
 
-# --- Historia de Formulario Completo ----
-- story: Path - Full order with text inputs
-  steps:
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
-  # 1. Product
-  - intent: inform
-    entities:
-    - product_name: "DTF Custom Gang Sheet"
-  - slot_was_set:
-    - product_name: "DTF Custom Gang Sheet"
-  - action: order_form
-  - active_loop: order_form
-  # 2. Category
-  - intent: inform
-    entities:
-    - category: "DTF Gang Sheet"
-  - slot_was_set:
-    - category: "DTF Gang Sheet"
-  - action: order_form
-  - active_loop: order_form
-  # 3. Quantity
-  - intent: inform
-    entities:
-    - number: 5
-  - slot_was_set:
-    - quantity: 5.0
-  - action: order_form
-  - active_loop: order_form
-  # 4. Sheet Size (porque es requerido)
-  - intent: inform
-    entities:
-    - sheet_size: "22x60"
-  - slot_was_set:
-    - sheet_size: "22x60"
-  - action: order_form
-  - active_loop: order_form
-  # 5. Name (con el nuevo intent)
-  - intent: inform_name
-    entities:
-    - user_name: "Rodrigo Capira"
-  - slot_was_set:
-    - user_name: "Rodrigo Capira"
-  - action: order_form
-  - active_loop: order_form
-  # 6. Email (con el nuevo intent)
-  - intent: inform_email
-    entities:
-    - email: "rodrigo@test.com"
-  - slot_was_set:
-    - user_email: "rodrigo@test.com"
-  - action: order_form
-  - active_loop: order_form
-  # 7. Carrier
-  - intent: inform
-    entities:
-    - carrier: "Store Pickup (Covina)"
-  - slot_was_set:
-    - carrier: "Store Pickup (Covina)"
-  - action: order_form
-  - active_loop: null # Formulario se completa
-  - action: action_submit_order_to_api
+# # --- Historia de Formulario Completo ----
+# - story: Path - Full order with text inputs
+#   steps:
+#   - intent: create_order_dtf
+#   - action: order_form
+#   - active_loop: order_form
+#   # 1. Product
+#   - intent: inform
+#     entities:
+#     - product_name: "DTF Custom Gang Sheet"
+#   - slot_was_set:
+#     - product_name: "DTF Custom Gang Sheet"
+#   - action: order_form
+#   - active_loop: order_form
+#   # 2. Category
+#   - intent: inform
+#     entities:
+#     - category: "DTF Gang Sheet"
+#   - slot_was_set:
+#     - category: "DTF Gang Sheet"
+#   - action: order_form
+#   - active_loop: order_form
+#   # 3. Quantity
+#   - intent: inform
+#     entities:
+#     - number: 5
+#   - slot_was_set:
+#     - quantity: 5.0
+#   - action: order_form
+#   - active_loop: order_form
+#   # 4. Sheet Size (porque es requerido)
+#   - intent: inform
+#     entities:
+#     - sheet_size: "22x60"
+#   - slot_was_set:
+#     - sheet_size: "22x60"
+#   - action: order_form
+#   - active_loop: order_form
+#   # 5. Name (con el nuevo intent)
+#   - intent: inform_name
+#     entities:
+#     - user_name: "Rodrigo Capira"
+#   - slot_was_set:
+#     - user_name: "Rodrigo Capira"
+#   - action: order_form
+#   - active_loop: order_form
+#   # 6. Email (con el nuevo intent)
+#   - intent: inform_email
+#     entities:
+#     - email: "rodrigo@test.com"
+#   - slot_was_set:
+#     - user_email: "rodrigo@test.com"
+#   - action: order_form
+#   - active_loop: order_form
+#   # 7. Carrier
+#   - intent: inform
+#     entities:
+#     - carrier: "Store Pickup (Covina)"
+#   - slot_was_set:
+#     - carrier: "Store Pickup (Covina)"
+#   - action: order_form
+#   - active_loop: null # Formulario se completa
+#   - action: action_submit_order_to_api

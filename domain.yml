@@ -1,4 +1,4 @@
-# domain.yml (Versión 4.1 - Corregida)
+# domain.yml (Versión 4.1 - Corregida con FAQs actualizadas)
 version: "3.1"
 session_config:
   session_expiration_time: 60
@@ -8,21 +8,20 @@ intents:
   - greet
   - goodbye
   - ask_price
-  - create_order_dtf
+  # - create_order_dtf    # <--- ¡COMENTADO!
   - inform
   - affirm
   - deny
   - thankyou
   - compliment
   - ask_how_are_you
-  - stop_order
+  # - stop_order          # <--- ¡COMENTADO!
   - bot_challenge
   - faq:
       is_retrieval_intent: true
   # Nuevos intents para texto libre
-  - inform_email
-  - inform_name
-  - faq/do_you_make_dtf
+  # - inform_email        # <--- ¡COMENTADO!
+  # - inform_name         # <--- ¡COMENTADO!
 
 entities:
   - sheet_size
@@ -67,19 +66,18 @@ slots:
     influence_conversation: true
     mappings:
     - type: from_text
-      conditions:
-      - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
-        requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
+      #conditions:
+      #- active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+      #  requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
 
   user_email:
     type: text
     influence_conversation: true
     mappings:
-    - type: from_entity
-      entity: email
-      intent: inform_email
-    - type: from_entity
-      entity: email
+    - type: from_text
+    #  conditions:
+    #  - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+    #    requested_slot: user_email   # <-- Condición 2: Y SOLO si el bot acaba de pedir el EMAIL
   carrier:
     type: text
     influence_conversation: true
@@ -88,9 +86,18 @@ slots:
       entity: carrier
 
 responses:
+# ... (Todas tus responses de utter_greet, utter_goodbye, y FAQs...
+# ... No he copiado todo el bloque de FAQs aquí por brevedad,
+# ... pero SÍ está en el archivo final) ...
+
   # --- Respuestas Básicas y de Chit-Chat ---
   utter_greet:
-  - text: "Hey! I'm your DTF assistant. How can I help you with your DTF and UV DTF orders today?"
+  - text: |
+      Thank you for visiting our DTF Transfers chat! 🙌
+      We’re excited to have you here. Whether you’re looking for custom gang sheets, printing tips, or help with your order, our team is ready to make your DTF experience smooth and simple.
+
+      We take pride in delivering bright, durable, and professional-quality transfers every time.
+      How can I help you today? 😊
   utter_goodbye:
   - text: "Goodbye! Have a great day."
   utter_iamabot:
@@ -119,15 +126,7 @@ responses:
       - title: "UV DTF Gang Sheet"
         payload: '/inform{{"product_name":"UV DTF Gang Sheet"}}'
   
-  # --- BLOQUE ACTUALIZADO (A) ---
-  # --- ESTE BLOQUE SE HA ELIMINADO ---
-  # utter_ask_sheet_size:
-  # - custom:
-  # ... (bloque de 25 tallas eliminado) ...
-  #     - title: "11x300"
-  #       payload: '/inform{{"sheet_size":"11x300"}}'
-
-  # --- NUEVAS RESPUESTAS DE TALLA (REEMPLAZAN LA ANTIGUA) ---
+  # --- NUEVAS RESPUESTAS DE TALLA ---
   utter_ask_sheet_size_dtf:
   - custom:
       type: "dropdown"
@@ -278,80 +277,238 @@ responses:
       - title: "USPS"
         payload: '/inform{{"carrier":"USPS"}}'
 
-  # --- Todas tus respuestas de FAQ (faq/...) ---
-  utter_faq/what_is_dtf:
-  - text: "DTF transfers, or Direct Film transfers, involve printing designs onto a special film, which is then transferred onto various surfaces using heat and pressure."
-  utter_faq/what_is_uv_dtf:
-  - text: "UV DTF (Ultraviolet DTF) is used for hard surfaces, not apparel. It uses UV light to cure the ink... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
-  utter_faq/ask_dtf_vs_others:
-  - text: "DTF transfers offer the ability to print vibrant, full-color designs... \n\n**DTF VS DGT**\n[Learn the difference between DTF and DGT](https://youtu.be/dDdiubZjYwM)"
-  utter_faq/ask_dtf_durability:
-  - text: "Yes, DTF transfers are known for their durability and longevity, providing vibrant and sharp prints that withstand washing and wear."
-  utter_faq/how_to_order:
-  - text: "You can place an order for DTF transfers through our website or by contacting our customer service. Specify your design, quantity, and any customization preferences."
-  utter_faq/ask_pre_cutting_service:
-  - text: "Yes, we provide DTF transfer pre-cutting services, saving you time and ensuring precise dimensions for easy application."
-  utter_faq/ask_instructions_dtf:
-  - text: "Our Instant Hot Peel transfers are easy to apply! ... \n\n**How to use DTF Transfers**\n[Learn on how to press DTF](https://youtu.be/cx0ARO5z8xE)"
-  utter_faq/ask_instructions_uv:
-  - text: "UV DTF transfers are for hard surfaces and require no heat. ... \n\n**What is UV Transfers?**\n[Watch the video](https://youtu.be/XxZ6-aYz-V4)"
-  utter_faq/ask_contact_info:
-  - text: "You can contact us here:\n\n**Phone:**\n(866) 985-3606\n(626) 663-5863\n\n**Email:**\ninfo@dtftransfersaffordable.com"
-  utter_faq/ask_pickup_locations:
-  - text: "Yes, we offer free local pickup at two locations:\n\n**San Dimas:**\n457 W. Allen Ave. # 101, San Dimas CA 91773\n\n**Covina:**\n200 E. Rowland St, Covina CA 91723"
-  utter_faq/ask_shipping_time:
-  - text: "Our standard processing time is 1-2 business days. Shipping then takes 3-5 days via USPS. You can find more info here: https://dtftransfersaffordable.com/content/1-delivery"
-  utter_faq/ask_file_requirements:
-  - text: "We accept .PNG and .PDF files. For .PNG files, please ensure they have a transparent background and are at least 300 DPI for the best quality."
-  utter_faq/ask_available_sizes:
-  - text: "We have a huge range of sizes! For DTF Gang Sheets, we offer sizes from 22x12 up to 22x300. For UV DTF Gang Sheets, we have sizes from 11x12 up to 11x300."
-  utter_faq/ask_tshirt_service:
-  - text: "Yes! We offer T-Shirt Heat Pressing Services at our shop in San Dimas, CA. We also sell 6-packs and 12-packs of T-shirts!"
-  utter_faq/ask_tshirt_fabrics:
-  - text: "Our DTF transfers work great on many fabrics! This includes cotton, polyester, blends, and more."
-  utter_faq/ask_about_us:
-  - text: "We are dtftransfersaffordable.com (B V Graphics CA LLC), a team of passionate creators committed to transforming your ideas into tangible expressions."
-  utter_faq/ask_minimum_order:
-  - text: "For our 'DTF + Heat Press' service (where we press the shirt for you), there is a minimum order of 24 pieces. For regular DTF and UV DTF Gang Sheet orders, you can order just one!"
-  utter_faq/ask_difference_dtf_uv:
-  - text: "Great question! \n- DTF (Direct-to-Film) is for fabric like T-shirts. \n- UV DTF is for hard surfaces like glass, metal, plastic."
+  # --- INICIO DEL NUEVO BLOQUE DE FAQs ---
   
-  # --- Respuestas FAQ Adicionales ---
-  utter_faq/what_is_hot_peel:
-  - text: "Instant Hot Peel means you can peel the transfer film off *immediately* after the heat press, while it's still hot. This is much faster than 'Cold Peel' transfers, which require you to wait for it to cool down completely. It saves a lot of time, especially for bulk orders!"
-  utter_faq/wash_instructions:
-  - text: "To make your DTF print last long, we recommend: \n1. Wait 24 hours before the first wash. \n2. Turn the garment inside out. \n3. Wash in cold water on a gentle cycle. \n4. Tumble dry on low heat or hang dry. \n5. Do not iron directly on the print!"
-  utter_faq/tshirt_materials:
-  - text: "Our T-Shirt packs (like the 6-Pack and 12-Pack) are typically 100% Ring-Spun Cotton for a soft feel and great printing results. If you use our 'DTF + Heat Press' service, you can often provide your own garments as well, including polyester and blends."
-  utter_faq/what_tools_do_i_need_dtf:
-  - text: "For DTF transfers, you **must** use a heat press. A regular home iron will not work, as it cannot provide the consistent high pressure and even temperature required. \nFor UV DTF, you don't need any tools! Just clean the surface and apply it like a sticker."
-  utter_faq/uv_durability:
-  - text: "Our UV DTF transfers are highly durable, waterproof, and scratch-resistant. They are great for items like mugs, water bottles, and laptops. However, for maximum lifespan, we recommend hand-washing items with UV transfers. A dishwasher's high heat and harsh detergents can slowly degrade the adhesive over time."
-  utter_faq/bulk_discount:
-  - text: "Yes, we do! Our pricing is tiered, so the more you order, the lower the price per sheet. For very large or wholesale inquiries (over 100+ sheets), please contact our sales team directly at info@dtftransfersaffordable.com for a custom quote."
+  # --- 🔹 General & Product Info ---
+  utter_faq/general_what_is_dtf:
+  - text: "DTF (Direct-to-Film) transfers are pre-printed designs you can heat press onto garments. They’re ready to use no printing equipment required."
+  utter_faq/general_why_dtf_vs_others:
+  - text: "DTF saves time, reduces setup costs, and works on almost any fabric with bright, durable results."
+  utter_faq/general_use_for_clothing_brand:
+  - text: "Yes, absolutely. Many clothing brands use DTF for professional-quality prints without needing in-house printing equipment."
+  utter_faq/general_works_on_dark_garments:
+  - text: "Yes, our transfers look great on both dark and light fabrics."
+  utter_faq/general_what_materials:
+  - text: "They can be applied to cotton, polyester, blends, canvas, nylon, and more."
+  utter_faq/general_hot_vs_cold_peel:
+  - text: "Hot peel allows quicker removal after pressing; cold peel gives a slightly softer finish. We offer both."
+  utter_faq/general_are_transfers_durable:
+  - text: "Yes  when applied correctly, they last over 50 washes without fading or cracking."
+  utter_faq/general_works_on_polyester_nylon:
+  - text: "Yes, DTF works perfectly on synthetics like polyester and nylon."
+  utter_faq/general_need_pretreatment:
+  - text: "No, DTF requires no pretreatment. Just press and go."
+  utter_faq/general_do_transfers_stretch_crack:
+  - text: "They have excellent stretch and flexibility. No cracking if properly applied."
 
-  # --- INICIO DE NUEVAS PREGUNTAS FRECUENTES ---
-  utter_faq/what_is_gang_sheet:
-  - text: "A 'Gang Sheet' is a printing term. It means arranging multiple designs onto one single, large film to be printed all at once.\n\nInstead of paying for 10 small, separate prints, you fit all 10 designs onto one big sheet (like 22x36) and pay for the sheet. It's the #1 way to save money on DTF transfers!\n\n**Here's a great explanation:**\n[What is a Gang Sheet? Save Big on DTF](http://www.youtube.com/watch?v=moVWkUuEiSg)"
+  # --- 🔹 Ordering & Customization ---
+  utter_faq/order_offer_custom_printing:
+  - text: "Yes, upload your artwork and we’ll print your designs ready to press."
+  utter_faq/order_multiple_designs_on_sheet:
+  - text: "Yes! Use our Gang Sheet Builder to place multiple logos or designs on one large sheet to save money."
+  utter_faq/order_what_gang_sheet_sizes:
+  - text: "We print up to 23 inches wide and 300 inches long, allowing large or bulk layouts."
+  utter_faq/order_minimum_quantity:
+  - text: "No minimums you can order one sheet or bulk wholesale quantities."
+  utter_faq/order_what_file_formats:
+  - text: "We accept PNG, PDF, or AI files with transparent backgrounds for best results."
+  utter_faq/order_check_artwork_before_printing:
+  - text: "Yes, we review artwork for quality, resolution, and alignment before production."
+  utter_faq/order_what_resolution_file:
+  - text: "At least 300 DPI for sharp and detailed prints."
+  utter_faq/order_can_reorder_design:
+  - text: "Yes  we keep your files for easy reprints."
+  utter_faq/order_get_samples:
+  - text: "Yes, sample orders are available to test print quality."
+  utter_faq/order_white_ink_underbase:
+  - text: "Yes, all our prints include a white underbase for vibrant color on dark fabrics."
 
-  utter_faq/do_i_mirror:
-  - text: "Great question! **NO, you do not need to mirror your design.**\n\nJust upload your artwork exactly as you want it to appear on the shirt (facing the correct way). Our software automatically handles the mirroring process before printing.\n\nIf you upload a mirrored file, it will be printed backwards!\n\n**Learn about setting up files:**\n[How to Get DTF (Direct to Film Transfers) For Custom Shirts](http://www.youtube.com/watch?v=MKJqpwGhpJ8)"
+  # --- 🔹 Application & Heat Press Settings ---
+  utter_faq/apply_what_temperature:
+  - text: "Press at 300–325°F (150–160°C) for 10–15 seconds depending on your fabric."
+  utter_faq/apply_how_much_pressure:
+  - text: "Medium to firm pressure gives best adhesion."
+  utter_faq/apply_peel_hot_or_cold:
+  - text: "We offer both hot and cold peel films. The label on your transfer will specify which one."
+  utter_faq/apply_can_use_household_iron:
+  - text: "Not recommended  you’ll need a heat press for consistent results."
+  utter_faq/apply_need_teflon_sheet:
+  - text: "Optional, but recommended to protect the transfer from direct heat."
+  utter_faq/apply_can_layer_dtf:
+  - text: "Yes, as long as the first layer is fully pressed and cooled before adding another."
+  utter_faq/apply_on_hats_bags_hoodies:
+  - text: "Yes! You can apply to most heat-safe materials."
+  utter_faq/apply_prevent_edges_lifting:
+  - text: "Ensure full pressure on the design and re-press with a cover sheet if needed."
+  utter_faq/apply_on_sublimated_fabric:
+  - text: "Yes, but we suggest a light pre-press to remove moisture before applying."
+  utter_faq/apply_need_preheat_shirt:
+  - text: "Yes, a 3–5 second pre-press removes wrinkles and moisture for best adhesion."
 
-  utter_faq/dtf_vs_vinyl:
-  - text: "DTF and Vinyl (HTV) are both great, but they're very different!\n\n* **Vinyl (HTV):** You cut designs from solid-color sheets. It's great for simple text or one-color logos. You have to 'weed' (peel away) the extra vinyl. It can feel thick.\n* **DTF:** You print full-color, complex designs (like photos) directly to film. There is **no weeding**. It's softer, more flexible, and more durable than most vinyl.\n\n**Here's a comparison video:**\n[Direct to Film DTF vs Vinyl | What's the Difference](http://www.youtube.com/watch?v=GW3ybQgSwbg)"
-  # --- FIN DE NUEVAS PREGUNTAS FRECUENTES ---
+  # --- 🔹 Aftercare & Longevity ---
+  utter_faq/care_how_to_wash:
+  - text: "Turn them inside out, wash cold or warm, and tumble dry low."
+  utter_faq/care_handle_high_heat_dryers:
+  - text: "Yes, but use low to medium heat for maximum life."
+  utter_faq/care_will_print_crack_peel_washing:
+  - text: "Not if pressed correctly. Always avoid bleach and harsh detergents."
+  utter_faq/care_can_iron_over_print:
+  - text: "No, avoid direct heat on the print surface."
+  utter_faq/care_do_prints_fade:
+  - text: "Only if applied incorrectly or washed improperly  under normal care, they stay vibrant for years."
+  utter_faq/care_are_prints_soft:
+  - text: "Yes, they feel smooth and flexible once applied."
+  utter_faq/care_can_transfers_be_stored:
+  - text: "Yes store flat in a cool, dry place away from sunlight and humidity."
+  utter_faq/care_how_long_store_transfers:
+  - text: "Up to 6 months if stored correctly."
+  utter_faq/care_why_transfer_look_foggy:
+  - text: "That’s the adhesive powder; it disappears after pressing."
+  utter_faq/care_can_reuse_transfer:
+  - text: "No each transfer is single use."
 
-  utter_faq/do_you_make_dtf:
-  - text: "Yes, we do! We specialize in high-quality DTF (Direct-to-Film) transfers. That's our main business! We also make UV DTF transfers for hard surfaces."
+  # --- 🔹 Wholesale, Shipping & Business ---
+  utter_faq/shipping_offer_wholesale_pricing:
+  - text: "Yes! We provide discounted rates for bulk orders and resellers."
+  utter_faq/shipping_can_resell_transfers:
+  - text: "Yes, you can resell our printed transfers under your own brand."
+  utter_faq/shipping_offer_blind_shipping:
+  - text: "Yes, we can ship directly to your customer without our branding."
+  utter_faq/shipping_how_fast_orders_processed:
+  - text: "Most orders ship within 1–2 business days after artwork approval."
+  utter_faq/shipping_offer_rush_service:
+  - text: "Yes, rush options are available depending on current production load."
+  utter_faq/shipping_where_do_you_ship_from:
+  - text: "All transfers are printed and shipped from San Dimas, California."
+  utter_faq/shipping_do_you_ship_internationally:
+  - text: "Currently, we serve U.S.-based customers, but contact us for special cases."
+  utter_faq/shipping_can_pickup_locally:
+  - text: "Yes! Local pickup is available for customers near San Dimas."
+  utter_faq/shipping_order_arrives_damaged:
+  - text: "Contact us immediately we’ll replace any prints damaged during shipping."
+  utter_faq/shipping_returns_or_refunds:
+  - text: "Because transfers are custom-made, returns aren’t accepted but we’ll always fix or reprint if there’s a production issue."
 
+  # --- 🔹 Buying, Orders & Reorders ---
+  utter_faq/reorder_same_design_later:
+  - text: "Yes we store your artwork for quick reprints and repeat gang sheets."
+  utter_faq/reorder_mix_hot_cold_peel:
+  - text: "We recommend separate orders since the curing process differs for each type."
+  utter_faq/reorder_upload_wrong_size_file:
+  - text: "If we notice an issue before printing, we’ll contact you to confirm the correct dimensions."
+  utter_faq/reorder_edit_cancel_order:
+  - text: "Orders can be changed within 30 minutes after submission if printing hasn’t started."
+  utter_faq/reorder_design_templates_for_gang_sheets:
+  - text: "Yes we provide blank layout templates in PDF/PNG for 22×24, 22×60, and 23×300 inch sheets."
+  utter_faq/reorder_multiple_sizes_on_sheet:
+  - text: "Absolutely many shops include small and large versions to save space."
+  utter_faq/reorder_design_duplication_tiling:
+  - text: "Yes we can repeat your logo or pattern across a full sheet if requested."
+  utter_faq/reorder_test_swatches_samples:
+  - text: "Yes, sample prints are available to verify colors and feel before ordering large quantities."
+  utter_faq/reorder_include_notes_for_file:
+  - text: "Yes  add them in the order comments box before checkout."
+  utter_faq/reorder_label_designs_by_name:
+  - text: "For bulk buyers, yes  we can label rolls or packs with your design names or SKUs."
+
+  # --- 🔹 Billing, Accounts & Discounts ---
+  utter_faq/billing_store_credit_rewards:
+  - text: "Yes, returning customers can earn points or store credit for future purchases."
+  utter_faq/billing_open_wholesale_account:
+  - text: "Yes, apply through our wholesale portal for volume-based discounts and tax exemption."
+  utter_faq/billing_accept_purchase_orders:
+  - text: "Yes, approved wholesale partners can submit POs with net-term billing."
+  utter_faq/billing_price_breaks:
+  - text: "Yes  rates drop at 60 in, 120 in, 180 in, and 300 in thresholds."
+  utter_faq/billing_custom_quote_recurring_orders:
+  - text: "Of course. We can quote monthly or weekly supply contracts for print-on-demand businesses."
+  utter_faq/billing_nonprofit_school_discounts:
+  - text: "Yes, qualifying groups receive special pricing."
+  utter_faq/billing_pay_in_installments:
+  - text: "For large recurring orders, payment plans can be arranged through invoicing."
+  utter_faq/billing_refunds_for_upload_mistake:
+  - text: "If printing hasn’t begun, we can credit or adjust; once printed, all sales are final."
+  utter_faq/billing_combine_orders_for_discount:
+  - text: "Yes, as long as they’re placed the same day before production starts."
+  utter_faq/billing_promotions_coupon_codes:
+  - text: "Yes follow us on social media or subscribe to our newsletter for exclusive deals."
+
+  # --- 🔹 Packaging & Handling ---
+  utter_faq/packaging_shipped_flat_or_rolled:
+  - text: "Large sheets are rolled in protective tubes; smaller sheets are shipped flat."
+  utter_faq/packaging_include_pressing_instructions:
+  - text: "Yes, a printed instruction sheet is always included."
+  utter_faq/packaging_request_individual_bagging:
+  - text: "Yes, we can package each design separately for retail presentation."
+  utter_faq/packaging_include_logo_in_box:
+  - text: "No, we can ship unbranded (white label) for your reselling convenience."
+  utter_faq/packaging_add_my_logo_to_packaging:
+  - text: "Yes, for wholesale accounts we can co-brand or include your flyer."
+  utter_faq/packaging_include_color_samples:
+  - text: "Yes, we can include printed swatches for you to show customers."
+  utter_faq/packaging_orders_insured:
+  - text: "Yes, every order is automatically insured against loss or damage."
+  utter_faq/packaging_transfer_arrives_bent:
+  - text: "We’ll replace any damaged prints at no charge  just send a quick photo."
+  utter_faq/packaging_eco_friendly_packaging:
+  - text: "Yes, we use recyclable mailing tubes and biodegradable wraps when possible."
+  utter_faq/packaging_combine_orders_different_names:
+  - text: "For privacy reasons, we can’t combine different customer accounts."
+
+  # --- 🔹 Artwork & Custom Requests ---
+  utter_faq/artwork_resize_design_automatically:
+  - text: "No, we print exactly as uploaded  but we can resize upon request before printing."
+  utter_faq/artwork_remove_background:
+  - text: "Yes, optional background removal service is available before print."
+  utter_faq/artwork_metallic_puff_effects:
+  - text: "Currently no  standard DTF inks only, though we’re testing specialty finishes soon."
+  utter_faq/artwork_check_dpi:
+  - text: "Yes, we review all artwork to ensure minimum 300 DPI quality."
+  utter_faq/artwork_help_aligning_logos:
+  - text: "Yes  our team can align or grid your files for you if needed."
+  utter_faq/artwork_print_mirrored_designs:
+  - text: "No need  DTF transfers don’t require mirroring. We print in correct orientation."
+  utter_faq/artwork_request_transparent_sample:
+  - text: "Yes, digital previews (mockups) can be sent for approval."
+  utter_faq/artwork_send_files_google_drive:
+  - text: "Yes, paste the share link when placing your order."
+  utter_faq/artwork_gang_sheet_layout_assistance:
+  - text: "Yes  we’ll help you fit the maximum designs per sheet to reduce cost."
+  utter_faq/artwork_print_barcodes_qr_codes:
+  - text: "Yes, as long as the resolution is sufficient for scanning."
+
+  # --- 🔹 For Business Owners & Resellers ---
+  utter_faq/reseller_resell_under_my_name:
+  - text: "Yes, we fully support white-label reselling."
+  utter_faq/reseller_drop_ship_to_customers:
+  - text: "Yes, we can ship blind with your name on the label."
+  utter_faq/reseller_fulfill_pod_orders:
+  - text: "API or manual upload integration is available for qualified partners."
+  utter_faq/reseller_volume_contracts_for_apparel_brands:
+  - text: "Yes  monthly production agreements ensure priority scheduling."
+  utter_faq/reseller_order_seasonal_designs_bulk:
+  - text: "Of course we print for holidays, sports, and brand events."
+  utter_faq/reseller_design_templates:
+  - text: "Yes, wholesale clients get access to editable promotional templates."
+  utter_faq/reseller_bundle_transfers_by_theme:
+  - text: "Yes curated bundles are available at discounted rates."
+  utter_faq/reseller_color_sample_books:
+  - text: "Yes, sample binders can be ordered for your showroom or booth."
+  utter_faq/reseller_marketing_materials:
+  - text: "Yes, we can include flyers, stickers, or small inserts with your branding."
+  utter_faq/reseller_get_notified_new_designs:
+  - text: "Yes join our reseller email list or WhatsApp group for weekly updates."
+  
+  # --- FIN DEL NUEVO BLOQUE DE FAQs ---
 
 actions:
   - action_get_price
-  - validate_order_form
-  - action_submit_order_to_api
-  - action_cancel_order
-  - action_ask_sheet_size
+  # - validate_order_form              # <--- ¡COMENTADO!
+  # - action_submit_order_to_api     # <--- ¡COMENTADO!
+  # - action_cancel_order            # <--- ¡COMENTADO!
+  # - action_ask_sheet_size          # <--- ¡COMENTADO!
 
-forms:
-  order_form:
-    required_slots: [] # Manejado dinámicamente en actions.py
+# --- COMENTA ESTE BLOQUE ENTERO ---
+# forms:
+#   order_form:
+#     required_slots: [] # Manejado dinámicamente en actions.py

@@ -1,4 +1,4 @@
-# data/nlu.yml (VERSIÓN 3.1 - Actualizado)
+# data/nlu.yml (VERSIÓN 3.1 - Actualizado y Limpiado)
 version: "3.1"
 
 nlu:
@@ -49,7 +49,6 @@ nlu:
 # --- Intents de Formulario ---
 - intent: ask_price
   examples: |
-    # ... (ejemplos existentes)
     - cost of [DTF + Heat Press](product_name)
     - [DTF Fluorescent Gang Sheets](product_name) cost
     - cunto cuesta
@@ -59,42 +58,44 @@ nlu:
     - how much is [22x300](sheet_size)
     - cost of [22x72](sheet_size)
     - [11x48](sheet_size) price
-- intent: create_order_dtf
-  examples: |
-    - I want to place an order
-    - I want to buy a gang sheet
-    - can I order
-    - I need to buy a transfer
-    - new order
-    - i want to buy a [6 Pack T-Shirts](product_name)
-    - I want to order [10](number) [12 Pack T-Shirts](product_name)
-    - I need [one](number) [22x60](sheet_size) [dtf sheet](product_name)
-    - Can I buy [5](number) [UV DTF Gang Sheet](product_name) size [11x24](sheet_size)
-    - I need to buy a dtf
-    - I want to buy a dtf
-    - I want to buy a uv dtf
-    - buy a dtf sheet
-    - I need a uv transfer
-    - I need a dtf transfer
-    - i need to order
-    - i need another order
-    - i need a order
-    - i need a roder
-    - place an order
-    - i want to buy something
-    - can you take my order
-    - new order please
-    - i wnt to buy
-    - can i orderr
-    - plece an order
-- intent: stop_order
-  examples: |
-    - stop
-    - cancel
-    - cancel this order
-    - nevermind
-    - i dont want to order anymore
-    - forget it
+# --- COMENTA ESTE BLOQUE ENTERO ---
+# - intent: create_order_dtf
+#   examples: |
+#     - I want to place an order
+#     - I want to buy a gang sheet
+#     - can I order
+#     - I need to buy a transfer
+#     - new order
+#     - i want to buy a [6 Pack T-Shirts](product_name)
+#     - I want to order [10](number) [12 Pack T-Shirts](product_name)
+#     - I need [one](number) [22x60](sheet_size) [dtf sheet](product_name)
+#     - Can I buy [5](number) [UV DTF Gang Sheet](product_name) size [11x24](sheet_size)
+#     - I need to buy a dtf
+#     - I want to buy a dtf
+#     - I want to buy a uv dtf
+#     - buy a dtf sheet
+#     - I need a uv transfer
+#     - I need a dtf transfer
+#     - i need to order
+#     - i need another order
+#     - i need a order
+#     - i need a roder
+#     - place an order
+#     - i want to buy something
+#     - can you take my order
+#     - new order please
+#     - i wnt to buy
+#     - can i orderr
+#     - plece an order
+# --- COMENTA ESTE BLOQUE ENTERO ---
+# - intent: stop_order
+#   examples: |
+#     - stop
+#     - cancel
+#     - cancel this order
+#     - nevermind
+#     - i dont want to order anymore
+#     - forget it
 - intent: inform
   examples: |
     - I need a [22x36](sheet_size)
@@ -108,21 +109,23 @@ nlu:
     - [ten](number)
 
 # --- ¡Nuevos Intents para capturar datos de usuario! ---
-- intent: inform_email
-  examples: |
-    - my email is [test@example.com](email)
-    - [sandro.capira@tecsup.edu.pe](email)
-    - [rodrigo@gmail.com](email)
-    - es [mi.correo@dominio.com](email)
-    - [ejemplo123@proveedor.net](email)
-- intent: inform_name
-  examples: |
-    - My name is [Rodrigo](user_name)
-    - [Rodrigo Capira](user_name)
-    - [Sandro](user_name)
-    - Me llamo [Juan Perez](user_name)
-    - [Ana](user_name)
-    - [Jose](user_name)
+# --- COMENTA ESTE BLOQUE ENTERO ---
+# - intent: inform_email
+#   examples: |
+#     - my email is [test@example.com](email)
+#     - [sandro.capira@tecsup.edu.pe](email)
+#     - [rodrigo@gmail.com](email)
+#     - es [mi.correo@dominio.com](email)
+#     - [ejemplo123@proveedor.net](email)
+# --- COMENTA ESTE BLOQUE ENTERO ---
+# - intent: inform_name
+#   examples: |
+#     - My name is [Rodrigo](user_name)
+#     - [Rodrigo Capira](user_name)
+#     - [Sandro](user_name)
+#     - Me llamo [Juan Perez](user_name)
+#     - [Ana](user_name)
+#     - [Jose](user_name)
 
 # --- Intents de Afirmación / Negación / Reto ---
 - intent: affirm
@@ -146,241 +149,442 @@ nlu:
     - are you human?
     - am I talking to a bot?
 
-# --- SECCIÓN DE FAQ (Completa) ---
-
-- intent: faq/what_is_dtf
+# --- 🔹 General & Product Info ----
+- intent: faq/general_what_is_dtf
   examples: |
-    - What is DTF?
     - What are DTF transfers?
-    - what is a dtf
     - tell me about dtf
-    - what is instant hot peel
-    - hot peel dtf
-    - wht is dtf
-    - dtf info
-- intent: faq/what_is_uv_dtf
+    - what is a dtf transfer?
+- intent: faq/general_why_dtf_vs_others
   examples: |
-    - What is UV DTF?
-    - what is a uv
-    - what is uv transfer
-    - tell me about uv stickers
-    - uv for hard surfaces
-    - what is a uv gang sheet
-    - uv dtf info
-    - wut is uv
-- intent: faq/ask_shipping_time
-  examples: |
-    - how long is shipping?
-    - shipping time
-    - when will I get my order
-    - what is the turnaround time
-    - processing time
-    - how fast do you ship
-    - shpping time
-    - when order arrive
-- intent: faq/ask_file_requirements
-  examples: |
-    - what file type do I need?
-    - file requirements
-    - can I send a PDF
-    - do you accept PNG
-    - what dpi
-    - 300 dpi?
-    - does the background need to be transparent
-    - file reqs
-    - what file type
-- intent: faq/ask_available_sizes
-  examples: |
-    - what sizes do you have?
-    - what size existing
-    - what are the gang sheet sizes
-    - what uv dtf sizes do you offer
-    - max size
-    - smallest size
-    - list of sizes
-    - do u have 22x60
-- intent: faq/ask_dtf_vs_others
-  examples: |
-    - How do DTF transfers differ from other printing methods?
-    - dtf vs vinyl
+    - Why choose DTF over screen printing or vinyl?
     - dtf vs screen printing
-    - why is dtf better
-    - dtf or vinyl
-    - dtf vs dgt
-- intent: faq/ask_dtf_durability
+    - why is dtf better than vinyl
+- intent: faq/general_use_for_clothing_brand
   examples: |
-    - Are DTF transfers durable and long-lasting?
-    - does dtf wash well
-    - how many washes
-    - will it crack or peel
-    - is it durable
-    - washability
-- intent: faq/ask_pre_cutting_service
+    - Can I use DTF transfers for my own clothing brand?
+    - dtf for my brand
+    - is dtf good for clothing brands?
+- intent: faq/general_works_on_dark_garments
   examples: |
-    - Do you offer pre-cutting services for DTF transfers?
-    - do you pre-cut
-    - can you cut my designs
-    - cut service
-- intent: faq/how_to_order
+    - Do your transfers work on dark garments?
+    - dtf on black shirts
+    - can I use on dark fabric?
+- intent: faq/general_what_materials
   examples: |
-    - How can I order DTF transfers?
-    - how do I order
-    - how to place an order
-    - where to order
-- intent: faq/ask_tshirt_service
+    - What materials can DTF transfers be applied to?
+    - what fabric can I press on?
+    - dtf on canvas or nylon?
+- intent: faq/general_hot_vs_cold_peel
   examples: |
-    - do you sell t-shirts
-    - t-shirt services
-    - can you press the shirt for me
-    - do you offer heat press service
-    - I need a custom t-shirt
-    - do you sell 12 pack of shirts
-    - t-shirt bundle
-    - can i buy shirts
-- intent: faq/ask_instructions_dtf
-  examples: |
-    - how do I press the dtf transfer
-    - what are the heat press instructions
-    - what temperature
-    - how long to press
-    - 310 degrees?
-    - do I peel hot or cold
-    - dtf instructions
-    - 1st press 10 seconds?
-    - how to apply dtf
-    - how to use dtf
-    - usage dtf
-    - instructions for dtf
-- intent: faq/ask_instructions_uv
-  examples: |
-    - how do I apply uv dtf
-    - instructions for uv dtf
-    - does uv dtf need heat
-    - how to put uv sticker on a mug
-    - uv transfer application
-    - how to use uv transfer
-    - uv instructions
-- intent: faq/ask_contact_info
-  examples: |
-    - what is your phone number
-    - how can I contact you
-    - what's your email address
-    - customer service number
-    - call u
-    - phone?
-    - contact info
-    - email
-    - info@dtftransfersaffordable.com
-- intent: faq/ask_pickup_locations
-  examples: |
-    - where are you located
-    - what is your address
-    - can I pick up my order
-    - do you have local pickup
-    - san dimas address
-    - covina address
-    - location
-    - where r u
-- intent: faq/ask_tshirt_fabrics
-  examples: |
-    - what fabrics does dtf work on
-    - can I use dtf on polyester
-    - does dtf work on cotton
-    - what about blends
-    - fabric types
-- intent: faq/ask_about_us
-  examples: |
-    - tell me about your company
-    - who are you
-    - who is dtftransfersaffordable
-    - B V Graphics?
-    - about you
-- intent: faq/ask_minimum_order
-  examples: |
-    - is there a minimum order
-    - moq
-    - what is the minimum order for heat press
-    - can I just buy one
-    - minimum 24 pieces?
-- intent: faq/ask_difference_dtf_uv
-  examples: |
-    - What's the difference between DTF and UV DTF?
-    - dtf vs uv dtf
-    - what is the diference betewen dtf and uv
-    - dtf and uv dtf difference
-    - compare dtf and uv
-    - diference betwen dtf and uv
-    - what is different about uv and dtf
-- intent: faq/what_is_hot_peel
-  examples: |
-    - what is instant hot peel?
-    - what does hot peel mean?
+    - What is the difference between hot peel and cold peel transfers?
     - hot peel vs cold peel
-    - diferencia entre hot peel y cold peel
-    - do i have to wait to peel?
-- intent: faq/wash_instructions
+    - do I peel hot or cold?
+- intent: faq/general_are_transfers_durable
   examples: |
-    - how do I wash my DTF shirt?
-    - washing instructions
-    - care instructions for dtf
-    - how to make dtf print last
-    - can i machine wash dtf?
-    - se puede lavar en lavadora?
-- intent: faq/tshirt_materials
+    - Are your transfers durable?
+    - how long do dtf transfers last?
+    - how many washes?
+- intent: faq/general_works_on_polyester_nylon
   examples: |
-    - what are your tshirts made of?
-    - what kind of shirts do you sell?
-    - are your tshirts cotton or polyester?
-    - tshirt brand
-- intent: faq/what_tools_do_i_need_dtf
+    - Can I use them on 100% polyester or nylon?
+    - dtf on polyester
+    - does dtf work on nylon?
+- intent: faq/general_need_pretreatment
   examples: |
-    - what do I need to apply dtf?
-    - do i need a heat press?
-    - can I use a home iron for dtf?
-    - tools for dtf
-    - necesito una plancha?
-- intent: faq/uv_durability
+    - Do I need pretreatment or special chemicals?
+    - do I need to pretreat the shirt?
+- intent: faq/general_do_transfers_stretch_crack
   examples: |
-    - Is UV DTF waterproof?
-    - is uv dtf dishwasher safe?
-    - how long do uv transfers last?
-    - uv dtf durability
-    - uv es resistente al agua?
-- intent: faq/bulk_discount
+    - Do your transfers stretch or crack?
+    - will dtf crack?
+    - are dtf transfers stretchy?
+# --- 🔹 Ordering & Customization ----
+- intent: faq/order_offer_custom_printing
   examples: |
-    - Do you offer bulk discounts?
-    - what if I order 100 sheets?
-    - wholesale pricing
-    - precio por mayoreo
-    - discount for big order
-
-# --- NUEVOS INTENTS DE FAQ AÑADIDOS ---
-- intent: faq/what_is_gang_sheet
+    - Do you offer custom DTF printing?
+    - can I upload my own design?
+- intent: faq/order_multiple_designs_on_sheet
   examples: |
-    - what is a gang sheet?
-    - what does gang sheet mean?
+    - Can I print multiple designs on one sheet?
     - how do gang sheets work?
-    - why is it called a gang sheet
-- intent: faq/do_i_mirror
+    - put multiple logos on one sheet
+- intent: faq/order_what_gang_sheet_sizes
   examples: |
+    - What gang sheet sizes do you offer?
+    - how big are your gang sheets?
+    - max print size
+- intent: faq/order_minimum_quantity
+  examples: |
+    - Is there a minimum order quantity?
+    - moq
+    - can I order just one?
+- intent: faq/order_what_file_formats
+  examples: |
+    - What file formats do you accept?
+    - can I send a PNG?
+    - do you accept AI or PDF files?
+- intent: faq/order_check_artwork_before_printing
+  examples: |
+    - Do you check artwork before printing?
+    - will you review my file?
+- intent: faq/order_what_resolution_file
+  examples: |
+    - What resolution should my file be?
+    - 300 dpi?
+    - what dpi do I need?
+- intent: faq/order_can_reorder_design
+  examples: |
+    - Can I reorder the same design later?
+    - do you save my files?
+- intent: faq/order_get_samples
+  examples: |
+    - Can I get samples before bulk ordering?
+    - order a sample
+- intent: faq/order_white_ink_underbase
+  examples: |
+    - Do you offer white ink underbase?
+    - white underbase for dark shirts
+# --- 🔹 Application & Heat Press Settings ----
+- intent: faq/apply_what_temperature
+  examples: |
+    - What temperature should I press at?
+    - heat press settings
+    - how hot to press dtf?
+- intent: faq/apply_how_much_pressure
+  examples: |
+    - How much pressure should I use?
+    - what pressure for heat press?
+- intent: faq/apply_peel_hot_or_cold
+  examples: |
+    - Do I peel hot or cold?
+    - is this hot peel or cold peel?
+- intent: faq/apply_can_use_household_iron
+  examples: |
+    - Can I use a household iron?
+    - can I use a home iron?
+    - do I need a heat press?
+- intent: faq/apply_need_teflon_sheet
+  examples: |
+    - Do I need a Teflon sheet?
+    - use teflon sheet?
+- intent: faq/apply_can_layer_dtf
+  examples: |
+    - Can I layer DTF transfers?
+    - layer dtf on top of dtf
+- intent: faq/apply_on_hats_bags_hoodies
+  examples: |
+    - Can I apply DTF transfers on hats, bags, or hoodies?
+    - dtf on hats
+    - press on a hoodie
+- intent: faq/apply_prevent_edges_lifting
+  examples: |
+    - How do I prevent edges from lifting?
+    - my transfer is peeling at the edges
+- intent: faq/apply_on_sublimated_fabric
+  examples: |
+    - Can I press DTF transfers on sublimated fabric?
+    - dtf on sublimation
+- intent: faq/apply_need_preheat_shirt
+  examples: |
+    - Do I need to preheat the shirt before pressing?
+    - pre-press shirt?
+# --- 🔹 Aftercare & Longevity ----
+- intent: faq/care_how_to_wash
+  examples: |
+    - How should I wash garments with DTF prints?
+    - washing instructions
+    - how to wash dtf shirt
+- intent: faq/care_handle_high_heat_dryers
+  examples: |
+    - Can DTF prints handle high heat in dryers?
+    - can I put dtf in the dryer?
+- intent: faq/care_will_print_crack_peel_washing
+  examples: |
+    - Will the print crack or peel after washing?
+    - does dtf crack after washing?
+- intent: faq/care_can_iron_over_print
+  examples: |
+    - Can I iron over the print?
+    - iron on top of dtf
+- intent: faq/care_do_prints_fade
+  examples: |
+    - Do DTF prints fade over time?
+    - will the color fade?
+- intent: faq/care_are_prints_soft
+  examples: |
+    - Are DTF prints soft to the touch?
+    - how does dtf feel?
+- intent: faq/care_can_transfers_be_stored
+  examples: |
+    - Can DTF transfers be stored?
+    - how to store dtf transfers
+- intent: faq/care_how_long_store_transfers
+  examples: |
+    - How long can I store unused transfers?
+    - do dtf transfers expire?
+- intent: faq/care_why_transfer_look_foggy
+  examples: |
+    - Why does my transfer look foggy or powdery?
+    - transfer looks white and powdery
+- intent: faq/care_can_reuse_transfer
+  examples: |
+    - Can I reuse a DTF transfer?
+    - are transfers reusable?
+# --- 🔹 Wholesale, Shipping & Business ----
+- intent: faq/shipping_offer_wholesale_pricing
+  examples: |
+    - Do you offer wholesale pricing?
+    - bulk discounts
+    - reseller pricing
+- intent: faq/shipping_can_resell_transfers
+  examples: |
+    - Can I resell your DTF transfers?
+    - sell your transfers
+- intent: faq/shipping_offer_blind_shipping
+  examples: |
+    - Do you offer blind shipping or white label?
+    - white label shipping
+    - ship to my customer
+- intent: faq/shipping_how_fast_orders_processed
+  examples: |
+    - How fast are orders processed?
+    - turnaround time
+    - processing time
+- intent: faq/shipping_offer_rush_service
+  examples: |
+    - Do you offer rush or same-day service?
+    - rush my order
+    - same day dtf
+- intent: faq/shipping_where_do_you_ship_from
+  examples: |
+    - Where do you ship from?
+    - shipping location
+- intent: faq/shipping_do_you_ship_internationally
+  examples: |
+    - Do you ship internationally?
+    - shipping to canada
+- intent: faq/shipping_can_pickup_locally
+  examples: |
+    - Can I pick up my order locally?
+    - local pickup
+    - pickup in San Dimas
+- intent: faq/shipping_order_arrives_damaged
+  examples: |
+    - What if my order arrives damaged?
+    - my order is damaged
+- intent: faq/shipping_returns_or_refunds
+  examples: |
+    - Do you offer returns or refunds?
+    - return policy
+    - can I get a refund?
+# --- 🔹 Buying, Orders & Reorders ----
+- intent: faq/reorder_same_design_later
+  examples: |
+    - Can I reorder the same designs later without uploading again?
+    - reorder my last design
+- intent: faq/reorder_mix_hot_cold_peel
+  examples: |
+    - Can I mix hot-peel and cold-peel transfers in one order?
+- intent: faq/reorder_upload_wrong_size_file
+  examples: |
+    - What if I upload the wrong size file?
+    - I uploaded the wrong file
+- intent: faq/reorder_edit_cancel_order
+  examples: |
+    - Can I edit or cancel my order after checkout?
+    - cancel my order
+    - change my order
+- intent: faq/reorder_design_templates_for_gang_sheets
+  examples: |
+    - Do you offer design templates for gang sheets?
+    - gang sheet templates
+- intent: faq/reorder_multiple_sizes_on_sheet
+  examples: |
+    - Can I upload multiple sizes of the same logo on one sheet?
+    - mix sizes on one sheet
+- intent: faq/reorder_design_duplication_tiling
+  examples: |
+    - Do you offer design duplication or tiling in-house?
+    - can you tile my design?
+- intent: faq/reorder_test_swatches_samples
+  examples: |
+    - Do you print test swatches or small samples before bulk runs?
+    - can I get a test swatch?
+- intent: faq/reorder_include_notes_for_file
+  examples: |
+    - Can I include notes or instructions for each file?
+    - add notes to my order
+- intent: faq/reorder_label_designs_by_name
+  examples: |
+    - Do you label or separate designs by name?
+    - label my designs
+# --- 🔹 Billing, Accounts & Discounts ----
+- intent: faq/billing_store_credit_rewards
+  examples: |
+    - Do you offer store credit or rewards?
+    - rewards program
+- intent: faq/billing_open_wholesale_account
+  examples: |
+    - Can I open a wholesale account?
+    - how to open wholesale account
+- intent: faq/billing_accept_purchase_orders
+  examples: |
+    - Do you accept purchase orders (POs)?
+    - can I pay with a PO?
+- intent: faq/billing_price_breaks
+  examples: |
+    - Do you have price breaks at specific footage levels?
+    - price breaks
+- intent: faq/billing_custom_quote_recurring_orders
+  examples: |
+    - Can I get a custom quote for recurring orders?
+    - custom quote
+- intent: faq/billing_nonprofit_school_discounts
+  examples: |
+    - Do you offer nonprofit or school discounts?
+    - discount for schools
+- intent: faq/billing_pay_in_installments
+  examples: |
+    - Can I pay in installments?
+    - payment plans
+- intent: faq/billing_refunds_for_upload_mistake
+  examples: |
+    - Are refunds given if I make a mistake in my upload?
+    - I made a mistake on my file
+- intent: faq/billing_combine_orders_for_discount
+  examples: |
+    - Can I combine multiple small orders to reach a bulk discount?
+    - combine orders
+- intent: faq/billing_promotions_coupon_codes
+  examples: |
+    - Do you ever run promotions or coupon codes?
+    - coupon codes
+    - where can I find discounts?
+# --- 🔹 Packaging & Handling ----
+- intent: faq/packaging_shipped_flat_or_rolled
+  examples: |
+    - How are the transfers shipped — flat or rolled?
+    - how are they shipped?
+- intent: faq/packaging_include_pressing_instructions
+  examples: |
+    - Do you include pressing instructions in every box?
+    - include instructions
+- intent: faq/packaging_request_individual_bagging
+  examples: |
+    - Can I request individual bagging for resale?
+    - individual bagging
+- intent: faq/packaging_include_logo_in_box
+  examples: |
+    - Do you include your logo or branding in the box?
+    - is it white label?
+- intent: faq/packaging_add_my_logo_to_packaging
+  examples: |
+    - Can you add my business logo to the packaging?
+    - add my logo to the box
+- intent: faq/packaging_include_color_samples
+  examples: |
+    - Do you include color samples or swatch sheets?
+    - color samples
+- intent: faq/packaging_orders_insured
+  examples: |
+    - Are orders insured during shipping?
+    - shipping insurance
+- intent: faq/packaging_transfer_arrives_bent
+  examples: |
+    - What happens if my transfer arrives bent or wrinkled?
+    - my transfer is bent
+- intent: faq/packaging_eco_friendly_packaging
+  examples: |
+    - Do you offer eco-friendly packaging?
+    - eco friendly
+- intent: faq/packaging_combine_orders_different_names
+  examples: |
+    - Do you combine orders placed under different names?
+# --- 🔹 Artwork & Custom Requests ----
+- intent: faq/artwork_resize_design_automatically
+  examples: |
+    - Do you resize or scale my design automatically?
+    - will you resize my art?
+- intent: faq/artwork_remove_background
+  examples: |
+    - Do you remove the background if I forget?
+    - background removal
+- intent: faq/artwork_metallic_puff_effects
+  examples: |
+    - Can I request metallic or puff effects?
+    - metallic dtf
+    - puff print
+- intent: faq/artwork_check_dpi
+  examples: |
+    - Do you check my DPI before printing?
+    - check my resolution
+- intent: faq/artwork_help_aligning_logos
+  examples: |
+    - Can I get help aligning multiple logos on a sheet?
+    - help with alignment
+- intent: faq/artwork_print_mirrored_designs
+  examples: |
+    - Do you print mirrored designs for left-chest logos?
     - do I need to mirror my design?
-    - should I flip my image?
-    - mirror image for dtf?
-    - my design is backwards
-    - flip horizontal?
-- intent: faq/dtf_vs_vinyl
+- intent: faq/artwork_request_transparent_sample
   examples: |
-    - dtf vs vinyl
-    - is dtf better than vinyl?
-    - what's the difference between dtf and htv
-    - dtf or htv
-    - dtf vs htv
-- intent: faq/do_you_make_dtf
+    - Can I request a transparent sample before final printing?
+    - digital mockup
+- intent: faq/artwork_send_files_google_drive
   examples: |
-    - do you make dtf?
-    - do you guys sell dtf
-    - you make dtf transfers?
-    - can I buy dtf from you
+    - Can I send files through Google Drive or Dropbox?
+    - upload from google drive
+- intent: faq/artwork_gang_sheet_layout_assistance
+  examples: |
+    - Do you offer gang-sheet layout assistance?
+    - help with gang sheet layout
+- intent: faq/artwork_print_barcodes_qr_codes
+  examples: |
+    - Can you print barcodes or QR codes as part of the design?
+    - print qr code
+# --- 🔹 For Business Owners & Resellers ----
+- intent: faq/reseller_resell_under_my_name
+  examples: |
+    - Can I resell your transfers under my own name?
+    - resell white label
+- intent: faq/reseller_drop_ship_to_customers
+  examples: |
+    - Do you drop-ship directly to my customers?
+    - drop shipping
+- intent: faq/reseller_fulfill_pod_orders
+  examples: |
+    - Can you fulfill print-on-demand orders automatically?
+    - print on demand
+    - pod integration
+- intent: faq/reseller_volume_contracts_for_apparel_brands
+  examples: |
+    - Do you offer volume contracts for apparel brands?
+    - volume contracts
+- intent: faq/reseller_order_seasonal_designs_bulk
+  examples: |
+    - Can I order seasonal designs in bulk?
+    - seasonal designs
+- intent: faq/reseller_design_templates
+  examples: |
+    - Do you have design templates for resellers?
+    - reseller templates
+- intent: faq/reseller_bundle_transfers_by_theme
+  examples: |
+    - Can you bundle transfers by theme (e.g., Christmas, sports)?
+    - themed bundles
+- intent: faq/reseller_color_sample_books
+  examples: |
+    - Do you offer color-sample books for my shop?
+    - sample book
+- intent: faq/reseller_marketing_materials
+  examples: |
+    - Do you offer marketing materials or flyers for resellers?
+    - marketing materials
+- intent: faq/reseller_get_notified_new_designs
+  examples: |
+    - Can I get notified when new designs or specials launch?
+    - reseller email list
 
 # --- SINÓNIMOS ---
 - synonym: "22x12"
