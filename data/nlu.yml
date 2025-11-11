@@ -21,8 +21,10 @@ nlu:
     - goodbye
     - see you later
     - talk to you later
+    - k thx bye
     - cya
     - bye bye
+    - ok thanks bye
 - intent: thankyou
   examples: |
     - thanks
@@ -155,11 +157,17 @@ nlu:
     - What are DTF transfers?
     - tell me about dtf
     - what is a dtf transfer?
+    - wht is dtf 
+    - dtf info 
+    - how does dtf printing work
+    - dtf? 
+    - /faq/general_what_is_dtf
 - intent: faq/general_why_dtf_vs_others
   examples: |
     - Why choose DTF over screen printing or vinyl?
     - dtf vs screen printing
     - why is dtf better than vinyl
+    - /faq/general_why_dtf_vs_others
 - intent: faq/general_use_for_clothing_brand
   examples: |
     - Can I use DTF transfers for my own clothing brand?
@@ -170,11 +178,13 @@ nlu:
     - Do your transfers work on dark garments?
     - dtf on black shirts
     - can I use on dark fabric?
+    - /faq/general_works_on_dark_garments
 - intent: faq/general_what_materials
   examples: |
     - What materials can DTF transfers be applied to?
     - what fabric can I press on?
     - dtf on canvas or nylon?
+    - /faq/general_what_materials
 - intent: faq/general_hot_vs_cold_peel
   examples: |
     - What is the difference between hot peel and cold peel transfers?
@@ -185,6 +195,11 @@ nlu:
     - Are your transfers durable?
     - how long do dtf transfers last?
     - how many washes?
+    - washability 
+    - will it crack or peel? 
+    - durability
+    - is it durable
+    - /faq/general_are_transfers_durable
 - intent: faq/general_works_on_polyester_nylon
   examples: |
     - Can I use them on 100% polyester or nylon?
@@ -224,6 +239,9 @@ nlu:
     - What file formats do you accept?
     - can I send a PNG?
     - do you accept AI or PDF files?
+    - file type? 
+    - what filetype for upload
+    - format for my art
 - intent: faq/order_check_artwork_before_printing
   examples: |
     - Do you check artwork before printing?
@@ -241,6 +259,10 @@ nlu:
   examples: |
     - Can I get samples before bulk ordering?
     - order a sample
+    - do u have samples?
+    - can I test the print?
+    - sample pack
+    - i want to see the quality first
 - intent: faq/order_white_ink_underbase
   examples: |
     - Do you offer white ink underbase?
@@ -251,19 +273,25 @@ nlu:
     - What temperature should I press at?
     - heat press settings
     - how hot to press dtf?
+    - temp for pressing 
+    - heat settings
+    - whats the temp for dtf
 - intent: faq/apply_how_much_pressure
   examples: |
     - How much pressure should I use?
     - what pressure for heat press?
+    - /faq/apply_how_much_pressure
 - intent: faq/apply_peel_hot_or_cold
   examples: |
     - Do I peel hot or cold?
     - is this hot peel or cold peel?
+    - /faq/apply_peel_hot_or_cold
 - intent: faq/apply_can_use_household_iron
   examples: |
     - Can I use a household iron?
     - can I use a home iron?
     - do I need a heat press?
+    - /faq/apply_can_use_household_iron
 - intent: faq/apply_need_teflon_sheet
   examples: |
     - Do I need a Teflon sheet?
@@ -351,11 +379,16 @@ nlu:
     - How fast are orders processed?
     - turnaround time
     - processing time
+    - when will my order ship?
+    - how long for shipping?
 - intent: faq/shipping_offer_rush_service
   examples: |
     - Do you offer rush or same-day service?
     - rush my order
     - same day dtf
+    - i need it fast
+    - can I pay extra for faster processing?
+    - whats the fastest shipping?
 - intent: faq/shipping_where_do_you_ship_from
   examples: |
     - Where do you ship from?
@@ -407,6 +440,9 @@ nlu:
   examples: |
     - Do you offer design duplication or tiling in-house?
     - can you tile my design?
+    - repeat my logo across the whole sheet
+    - fill the sheet with one design
+    - can you make a pattern?
 - intent: faq/reorder_test_swatches_samples
   examples: |
     - Do you print test swatches or small samples before bulk runs?
@@ -519,6 +555,10 @@ nlu:
   examples: |
     - Do you check my DPI before printing?
     - check my resolution
+    - what if my file is low quality?
+    - do you check my file? like for dpi
+    - check my art
+    - will you fix my artwork?
 - intent: faq/artwork_help_aligning_logos
   examples: |
     - Can I get help aligning multiple logos on a sheet?
@@ -585,6 +625,67 @@ nlu:
   examples: |
     - Can I get notified when new designs or specials launch?
     - reseller email list
+- intent: faq/uv_what_is
+  examples: |
+    - what is uv dtf?
+    - tell me about uv dtf
+    - how does uv dtf work?
+    - uv dtf info
+    - do i need a heat press for uv dtf?
+    - uv dtf sticker?
+
+- intent: faq/uv_materials
+  examples: |
+    - what does uv dtf stick to?
+    - what materials work with uv dtf?
+    - can I put uv dtf on glass?
+    - can I use uv dtf on a mug?
+    - uv dtf on metal
+    - hard surfaces for uv dtf
+    - /faq/uv_materials 
+
+- intent: faq/uv_vs_dtf_shirts
+  examples: |
+    - can I use uv dtf on a shirt?
+    - will uv dtf work on a hoodie?
+    - uv dtf for fabric
+    - uv dtf on clothes
+    - can i heat press a uv dtf transfer?
+    - /faq/uv_vs_dtf_shirts 
+# nlu.yml (Añadir con tus otras intenciones 'faq/...')
+
+- intent: faq/contact_all
+  examples: |
+    - How can I contact you?
+    - contact us
+    - contact info
+    - get in touch
+    - what are your details?
+    - info
+- intent: faq/contact_phone
+  examples: |
+    - What is your phone number?
+    - can I call you?
+    - phone
+    - number
+    - /faq/contact_phone  
+
+- intent: faq/contact_email
+  examples: |
+    - What's your email address?
+    - email
+    - i want to send an email
+    - /faq/contact_email  
+- intent: faq/contact_locations
+  examples: |
+    - Where are you located?
+    - What are your pickup locations?
+    - address
+    - location
+    - where is the san dimas location?
+    - address for covina pickup
+    - where is your store
+    - /faq/contact_locations  
 
 # --- SINÓNIMOS ---
 - synonym: "22x12"

@@ -1,10 +1,6 @@
 version: "3.1"
 
 rules:
-- rule: Handle Fallback
-  steps:
-  - intent: nlu_fallback
-  - action: utter_default
 
 - rule: Respond to bot_challenge
   steps:
@@ -87,3 +83,13 @@ rules:
   steps:
   - intent: ask_price
   - action: action_get_price
+
+
+- rule: Handle ambiguity (ask for rephrasing)
+  # Esta regla se activa si el FallbackClassifier está inseguro
+  # (por debajo de 'threshold' pero por encima de 'ambiguity_threshold')
+  steps:
+  - intent: nlu_fallback
+  - action: utter_ask_rephrase
+  - action: action_listen
+

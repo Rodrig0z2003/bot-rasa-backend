@@ -61,23 +61,23 @@ slots:
       entity: category
       
   # --- ¡ESTA ES LA CORRECCIÓN DEFINITIVA PARA EL NOMBRE! ---
-  user_name:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_text
-      #conditions:
-      #- active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
-      #  requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
+  #user_name:
+  #  type: text
+  #  influence_conversation: true
+  #  mappings:
+  #  - type: from_text
+  #    conditions:
+  #    - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+  #      requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
 
-  user_email:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_text
-    #  conditions:
-    #  - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
-    #    requested_slot: user_email   # <-- Condición 2: Y SOLO si el bot acaba de pedir el EMAIL
+  #user_email:
+  #  type: text
+  #  influence_conversation: true
+  #  mappings:
+  #  - type: from_text
+  #    conditions:
+  #    - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+  #      requested_slot: user_email   # <-- Condición 2: Y SOLO si el bot acaba de pedir el EMAIL
   carrier:
     type: text
     influence_conversation: true
@@ -281,9 +281,33 @@ responses:
   
   # --- 🔹 General & Product Info ---
   utter_faq/general_what_is_dtf:
-  - text: "DTF (Direct-to-Film) transfers are pre-printed designs you can heat press onto garments. They’re ready to use no printing equipment required."
+  - custom:
+      type: "grid"
+      text: |
+        **DTF (Direct-to-Film)** transfers are pre-printed designs you can heat press onto garments. They’re ready to use no printing equipment required.
+        
+        🎥 **Want to see the full process?** [Watch this step-by-step video guide](https://www.youtube.com/watch?v=yEms8XCzAcU)
+      options:
+      - title: "Why is DTF better?"
+        payload: '/faq/general_why_dtf_vs_others'
+      - title: "What materials work?"
+        payload: '/faq/general_what_materials'
+      - title: "Are they durable?"
+        payload: '/faq/general_are_transfers_durable'
   utter_faq/general_why_dtf_vs_others:
-  - text: "DTF saves time, reduces setup costs, and works on almost any fabric with bright, durable results."
+  - custom:
+      type: "grid"
+      text: |
+        DTF saves time, reduces setup costs, and works on almost any fabric with bright, durable results.
+        
+        🎥 **Want a detailed comparison?** [Watch this "DTF vs. Screen Printing" video](https://www.youtube.com/watch?v=LUCS16iEjh0)
+      options:
+      - title: "What is DTF?"
+        payload: '/faq/general_what_is_dtf'
+      - title: "What materials work?"
+        payload: '/faq/general_what_materials'
+      - title: "Does it work on dark shirts?"
+        payload: '/faq/general_works_on_dark_garments'
   utter_faq/general_use_for_clothing_brand:
   - text: "Yes, absolutely. Many clothing brands use DTF for professional-quality prints without needing in-house printing equipment."
   utter_faq/general_works_on_dark_garments:
@@ -325,7 +349,22 @@ responses:
 
   # --- 🔹 Application & Heat Press Settings ---
   utter_faq/apply_what_temperature:
-  - text: "Press at 300–325°F (150–160°C) for 10–15 seconds depending on your fabric."
+  - custom:
+      type: "grid"
+      text: |
+        You should press at **300–325°F (150–160°C)** for 10–15 seconds.
+        
+        🎥 **Need to see it in action?** [Watch this "How to Apply DTF" video](https://www.youtube.com/watch?v=WUnpYzjSghE)
+        
+        Remember, temperature is only one part of a perfect press!
+      options:
+      - title: "What pressure?"
+        payload: '/faq/apply_how_much_pressure'
+      - title: "Hot or cold peel?"
+        payload: '/faq/apply_peel_hot_or_cold'
+      - title: "Can I use a home iron?"
+        payload: '/faq/apply_can_use_household_iron'
+
   utter_faq/apply_how_much_pressure:
   - text: "Medium to firm pressure gives best adhesion."
   utter_faq/apply_peel_hot_or_cold:
@@ -498,9 +537,84 @@ responses:
   - text: "Yes, we can include flyers, stickers, or small inserts with your branding."
   utter_faq/reseller_get_notified_new_designs:
   - text: "Yes join our reseller email list or WhatsApp group for weekly updates."
-  
-  # --- FIN DEL NUEVO BLOQUE DE FAQs ---
 
+  # --- 🔹 Nuevas FAQs sobre UV DTF ---
+  utter_faq/uv_what_is:
+  - custom:
+      type: "grid"
+      text: |
+        **UV DTF** is a bit different! It's used for applying designs to **hard, non-fabric surfaces**.
+        
+        Think of it for things like:
+        * Glass cups or mugs
+        * Phone cases
+        * Laptops
+        * Keychains
+        * Metal or plastic
+        
+        It's a permanent sticker/transfer that you apply by hand, no heat press needed!
+      options:
+      - title: "What materials?"
+        payload: '/faq/uv_materials'
+      - title: "Use on a shirt?"
+        payload: '/faq/uv_vs_dtf_shirts'
+
+  utter_faq/uv_materials:
+  - text: "UV DTF works on almost any hard, smooth surface! This includes glass, metal, plastic, acrylic, wood, and ceramic. It's not designed for fabric or soft, flexible materials."
+  
+  utter_faq/uv_vs_dtf_shirts:
+  - custom:
+      type: "grid"
+      text: |
+        **No, you cannot use UV DTF on a shirt** or any fabric. 
+        
+        The UV transfer is a type of hard, permanent sticker and will crack and peel off flexible fabric.
+        
+        For all fabrics (cotton, polyester, blends), you need to use our **regular DTF Transfers**.
+      options:
+      - title: "What is regular DTF?"
+        payload: '/faq/general_what_is_dtf'
+      - title: "Regular DTF materials?"
+        payload: '/faq/general_what_materials'
+
+  utter_ask_rephrase:
+  - text: "Sorry, I'm not 100% sure what you mean. Could you try rephrasing?"
+  - text: "I'm not quite sure I understand. Can you ask that in a different way?"
+  - text: "I'm still learning and didn't quite catch that. Could you rephrase your question?"
+
+  # --- NUEVA LÓGICA DE CONTACTO ---
+
+  utter_faq/contact_phone:
+  - text: |
+      Here are our phone numbers:      
+      **📞 (866) 985-3606**
+      **📞 (626) 663-5863**
+
+  utter_faq/contact_email:
+  - text: "Our main email is: **📧 info@dtftransfersaffordable.com**"
+
+  utter_faq/contact_locations:
+  - text: |
+      Here are our pickup locations:      
+      **📍 San Dimas:**
+      457 W. Allen Ave. #101
+      San Dimas, CA 91773
+      
+      **📍 Covina:**
+      200 E. Rowland St
+      Covina, CA 91723
+
+  utter_faq/contact_all:
+  - custom:
+      type: "grid"
+      text: "How would you like to contact us? You can ask for our phone, email, or pickup locations."
+      options:
+      - title: "📞 Phone Numbers"
+        payload: 'phone number'  
+      - title: "📧 Email"
+        payload: 'email'         
+      - title: "📍 Pickup Locations"
+        payload: 'pickup locations' 
 actions:
   - action_get_price
   # - validate_order_form              # <--- ¡COMENTADO!
