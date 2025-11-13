@@ -1,4 +1,3 @@
-# domain.yml (Versión 4.1 - Corregida con FAQs actualizadas)
 version: "3.1"
 session_config:
   session_expiration_time: 60
@@ -7,6 +6,7 @@ session_config:
 intents:
   - greet
   - goodbye
+  - request_human_handoff
   - ask_price
   # - create_order_dtf    # <--- ¡COMENTADO!
   - inform
@@ -17,6 +17,7 @@ intents:
   - ask_how_are_you
   # - stop_order          # <--- ¡COMENTADO!
   - bot_challenge
+
   - faq:
       is_retrieval_intent: true
   # Nuevos intents para texto libre
@@ -86,7 +87,7 @@ slots:
       entity: carrier
 
 responses:
-# ... (Todas tus responses de utter_greet, utter_goodbye, y FAQs...
+# ... (Todas tus responses de utter_greet, utter_goodbye...
 # ... No he copiado todo el bloque de FAQs aquí por brevedad,
 # ... pero SÍ está en el archivo final) ...
 
@@ -615,8 +616,317 @@ responses:
         payload: 'email'         
       - title: "📍 Pickup Locations"
         payload: 'pickup locations' 
+
+  utter_handoff_confirmation:
+  - text: "Understood! I'll stop responding so you can speak with an agent. Please wait a moment while I connect you..."
+
+  # --- INICIO DE LAS 100 NUEVAS FAQs (Formato R-FAQ) ---
+  
+  utter_faq/001:
+  - text: "Yes! We do DTF prints every day, in many sizes."
+
+  utter_faq/002:
+  - text: "Prices depend on the size of the print or gang sheet. Most customers save money by ordering gang sheets."
+
+  utter_faq/003:
+  - text: "We can print up to about 23 inches wide and up to 300 inches long in DTF."
+
+  utter_faq/004:
+  - text: "Yes, we sell DTF gang sheets and you can build them online in our builder."
+
+  utter_faq/005:
+  - text: "Yes, you can print just one design. There is no minimum order."
+
+  utter_faq/006:
+  - text: "There is no minimum order. You can order only one DTF print if you want."
+
+  utter_faq/007:
+  - text: "Most prints are done the same day or the next business day, depending on the time you order and the volume."
+
+  utter_faq/008:
+  - text: "Yes, we offer same-day DTF on many orders placed early in the day."
+
+  utter_faq/009:
+  - text: "Yes, you can pick up today if your order is ready. We’ll message you as soon as it’s ready."
+
+  utter_faq/010:
+  - text: "Most orders are ready within 1 business day, plus shipping time."
+
+  utter_faq/011:
+  - text: "Yes, we print full color with CMYK plus white ink."
+
+  utter_faq/012:
+  - text: "Yes, we print with white ink so your designs look great on dark garments."
+
+  utter_faq/013:
+  - text: "Yes, we can print photos as long as the file is decent quality."
+
+  utter_faq/014:
+  - text: "If the image is blurry or low-quality, we’ll try to clean it up. If it’s too low, we’ll let you know before printing."
+
+  utter_faq/015:
+  - text: "We accept PNG, PDF, JPG, AI, and SVG files."
+
+  utter_faq/016:
+  - text: "Yes, we accept PNG files. A PNG with a transparent background is usually the best option."
+
+  utter_faq/017:
+  - text: "Yes, we accept high-resolution PDF files for printing."
+
+  utter_faq/018:
+  - text: "Yes, we can remove the background for you if you need it."
+
+  utter_faq/019:
+  - text: "Yes, we can resize your images if you tell us the size you want."
+
+  utter_faq/020:
+  - text: "Simple edits are usually free. Bigger edits or redesigns may have a small design fee."
+
+  utter_faq/021:
+  - text: "We print on high-quality DTF film that gives solid color and easy peeling."
+
+  utter_faq/022:
+  - text: "Our DTF prints have a soft, semi-matte finish that looks great on shirts."
+
+  utter_faq/023:
+  - text: "Yes, we try to match your colors as close as possible. Keep in mind screens and printers can look slightly different."
+
+  utter_faq/024:
+  - text: "Yes, we can do custom sizing for your prints and gang sheets."
+
+  utter_faq/025:
+  - text: "Yes, if you’re not sure what size you need, tell us where you want to place it and we can suggest a good size."
+
+  utter_faq/026:
+  - text: "Most orders ship the same day or the next business day. Delivery time depends on the carrier and your location."
+
+  utter_faq/027:
+  - text: "Yes, we do same-day shipping on many orders placed early in the day."
+
+  utter_faq/028:
+  - text: "Shipping cost depends on your location and the size of the order. You’ll see the exact price at checkout."
+
+  utter_faq/029:
+  - text: "Yes, we ship all over California. We are based in California, so shipping is usually very fast."
+
+  utter_faq/030:
+  - text: "Yes, we ship nationwide to all U.S. states."
+
+  utter_faq/031:
+  - text: "Yes, we offer overnight and rush shipping options on many orders."
+
+  utter_faq/032:
+  - text: "Yes, we offer rush service. Just let us know your deadline so we can try to help."
+
+  utter_faq/033:
+  - text: "We usually ship in the afternoon once prints are done, cured, and checked."
+
+  utter_faq/034:
+  - text: "We mainly offer local pickup. In some cases we can arrange local delivery—just ask us."
+
+  utter_faq/035:
+  - text: "Yes, you can pick up in person at our location in San Dimas, California."
+
+  utter_faq/036:
+  - text: "We are located in San Dimas, CA. The full address is shown on the website and in your order confirmation."
+
+  utter_faq/037:
+  - text: "You can pick up once you get the 'ready for pickup' message. If you need a specific time, just ask us."
+
+  utter_faq/038:
+  - text: "Yes, someone else can pick up for you as long as they have the order name or order number."
+
+  utter_faq/039:
+  - text: "We often offer Saturday or weekend pickup. Just message us to confirm for that day."
+
+  utter_faq/040:
+  - text: "Yes, every shipped order includes a tracking number sent to your email."
+
+  utter_faq/041:
+  - text: "Your DTF gang sheet can be up to 23 inches wide and up to about 300 inches long."
+
+  utter_faq/042:
+  - text: "Yes, 23 inches wide is our standard printable width for gang sheets."
+
+  utter_faq/043:
+  - text: "The maximum length for a gang sheet is about 300 inches."
+
+  utter_faq/044:
+  - text: "Yes, if you upload the files we can help fill and arrange the gang sheet for you."
+
+  utter_faq/045:
+  - text: "Yes, we have size guides and layout options to help you build your gang sheet."
+
+  utter_faq/046:
+  - text: "Yes, our builder can help you gang images automatically so you use the space efficiently."
+
+  utter_faq/047:
+  - text: "Yes, we can rotate designs to fit more onto the gang sheet and make better use of the space."
+
+  utter_faq/048:
+  - text: "Yes, we check all files and recommend 300 DPI for the best print quality."
+
+  utter_faq/049:
+  - text: "Low DPI can look soft or pixelated. If your file is too low-quality, we’ll warn you before printing."
+
+  utter_faq/050:
+  - text: "Yes, you can mix as many different designs as you want on one gang sheet."
+
+  utter_faq/051:
+  - text: "We can print very close to the edge of the gang sheet, but we leave a tiny safe margin so nothing gets cut."
+
+  utter_faq/052:
+  - text: "No, there are no hidden fees for gang sheets. You pay based on the size of the sheet."
+
+  utter_faq/053:
+  - text: "Yes, if you create an account you can save your gang sheets and come back to them later."
+
+  utter_faq/054:
+  - text: "Yes, if your layout needs help we can adjust it for you. Small fixes are free."
+
+  utter_faq/055:
+  - text: "Yes, we can clean up rough edges or small problems in your artwork so it looks better when printed."
+
+  utter_faq/056:
+  - text: "Yes, we offer full-color UV transfers."
+
+  utter_faq/057:
+  - text: "UV transfers can stick to cups, tumblers, glass, metal, wood, plastic, acrylic, and many other hard surfaces."
+
+  utter_faq/058:
+  - text: "Yes, UV transfers work great on cups and tumblers."
+
+  utter_faq/059:
+  - text: "Yes, UV transfers work very well on metal surfaces."
+
+  utter_faq/060:
+  - text: "Yes, UV transfers work on many types of plastic. Smooth, clean surfaces work best."
+
+  utter_faq/061:
+  - text: "No, UV transfers do not need heat. They are cold-apply with strong adhesive."
+
+  utter_faq/062:
+  - text: "UV transfers are thinner and more detailed than regular vinyl, and are great for full-color logos and small details."
+
+  utter_faq/063:
+  - text: "Yes, UV transfers are very durable and water-resistant once they are applied correctly."
+
+  utter_faq/064:
+  - text: "Yes, you can order small UV sheets or small individual UV designs."
+
+  utter_faq/065:
+  - text: "Yes, you can order just one UV design. There is no minimum."
+
+  utter_faq/066:
+  - text: "UV print prices depend on the size and quantity. We also offer bulk discounts."
+
+  utter_faq/067:
+  - text: "Yes, UV prints are full color with CMYK and white."
+
+  utter_faq/068:
+  - text: "Yes, our UV prints include a white underlayer so they show up on dark surfaces."
+
+  utter_faq/069:
+  - text: "UV prints are long-lasting when applied and cared for correctly."
+
+  utter_faq/070:
+  - text: "Yes, UV transfers work great on dark items because we print with a white base."
+
+  utter_faq/071:
+  - text: "Yes, we print custom T-shirts for businesses, brands, and events."
+
+  utter_faq/072:
+  - text: "We commonly use brands like Gildan, Bella Canvas, Next Level, and can also source others on request."
+
+  utter_faq/073:
+  - text: "Yes, we print on black shirts. DTF works perfectly on dark garments."
+
+  utter_faq/074:
+  - text: "Yes, we print on 100% cotton shirts with excellent results."
+
+  utter_faq/075:
+  - text: "Yes, we print on polyester and poly blends as well."
+
+  utter_faq/076:
+  - text: "Yes, we can print on the front, back, or both sides of the shirt."
+
+  utter_faq/077:
+  - text: "We offer sizes from kids all the way up to larger adult sizes."
+
+  utter_faq/078:
+  - text: "Yes, you can bring your own blank shirts for us to print on."
+
+  utter_faq/079:
+  - text: "Some larger sizes like 2XL and above may have a small extra charge."
+
+  utter_faq/080:
+  - text: "Yes, you can put a photo on a shirt and it usually looks great if the photo is good quality."
+
+  utter_faq/081:
+  - text: "Yes, we try to match the colors of your design as close as possible. Every screen shows color a bit differently."
+
+  utter_faq/082:
+  - text: "Yes, we offer bulk discounts when you order more pieces."
+
+  utter_faq/083:
+  - text: "The time for a shirt order depends on the quantity, but many small orders are ready in 1–2 days."
+
+  utter_faq/084:
+  - text: "Yes, rush shirt orders are possible if our schedule allows it. Just tell us what you need."
+
+  utter_faq/085:
+  - text: "Yes, we can both print and press the shirts for you so they arrive ready to sell or wear."
+
+  utter_faq/086:
+  - text: "Yes, we can fix many common artwork problems, like small cleanup and adjustments."
+
+  utter_faq/087:
+  - text: "Yes, we can vectorize your logo for you for a small design fee."
+
+  utter_faq/088:
+  - text: "Yes, we can remove the background from your design if needed."
+
+  utter_faq/089:
+  - text: "We do our best to improve low-quality images, but if the file is too small, we’ll let you know and may ask for a better file."
+
+  utter_faq/090:
+  - text: "Yes, we can add text to your design, like names, phrases, or numbers."
+
+  utter_faq/091:
+  - text: "Yes, in most designs we can change the colors to what you prefer."
+
+  utter_faq/092:
+  - text: "You can pay online at checkout using the payment options shown there."
+
+  utter_faq/093:
+  - text: "Yes, we can accept apps like CashApp or Zelle. Just contact us for the details."
+
+  utter_faq/094:
+  - text: "You can usually cancel your order as long as we haven’t started printing yet."
+
+  utter_faq/095:
+  - text: "Yes, if there is a problem with the print and it’s our fault, we will reprint or refund you."
+
+  utter_faq/096:
+  - text: "Yes, you can change your file if we have not started printing yet. Please contact us as soon as possible."
+
+  utter_faq/097:
+  - text: "Yes, we often accept last-minute and rush jobs. Tell us your deadline and we’ll see what we can do."
+
+  utter_faq/098:
+  - text: "Yes, we check every file before printing to make sure it looks good."
+
+  utter_faq/099:
+  - text: "Yes, our prints use premium ink, film, and powder, and are run on professional machines for high quality."
+
+  utter_faq/100:
+  - text: "You get fast service, great quality, wholesale-style pricing, and a team that actually cares about your orders."
+
+  # --- FIN DE LAS 100 NUEVAS FAQs ---
+
 actions:
   - action_get_price
+  - action_human_handoff
   # - validate_order_form              # <--- ¡COMENTADO!
   # - action_submit_order_to_api     # <--- ¡COMENTADO!
   # - action_cancel_order            # <--- ¡COMENTADO!

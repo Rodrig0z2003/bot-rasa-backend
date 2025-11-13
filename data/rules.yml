@@ -93,3 +93,8 @@ rules:
   - action: utter_ask_rephrase
   - action: action_listen
 
+- rule: Handle request for human handoff
+  steps:
+  - intent: request_human_handoff
+  - action: action_human_handoff
+

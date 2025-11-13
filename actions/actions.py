@@ -5,7 +5,7 @@ from typing import Any, Text, Dict, List, Optional
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, ConversationPaused # <--- ¡Importación agregada!
 
 # --- Constantes ---
 # Precios para UV DTF Gang Sheets (11x...)
@@ -52,15 +52,15 @@ FORM_SLOTS = [
 # --- ¡CONFIGURA ESTAS URLS! ---
 # URL de tu Webhook en Laravel
 #LARAVEL_WEBHOOK_URL = "https://72.60.24.115/api/rasa-order" # <-- ¡USA TU IP O DOMINIO!
-#LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
+LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
 
-LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
+#LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
 
 # URL base para tu página de subida de archivos
 #LARAVEL_UPLOAD_PAGE_URL = "https://72.60.24.115/upload-order-file" # <-- ¡USA TU IP O DOMINIO!
-#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
+LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
 
-LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+#LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 # ---------------------------------
 
 
@@ -195,7 +195,8 @@ class ValidateOrderForm(FormValidationAction):
         return {"sheet_size": str(slot_value)}
         
     def validate_category(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        return {"category": str(slot_wvalue)}
+        # Corregido: debería ser slot_value, no slot_wvalue
+        return {"category": str(slot_value)}
 
     def validate_user_name(
         self,
@@ -317,3 +318,41 @@ class ActionAskSheetSize(Action):
 
         dispatcher.utter_message(response=utter_action)
         return []
+
+# --- NUEVA ACCIÓN AGREGADA AL FINAL ---
+
+class ActionHumanHandoff(Action):
+
+    def name(self) -> Text:
+        return "action_human_handoff"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[Dict[Text, Any]]:
+
+        # 1. Avisa al usuario que espere
+        dispatcher.utter_message(response="utter_handoff_confirmation")
+
+        # 2. (OPCIONAL) Notifica a tu backend (ej. Laravel)
+        #    Esto le avisa a tu "dashboard de asesor" que alguien está esperando.
+        #    ¡Asegúrate de cambiar la URL!
+        try:
+            # webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            webhook_url = "http://localhost:8001/api/live-chat-request"
+
+            requests.post(
+                webhook_url,
+                json={
+                    "sender_id": tracker.sender_id,
+                    "message": "User requested a human agent!"
+                }
+            )
+        except Exception as e:
+            print(f"Error notifying handoff webhook: {e}")
+
+        # 3. ¡LA PARTE IMPORTANTE! Pausa la conversación.
+        # El bot NO responderá a nada más de este usuario.
+        return [ConversationPaused()]

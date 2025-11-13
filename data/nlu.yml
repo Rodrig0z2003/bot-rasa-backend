@@ -687,6 +687,20 @@ nlu:
     - where is your store
     - /faq/contact_locations  
 
+- intent: request_human_handoff
+  examples: |
+    - I want to talk to an agent
+    - Can I speak to a human?
+    - talk to an advisor
+    - connect me with a person
+    - human please
+    - let me talk to someone
+    - I need a real person
+    - agent
+    - asesor
+    - quiero un asesor
+    - hablar con una persona
+
 # --- SINÓNIMOS ---
 - synonym: "22x12"
   examples: |
@@ -712,3 +726,404 @@ nlu:
     - uv sheet
     - uv dtf
     - uv transfer
+
+# --- Nuevas FAQs (001-100) ---
+- intent: faq/001
+  examples: |
+    - Do you guys do DTF prints?
+
+- intent: faq/002
+  examples: |
+    - How much are your DTF transfers?
+
+- intent: faq/003
+  examples: |
+    - What sizes do you offer for DTF?
+
+- intent: faq/004
+  examples: |
+    - Do you sell gang sheets?
+
+- intent: faq/005
+  examples: |
+    - Can I print just one design?
+
+- intent: faq/006
+  examples: |
+    - What is the minimum order?
+
+- intent: faq/007
+  examples: |
+    - How long does it take to print?
+
+- intent: faq/008
+  examples: |
+    - Do you do same-day DTF?
+
+- intent: faq/009
+  examples: |
+    - Can I pick up today?
+
+- intent: faq/010
+  examples: |
+    - What is your turnaround time?
+
+- intent: faq/011
+  examples: |
+    - Do you print full color?
+
+- intent: faq/012
+  examples: |
+    - Do you print white ink?
+
+- intent: faq/013
+  examples: |
+    - Do you print photos?
+
+- intent: faq/014
+  examples: |
+    - Can you fix blurry images?
+
+- intent: faq/015
+  examples: |
+    - What file types do you accept?
+
+- intent: faq/016
+  examples: |
+    - Do you accept PNG files?
+
+- intent: faq/017
+  examples: |
+    - Do you accept PDF files?
+
+- intent: faq/018
+  examples: |
+    - Can you remove the background for me?
+
+- intent: faq/019
+  examples: |
+    - Do you guys resize images?
+
+- intent: faq/020
+  examples: |
+    - Do you charge for edits?
+
+- intent: faq/021
+  examples: |
+    - Do you print on clear film?
+
+- intent: faq/022
+  examples: |
+    - Do you have matte or glossy?
+
+- intent: faq/023
+  examples: |
+    - Do you offer color matching?
+
+- intent: faq/024
+  examples: |
+    - Do you guys do custom sizing?
+
+- intent: faq/025
+  examples: |
+    - Can you help if I don’t know what size I need?
+
+- intent: faq/026
+  examples: |
+    - What is your shipping time?
+
+- intent: faq/027
+  examples: |
+    - Do you ship same day?
+
+- intent: faq/028
+  examples: |
+    - How much is shipping?
+
+- intent: faq/029
+  examples: |
+    - Do you ship to California?
+
+- intent: faq/030
+  examples: |
+    - Do you ship out of state?
+
+- intent: faq/031
+  examples: |
+    - Do you ship overnight?
+
+- intent: faq/032
+  examples: |
+    - Do you offer rush service?
+
+- intent: faq/033
+  examples: |
+    - What time do you ship orders?
+
+- intent: faq/034
+  examples: |
+    - Do you deliver locally?
+
+- intent: faq/035
+  examples: |
+    - Can I pick up in person?
+
+- intent: faq/036
+  examples: |
+    - What is your pickup address?
+
+- intent: faq/037
+  examples: |
+    - What time can I pick up?
+
+- intent: faq/038
+  examples: |
+    - Can someone else pick up for me?
+
+- intent: faq/039
+  examples: |
+    - Do you offer weekend pickup?
+
+- intent: faq/040
+  examples: |
+    - Can I track my order?
+
+- intent: faq/041
+  examples: |
+    - How big can my gang sheet be?
+
+- intent: faq/042
+  examples: |
+    - Do you offer 23 inch width?
+
+- intent: faq/043
+  examples: |
+    - What is the max length for gang sheets?
+
+- intent: faq/044
+  examples: |
+    - Can you fill the gang sheet for me?
+
+- intent: faq/045
+  examples: |
+    - Do you offer templates for gang sheets?
+
+- intent: faq/046
+  examples: |
+    - Do you gang the images automatically?
+
+- intent: faq/047
+  examples: |
+    - Do you rotate designs for best fit?
+
+- intent: faq/048
+  examples: |
+    - Do you check for 300 DPI?
+
+- intent: faq/049
+  examples: |
+    - Will low DPI look bad?
+
+- intent: faq/050
+  examples: |
+    - Can I mix different designs on one sheet?
+
+- intent: faq/051
+  examples: |
+    - Do you print edge to edge on gang sheets?
+
+- intent: faq/052
+  examples: |
+    - Are there extra fees for gang sheets?
+
+- intent: faq/053
+  examples: |
+    - Can I save my gang sheet for later?
+
+- intent: faq/054
+  examples: |
+    - Can you fix my gang sheet layout?
+
+- intent: faq/055
+  examples: |
+    - Do you clean up bad edges on designs?
+
+- intent: faq/056
+  examples: |
+    - Do you guys do UV transfers?
+
+- intent: faq/057
+  examples: |
+    - What can UV transfers stick to?
+
+- intent: faq/058
+  examples: |
+    - Can I use UV transfers on cups?
+
+- intent: faq/059
+  examples: |
+    - Do UV transfers work on metal?
+
+- intent: faq/060
+  examples: |
+    - Do UV transfers work on plastic?
+
+- intent: faq/061
+  examples: |
+    - Do UV transfers need heat?
+
+- intent: faq/062
+  examples: |
+    - Are UV transfers better than vinyl?
+
+- intent: faq/063
+  examples: |
+    - Are UV transfers waterproof?
+
+- intent: faq/064
+  examples: |
+    - Can I order small UV sheets?
+
+- intent: faq/065
+  examples: |
+    - Can I order just one UV design?
+
+- intent: faq/066
+  examples: |
+    - What is the UV print price?
+
+- intent: faq/067
+  examples: |
+    - Are UV prints full color?
+
+- intent: faq/068
+  examples: |
+    - Do UV prints come with white ink?
+
+- intent: faq/069
+  examples: |
+    - How long do UV prints last?
+
+- intent: faq/070
+  examples: |
+    - Can UV transfers go on dark items?
+
+- intent: faq/071
+  examples: |
+    - Do you print custom shirts?
+
+- intent: faq/072
+  examples: |
+    - What shirt brands do you use?
+
+- intent: faq/073
+  examples: |
+    - Do you print on black shirts?
+
+- intent: faq/074
+  examples: |
+    - Do you print on 100 percent cotton?
+
+- intent: faq/075
+  examples: |
+    - Do you print on polyester?
+
+- intent: faq/076
+  examples: |
+    - Do you print front and back?
+
+- intent: faq/077
+  examples: |
+    - What shirt sizes do you offer?
+
+- intent: faq/078
+  examples: |
+    - Can I bring my own shirts?
+
+- intent: faq/079
+  examples: |
+    - Do you charge extra for bigger sizes?
+
+- intent: faq/080
+  examples: |
+    - Can I print a photo on a shirt?
+
+- intent: faq/081
+  examples: |
+    - Can you match the colors on my design?
+
+- intent: faq/082
+  examples: |
+    - Do you offer bulk discounts for shirts?
+
+- intent: faq/083
+  examples: |
+    - How long does a shirt order take?
+
+- intent: faq/084
+  examples: |
+    - Can I get shirts today?
+
+- intent: faq/085
+  examples: |
+    - Do you press the shirts for me?
+
+- intent: faq/086
+  examples: |
+    - Can you fix my artwork?
+
+- intent: faq/087
+  examples: |
+    - Do you vectorize logos?
+
+- intent: faq/088
+  examples: |
+    - Can you remove the background from my design?
+
+- intent: faq/089
+  examples: |
+    - Do you fix low-quality images?
+
+- intent: faq/090
+  examples: |
+    - Can you add text to my design?
+
+- intent: faq/091
+  examples: |
+    - Can you change the colors in my design?
+
+- intent: faq/092
+  examples: |
+    - How do I pay?
+
+- intent: faq/093
+  examples: |
+    - Do you take CashApp or Zelle?
+
+- intent: faq/094
+  examples: |
+    - Can I cancel my order?
+
+- intent: faq/095
+  examples: |
+    - Do you refund bad prints?
+
+- intent: faq/096
+  examples: |
+    - Can I change my file after ordering?
+
+- intent: faq/097
+  examples: |
+    - Do you accept last-minute jobs?
+
+- intent: faq/098
+  examples: |
+    - Do you check files before printing?
+
+- intent: faq/099
+  examples: |
+    - Are your prints good quality?
+
+- intent: faq/100
+  examples: |
+    - Why should I buy from you?
