@@ -93,8 +93,16 @@ rules:
   - action: utter_ask_rephrase
   - action: action_listen
 
-- rule: Handle request for human handoff
+- rule: Activate handoff form
   steps:
   - intent: request_human_handoff
-  - action: action_human_handoff
+  - action: handoff_form
+  - active_loop: handoff_form
 
+- rule: Submit handoff form
+  condition:
+  - active_loop: handoff_form
+  steps:
+  - action: handoff_form
+  - active_loop: null
+  - action: action_submit_handoff

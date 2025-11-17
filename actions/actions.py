@@ -52,15 +52,15 @@ FORM_SLOTS = [
 # --- ¡CONFIGURA ESTAS URLS! ---
 # URL de tu Webhook en Laravel
 #LARAVEL_WEBHOOK_URL = "https://72.60.24.115/api/rasa-order" # <-- ¡USA TU IP O DOMINIO!
-LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
+#LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order" # <-- ¡Puerto 8001!
 
-#LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
+LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
 
 # URL base para tu página de subida de archivos
 #LARAVEL_UPLOAD_PAGE_URL = "https://72.60.24.115/upload-order-file" # <-- ¡USA TU IP O DOMINIO!
-LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
+#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file" # <-- ¡Puerto 8001!
 
-#LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 # ---------------------------------
 
 
@@ -319,8 +319,8 @@ class ActionAskSheetSize(Action):
         dispatcher.utter_message(response=utter_action)
         return []
 
-# --- NUEVA ACCIÓN AGREGADA AL FINAL ---
-
+# --- CLASE RESTAURADA (DESCOMENTADA) ---
+# Esta es la clase que me pediste que restaurara
 class ActionHumanHandoff(Action):
 
     def name(self) -> Text:
@@ -336,13 +336,16 @@ class ActionHumanHandoff(Action):
         # 1. Avisa al usuario que espere
         dispatcher.utter_message(response="utter_handoff_confirmation")
 
-        # 2. (OPCIONAL) Notifica a tu backend (ej. Laravel)
-        #    Esto le avisa a tu "dashboard de asesor" que alguien está esperando.
-        #    ¡Asegúrate de cambiar la URL!
-        try:
-            # webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
-            webhook_url = "http://localhost:8001/api/live-chat-request"
+        # --- ¡INICIO DEL CAMBIO! ---
+        # 2. Envía el payload secreto a Vue para cambiar de modo
+        custom_json = { "type": "handoff_start" }
+        dispatcher.utter_message(json_message=custom_json)
+        # --- ¡FIN DEL CAMBIO! ---
 
+        # 3. Notifica a tu backend (Laravel)
+        try:
+            #webhook_url = "http://localhost:8001/api/live-chat-request" # Asegúrate que sea tu URL
+            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request" 
             requests.post(
                 webhook_url,
                 json={
@@ -353,6 +356,69 @@ class ActionHumanHandoff(Action):
         except Exception as e:
             print(f"Error notifying handoff webhook: {e}")
 
-        # 3. ¡LA PARTE IMPORTANTE! Pausa la conversación.
-        # El bot NO responderá a nada más de este usuario.
+        # 4. Pausa la conversación.
         return [ConversationPaused()]
+
+# --- ¡AÑADE ESTA NUEVA CLASE DE VALIDACIÓN! ---
+# (Esta clase es para el *nuevo* flujo de handoff_form)
+class ValidateHandoffForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_handoff_form"
+
+    def validate_handoff_name(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Valida el nuevo slot 'handoff_name'."""
+        name = str(slot_value).strip()
+        
+        if len(name) < 2:
+            dispatcher.utter_message(text="That name seems a bit short. Please enter your full name.")
+            return {"handoff_name": None}
+        
+        return {"handoff_name": name.title()}
+
+# --- ¡AÑADE ESTA NUEVA CLASE DE ENVÍO! ---
+# (Esta clase es para el *nuevo* flujo de handoff_form)
+class ActionSubmitHandoff(Action):
+    def name(self) -> Text:
+        return "action_submit_handoff"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[Dict[Text, Any]]:
+
+        # 1. Obtener los datos del NUEVO slot
+        customer_name = tracker.get_slot("handoff_name") # <-- Usamos el nuevo slot
+        sender_id = tracker.sender_id
+
+        # 2. Notifica a tu backend (Laravel)
+        try:
+            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request" # Asegúrate que sea tu URL
+            #webhook_url = "http://localhost:8001/api/live-chat-request" # Asegúrate que sea tu URL
+            
+            requests.post(
+                webhook_url,
+                json={
+                    "sender_id": sender_id,
+                    "user_name": customer_name, # <-- Enviamos el nombre como 'user_name'
+                    "message": f"User '{customer_name}' requested a human agent!"
+                }
+            )
+        except Exception as e:
+            print(f"Error notifying handoff webhook: {e}")
+            
+        # 3. Avisa al usuario que espere
+        dispatcher.utter_message(response="utter_handoff_confirmation")
+
+        # 4. Envía el payload a Vue para cambiar de modo
+        dispatcher.utter_message(json_message={"type": "handoff_start"})
+
+        # 5. Pausa la conversación y limpia el slot
+        return [ConversationPaused(), SlotSet("handoff_name", None)]

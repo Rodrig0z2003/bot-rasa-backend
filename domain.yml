@@ -86,6 +86,15 @@ slots:
     - type: from_entity
       entity: carrier
 
+  handoff_name:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: handoff_form
+        requested_slot: handoff_name
+
 responses:
 # ... (Todas tus responses de utter_greet, utter_goodbye...
 # ... No he copiado todo el bloque de FAQs aquí por brevedad,
@@ -924,6 +933,9 @@ responses:
 
   # --- FIN DE LAS 100 NUEVAS FAQs ---
 
+  utter_ask_handoff_name:
+  - text: "Sure, I can connect you. First, what is your name?"
+
 actions:
   - action_get_price
   - action_human_handoff
@@ -931,7 +943,12 @@ actions:
   # - action_submit_order_to_api     # <--- ¡COMENTADO!
   # - action_cancel_order            # <--- ¡COMENTADO!
   # - action_ask_sheet_size          # <--- ¡COMENTADO!
-
+  - validate_handoff_form   # <-- ¡NUEVA!
+  - action_submit_handoff   # <-- ¡NUEVA!
+forms:
+  handoff_form:
+    required_slots:
+    - handoff_name
 # --- COMENTA ESTE BLOQUE ENTERO ---
 # forms:
 #   order_form:
