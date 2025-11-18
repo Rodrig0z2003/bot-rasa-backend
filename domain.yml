@@ -8,21 +8,22 @@ intents:
   - goodbye
   - request_human_handoff
   - ask_price
-  # - create_order_dtf    # <--- ¡COMENTADO!
+  - create_order_dtf    # <--- ¡COMENTADO!
   - inform
   - affirm
   - deny
   - thankyou
   - compliment
   - ask_how_are_you
-  # - stop_order          # <--- ¡COMENTADO!
+  - stop_order          # <--- ¡COMENTADO!
   - bot_challenge
+  - ask_dtf_printing
 
   - faq:
       is_retrieval_intent: true
   # Nuevos intents para texto libre
-  # - inform_email        # <--- ¡COMENTADO!
-  # - inform_name         # <--- ¡COMENTADO!
+  - inform_email        # <--- ¡COMENTADO!
+  - inform_name         # <--- ¡COMENTADO!
 
 entities:
   - sheet_size
@@ -62,23 +63,23 @@ slots:
       entity: category
       
   # --- ¡ESTA ES LA CORRECCIÓN DEFINITIVA PARA EL NOMBRE! ---
-  #user_name:
-  #  type: text
-  #  influence_conversation: true
-  #  mappings:
-  #  - type: from_text
-  #    conditions:
-  #    - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
-  #      requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
+  user_name:
+   type: text
+   influence_conversation: true
+   mappings:
+   - type: from_text
+     conditions:
+     - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+       requested_slot: user_name    # <-- Condición 2: Y SOLO si el bot acaba de pedir el nombre
 
-  #user_email:
-  #  type: text
-  #  influence_conversation: true
-  #  mappings:
-  #  - type: from_text
-  #    conditions:
-  #    - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
-  #      requested_slot: user_email   # <-- Condición 2: Y SOLO si el bot acaba de pedir el EMAIL
+  user_email:
+   type: text
+   influence_conversation: true
+   mappings:
+   - type: from_text
+     conditions:
+     - active_loop: order_form        # <-- Condición 1: SOLO si el formulario está activo
+       requested_slot: user_email   # <-- Condición 2: Y SOLO si el bot acaba de pedir el EMAIL
   carrier:
     type: text
     influence_conversation: true
@@ -936,13 +937,16 @@ responses:
   utter_ask_handoff_name:
   - text: "Sure, I can connect you. First, what is your name?"
 
+  utter_ask_dtf_printing:
+  - text: "Yes! We specialize in DTF (Direct-to-Film) printing. We offer custom DTF transfers, gang sheets, and UV DTF prints. You can order single prints or bulk gang sheets with no minimums."
+
 actions:
   - action_get_price
   - action_human_handoff
-  # - validate_order_form              # <--- ¡COMENTADO!
-  # - action_submit_order_to_api     # <--- ¡COMENTADO!
-  # - action_cancel_order            # <--- ¡COMENTADO!
-  # - action_ask_sheet_size          # <--- ¡COMENTADO!
+  - validate_order_form              # <--- ¡COMENTADO!
+  - action_submit_order_to_api     # <--- ¡COMENTADO!
+  - action_cancel_order            # <--- ¡COMENTADO!
+  - action_ask_sheet_size          # <--- ¡COMENTADO!
   - validate_handoff_form   # <-- ¡NUEVA!
   - action_submit_handoff   # <-- ¡NUEVA!
 forms:
@@ -950,6 +954,5 @@ forms:
     required_slots:
     - handoff_name
 # --- COMENTA ESTE BLOQUE ENTERO ---
-# forms:
-#   order_form:
-#     required_slots: [] # Manejado dinámicamente en actions.py
+  order_form:
+    required_slots: [] # Manejado dinámicamente en actions.py

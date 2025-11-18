@@ -61,43 +61,43 @@ nlu:
     - cost of [22x72](sheet_size)
     - [11x48](sheet_size) price
 # --- COMENTA ESTE BLOQUE ENTERO ---
-# - intent: create_order_dtf
-#   examples: |
-#     - I want to place an order
-#     - I want to buy a gang sheet
-#     - can I order
-#     - I need to buy a transfer
-#     - new order
-#     - i want to buy a [6 Pack T-Shirts](product_name)
-#     - I want to order [10](number) [12 Pack T-Shirts](product_name)
-#     - I need [one](number) [22x60](sheet_size) [dtf sheet](product_name)
-#     - Can I buy [5](number) [UV DTF Gang Sheet](product_name) size [11x24](sheet_size)
-#     - I need to buy a dtf
-#     - I want to buy a dtf
-#     - I want to buy a uv dtf
-#     - buy a dtf sheet
-#     - I need a uv transfer
-#     - I need a dtf transfer
-#     - i need to order
-#     - i need another order
-#     - i need a order
-#     - i need a roder
-#     - place an order
-#     - i want to buy something
-#     - can you take my order
-#     - new order please
-#     - i wnt to buy
-#     - can i orderr
-#     - plece an order
-# --- COMENTA ESTE BLOQUE ENTERO ---
-# - intent: stop_order
-#   examples: |
-#     - stop
-#     - cancel
-#     - cancel this order
-#     - nevermind
-#     - i dont want to order anymore
-#     - forget it
+- intent: create_order_dtf
+  examples: |
+    - I want to place an order
+    - I want to buy a gang sheet
+    - can I order
+    - I need to buy a transfer
+    - new order
+    - i want to buy a [6 Pack T-Shirts](product_name)
+    - I want to order [10](number) [12 Pack T-Shirts](product_name)
+    - I need [one](number) [22x60](sheet_size) [dtf sheet](product_name)
+    - Can I buy [5](number) [UV DTF Gang Sheet](product_name) size [11x24](sheet_size)
+    - I need to buy a dtf
+    - I want to buy a dtf
+    - I want to buy a uv dtf
+    - buy a dtf sheet
+    - I need a uv transfer
+    - I need a dtf transfer
+    - i need to order
+    - i need another order
+    - i need a order
+    - i need a roder
+    - place an order
+    - i want to buy something
+    - can you take my order
+    - new order please
+    - i wnt to buy
+    - can i orderr
+    - plece an order
+
+- intent: stop_order
+  examples: |
+    - stop
+    - cancel
+    - cancel this order
+    - nevermind
+    - i dont want to order anymore
+    - forget it
 - intent: inform
   examples: |
     - I need a [22x36](sheet_size)
@@ -112,22 +112,22 @@ nlu:
 
 # --- ¡Nuevos Intents para capturar datos de usuario! ---
 # --- COMENTA ESTE BLOQUE ENTERO ---
-# - intent: inform_email
-#   examples: |
-#     - my email is [test@example.com](email)
-#     - [sandro.capira@tecsup.edu.pe](email)
-#     - [rodrigo@gmail.com](email)
-#     - es [mi.correo@dominio.com](email)
-#     - [ejemplo123@proveedor.net](email)
-# --- COMENTA ESTE BLOQUE ENTERO ---
-# - intent: inform_name
-#   examples: |
-#     - My name is [Rodrigo](user_name)
-#     - [Rodrigo Capira](user_name)
-#     - [Sandro](user_name)
-#     - Me llamo [Juan Perez](user_name)
-#     - [Ana](user_name)
-#     - [Jose](user_name)
+- intent: inform_email
+  examples: |
+    - my email is [test@example.com](email)
+    - [sandro.capira@tecsup.edu.pe](email)
+    - [rodrigo@gmail.com](email)
+    - es [mi.correo@dominio.com](email)
+    - [ejemplo123@proveedor.net](email)
+
+- intent: inform_name
+  examples: |
+    - My name is [Rodrigo](user_name)
+    - [Rodrigo Capira](user_name)
+    - [Sandro](user_name)
+    - Me llamo [Juan Perez](user_name)
+    - [Ana](user_name)
+    - [Jose](user_name)
 
 # --- Intents de Afirmación / Negación / Reto ---
 - intent: affirm
@@ -728,9 +728,24 @@ nlu:
     - uv transfer
 
 # --- Nuevas FAQs (001-100) ---
-- intent: faq/001
+#- intent: faq/001
+#  examples: |
+#    - Do you guys do DTF prints?
+
+- intent: ask_dtf_printing
   examples: |
-    - Do you guys do DTF prints?
+    - do you print dtf?
+    - hello do you print dtf
+    - do you offer dtf printing?
+    - do you guys do dtf transfers?
+    - can you print dtf for me?
+    - do you sell custom dtf?
+    - do you print custom dtf transfers?
+    - do you do dtf?
+    - can I order dtf prints?
+    - do you provide dtf print service?
+    - do you do only dtf or other printing too?
+    - do you make dtf sheets?
 
 - intent: faq/002
   examples: |
