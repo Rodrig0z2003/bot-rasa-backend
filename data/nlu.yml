@@ -750,395 +750,837 @@ nlu:
 - intent: faq/002
   examples: |
     - How much are your DTF transfers?
+    - what is the price for dtf?
+    - tell me your pricing
+    - cost of gang sheets
+    - how much do you charge for printing?
+    - give me a price quote
+    - are your transfers expensive?
+    - price list please
+    - what are your rates?
+    - how much for a 22x60 sheet?
+    - pricing breakdown
+    - cost?
 
 - intent: faq/003
   examples: |
     - What sizes do you offer for DTF?
+    - how big can you print?
+    - what is the max width?
+    - do you have 22 inch rolls?
+    - what are the dimensions of your gang sheets?
+    - biggest sheet size?
+    - do you print large format?
+    - width and length limits?
+    - size availability
+    - max print area
+    - how wide are your transfers?
 
 - intent: faq/004
   examples: |
     - Do you sell gang sheets?
+    - can I buy gang sheets from you?
+    - do you offer custom gang sheets?
+    - are gang sheets available?
+    - i need to order a gang sheet
+    - do you guys make gang sheets?
+    - gang sheet printing service
+    - i want to build a gang sheet
 
 - intent: faq/005
   examples: |
     - Can I print just one design?
+    - i only need one logo can i order?
+    - is it okay if I only want 1 print?
+    - can i order a single image?
+    - do you do small orders?
+    - just one transfer please
+    - single print order
 
 - intent: faq/006
   examples: |
     - What is the minimum order?
-
+    - is there a moq?
+    - minimum quantity required?
+    - do i have to buy in bulk?
+    - whats the minimum i can spend?
+    - minimum order quantity
+    - do you have minimums?
 - intent: faq/007
   examples: |
     - How long does it take to print?
+    - what is the production time?
+    - when will my order be ready?
+    - how fast can you print?
+    - lead time for dtf?
+    - turnaround time for printing
+    - how many days to print?
+    - waiting time for orders
 
 - intent: faq/008
   examples: |
-    - Do you do same-day DTF?
+   - Do you do same-day DTF?
+    - can i get it today?
+    - do you offer same day service?
+    - is same day printing available?
+    - i need it right now
+    - today turnaround
+    - can you print this today?
 
 - intent: faq/009
   examples: |
     - Can I pick up today?
+    - is pickup available today?
+    - if i order now can i pick up later?
+    - same day pickup?
+    - ready for pickup today?
 
 - intent: faq/010
   examples: |
     - What is your turnaround time?
+    - TAT?
+    - what is your TAT?
+    - total time from order to shipping
+    - how long is the process?
+    - average turnaround time
+    - typical wait time
 
 - intent: faq/011
   examples: |
     - Do you print full color?
+    - is it CMYK?
+    - can you print unlimited colors?
+    - is the print full color?
+    - do you limit the number of colors?
+    - colorful designs support
 
 - intent: faq/012
   examples: |
     - Do you print white ink?
+    - does it have a white underbase?
+    - white backing included?
+    - is white ink standard?
+    - do you use white ink for dark shirts?
 
 - intent: faq/013
   examples: |
     - Do you print photos?
+    - can i print a photograph?
+    - will a picture look good?
+    - photo realistic printing?
+    - can you do gradients and photos?
+    - printing pictures on dtf
 
 - intent: faq/014
   examples: |
     - Can you fix blurry images?
+    - my image is low quality can you help?
+    - fix pixelated image
+    - do you enhance bad quality files?
+    - My image is kinda blurry though, can you clean it up?
+    - can you make my logo clear?
+    - blurry artwork help
 
 - intent: faq/015
   examples: |
     - What file types do you accept?
+    - accepted formats?
+    - which files can i upload?
+    - file requirements
+    - do you take ai or psd?
+    - format needed for printing
+    - what kind of file do you need?
 
 - intent: faq/016
   examples: |
     - Do you accept PNG files?
+    - is png ok?
+    - can i upload a png?
+    - transparent png supported?
+    - is png better than jpeg?
+    - taking pngs?
 
 - intent: faq/017
   examples: |
     - Do you accept PDF files?
+    - can i send a pdf?
+    - is adobe pdf format okay?
+    - vector pdf accepted?
+    - uploading pdf for print
+    - pdf file support
 
 - intent: faq/018
   examples: |
     - Can you remove the background for me?
+    - make the background transparent
+    - take out the white box behind the logo
+    - background removal service
+    - i don't know how to remove background
+    - knock out the background
+    - transparent background help
 
 - intent: faq/019
   examples: |
     - Do you guys resize images?
+    - can you make my logo bigger?
+    - i need this scaled up
+    - resize service
+    - change dimensions of my art
+    - scaling help
+    - make it smaller
 
 - intent: faq/020
   examples: |
     - Do you charge for edits?
+    - is artwork cleanup free?
+    - cost for graphic design
+    - editing fees
+    - price for fixing my file
+    - design service charge
 
 - intent: faq/021
   examples: |
     - Do you print on clear film?
+    - what kind of film is it?
+    - is the transfer transparent?
+    - film type used
+    - clear or cloudy film?
 
 - intent: faq/022
   examples: |
     - Do you have matte or glossy?
+    - what is the finish?
+    - shiny or matte finish?
+    - does it look plastic?
+    - finish type options
 
 - intent: faq/023
   examples: |
     - Do you offer color matching?
+    - can you match pantone colors?
+    - will the colors look exactly like my screen?
+    - color accuracy
+    - exact color match
+    - pms color matching
 
 - intent: faq/024
   examples: |
     - Do you guys do custom sizing?
+    - can i get a weird size?
+    - specific dimensions
+    - custom width and height
+    - non standard sizes
+    - exact size printing
 
 - intent: faq/025
   examples: |
     - Can you help if I don’t know what size I need?
+    - what size is best for a left chest?
+    - recommend a size for hoodies
+    - standard size for t-shirts
+    - help me choose a size
+    - size guide assistance
 
 - intent: faq/026
   examples: |
     - What is your shipping time?
+    - how long does shipping take?
+    - transit time
+    - when will it arrive?
+    - shipping duration
+    - delivery days
+    - days in transit
 
 - intent: faq/027
   examples: |
     - Do you ship same day?
-
+    - will it ship out today?
+    - same day dispatch
+    - shipping today?
+    - send it out now
 - intent: faq/028
   examples: |
     - How much is shipping?
-
+    - shipping cost
+    - delivery fee
+    - postage price
+    - shipping rates
+    - free shipping?
+    - cost to ship to me
 - intent: faq/029
   examples: |
     - Do you ship to California?
+    - shipping within CA
+    - local shipping
+    - how fast to los angeles?
+    - ca delivery
 
 - intent: faq/030
   examples: |
     - Do you ship out of state?
+    - nationwide shipping
+    - do you ship to texas?
+    - shipping to new york
+    - do you deliver to florida?
+    - US shipping
 
 - intent: faq/031
   examples: |
     - Do you ship overnight?
+    - next day air available?
+    - can i pay for faster shipping?
+    - overnight delivery
+    - ups next day
+    - fastest shipping option
 
 - intent: faq/032
   examples: |
     - Do you offer rush service?
+    - i need a rush order
+    - expedite my order
+    - rush fee
+    - hurry up options
+    - emergency printing
 
 - intent: faq/033
   examples: |
     - What time do you ship orders?
-
+    - shipping cutoff time
+    - when does ups pick up?
+    - shipping schedule
+    - what time do packages leave?
 - intent: faq/034
   examples: |
     - Do you deliver locally?
+    - can you uber it to me?
+    - local delivery service
+    - do you have a driver?
+    - delivery in san dimas
 
 - intent: faq/035
   examples: |
     - Can I pick up in person?
+    - is store pickup available?
+    - i want to come get it
+    - will call
+    - local pickup option
+    - can i drive there?
 
 - intent: faq/036
   examples: |
     - What is your pickup address?
+    - where is the shop located?
+    - address for gps
+    - location for pickup
+    - where do i go?
 
 - intent: faq/037
   examples: |
     - What time can I pick up?
+    - pickup hours
+    - when is the shop open?
+    - can i pick up at night?
+    - store hours
 
 - intent: faq/038
   examples: |
     - Can someone else pick up for me?
+    - my wife will pick it up
+    - sending a courier
+    - can my friend get my order?
+    - pickup authorization
 
 - intent: faq/039
   examples: |
     - Do you offer weekend pickup?
+    - are you open on saturday?
+    - sunday pickup?
+    - can i get it on the weekend?
+    - weekend hours
 
 - intent: faq/040
   examples: |
     - Can I track my order?
+    - where is my tracking number?
+    - track package
+    - order status
+    - has it shipped yet?
 
 - intent: faq/041
   examples: |
     - How big can my gang sheet be?
+    - max gang sheet size
+    - largest sheet available
+    - gang sheet dimensions
+    - maximum print area
 
 - intent: faq/042
   examples: |
     - Do you offer 23 inch width?
+    - is the roll 22 or 24 inches?
+    - wide format gang sheets
+    - 22x?
+    - roll width
 
 - intent: faq/043
   examples: |
     - What is the max length for gang sheets?
+    - how long can the roll be?
+    - 300 inches long?
+    - maximum length limit
+    - longest sheet size
 
 - intent: faq/044
   examples: |
     - Can you fill the gang sheet for me?
+    - i don't know how to gang
+    - put my images on a sheet
+    - arrange my files for me
+    - gang sheet service
 
 - intent: faq/045
   examples: |
     - Do you offer templates for gang sheets?
+    - canva template
+    - photoshop template
+    - where can i download a template?
+    - layout guide
 
 - intent: faq/046
   examples: |
     - Do you gang the images automatically?
+    - auto nest feature
+    - automatic layout
+    - does the builder arrange them?
+    - auto gang sheet
 
 - intent: faq/047
   examples: |
     - Do you rotate designs for best fit?
+    - turn images to save space
+    - auto rotation
+    - fit more images
+    - optimize layout
 
 - intent: faq/048
   examples: |
     - Do you check for 300 DPI?
+    - resolution check
+    - verify quality
+    - is my file high res?
+    - dpi checker
 
 - intent: faq/049
   examples: |
     - Will low DPI look bad?
+    - is 72 dpi okay?
+    - print quality for low res
+    - pixelated print
+    - blurry warning
 
 - intent: faq/050
   examples: |
     - Can I mix different designs on one sheet?
+    - multiple logos on one gang sheet
+    - combine orders on one sheet
+    - different images same roll
+    - mix and match designs
 
 - intent: faq/051
   examples: |
     - Do you print edge to edge on gang sheets?
+    - what are the margins?
+    - print bleed
+    - space between images
+    - printable width
 
 - intent: faq/052
   examples: |
     - Are there extra fees for gang sheets?
+    - setup cost for gang sheet
+    - hidden fees
+    - price per inch
+    - is it cheaper to buy gang sheets?
 
 - intent: faq/053
   examples: |
     - Can I save my gang sheet for later?
+    - reorder same sheet
+    - save project
+    - keep my layout
+    - save draft
 
 - intent: faq/054
   examples: |
     - Can you fix my gang sheet layout?
+    - my sheet is messy
+    - help with builder
+    - adjust my placement
+    - correct my gang sheet
 
 - intent: faq/055
   examples: |
     - Do you clean up bad edges on designs?
+    - remove pixel artifacts
+    - smooth out edges
+    - refine artwork
+    - cleanup service
 
 - intent: faq/056
   examples: |
     - Do you guys do UV transfers?
+    - uv dtf printing
+    - do you make uv stickers?
+    - hard surface transfers
+    - uv decals
+    - uv dtf service
+    - 3d uv stickers
 
 - intent: faq/057
   examples: |
     - What can UV transfers stick to?
+    - what surfaces for uv?
+    - application materials for uv
+    - does it stick to wood?
+    - compatible surfaces
+    - where can i put uv dtf?
 
 - intent: faq/058
   examples: |
     - Can I use UV transfers on cups?
+    - uv for tumblers
+    - libbey glass cans
+    - mug printing
+    - sticking to glassware
+    - cup wraps
+    - 16oz glass can wrap
 
 - intent: faq/059
   examples: |
     - Do UV transfers work on metal?
+    - aluminum bottles
+    - stainless steel tumblers
+    - sticking to metal
+    - car decals?
 
 - intent: faq/060
   examples: |
     - Do UV transfers work on plastic?
+    - acrylic keychains
+    - plastic phone cases
+    - sticking to pvc
+    - hard plastic items
 
 - intent: faq/061
   examples: |
     - Do UV transfers need heat?
+    - do i need a heat press for uv?
+    - cold application
+    - rub on transfers
+    - is it just a sticker?
+    - heatless transfer
 
 - intent: faq/062
   examples: |
     - Are UV transfers better than vinyl?
+    - uv vs vinyl decals
+    - why use uv dtf?
+    - difference between uv and stickers
+    - is it permanent?
 
 - intent: faq/063
   examples: |
     - Are UV transfers waterproof?
+    - dishwasher safe?
+    - can i wash the cup?
+    - water resistant
+    - will it peel if wet?
+    - durability in water
 
 - intent: faq/064
   examples: |
     - Can I order small UV sheets?
+    - mini uv sheet
+    - small uv gang sheet
+    - minimum size for uv
+    - sample uv sheet
 
 - intent: faq/065
   examples: |
     - Can I order just one UV design?
+    - single uv decal
+    - i just need one sticker
+    - no minimum uv
+    - one piece order
 
 - intent: faq/066
   examples: |
     - What is the UV print price?
+    - cost for uv transfers
+    - uv gang sheet pricing
+    - price per sticker
+    - how much for uv dtf?
 
 - intent: faq/067
   examples: |
     - Are UV prints full color?
+    - uv color options
+    - can you print gold or silver?
+    - varnish and color
+    - cmyk uv printing
 
 - intent: faq/068
   examples: |
     - Do UV prints come with white ink?
+    - white underlayer on uv?
+    - is there white backing?
+    - opaque uv prints
+    - white ink support
 
 - intent: faq/069
   examples: |
     - How long do UV prints last?
+    - lifespan of uv dtf
+    - will it scratch off?
+    - scratch resistant
+    - durability of uv
 
 - intent: faq/070
   examples: |
     - Can UV transfers go on dark items?
+    - uv on black cups
+    - dark surface application
+    - visibility on dark backgrounds
 
 - intent: faq/071
   examples: |
     - Do you print custom shirts?
+    - i want finished t-shirts
+    - can you make the shirt for me?
+    - garment printing service
+    - finished apparel
+    - t-shirt printing
 
 - intent: faq/072
   examples: |
     - What shirt brands do you use?
+    - gildan or bella canvas?
+    - next level shirts available?
+    - apparel brands
+    - shirt quality options
 
 - intent: faq/073
   examples: |
     - Do you print on black shirts?
+    - dark garment printing
+    - printing on black cotton
+    - black t-shirt custom
 
 - intent: faq/074
   examples: |
     - Do you print on 100 percent cotton?
+    - cotton shirt printing
+    - natural fibers
+    - 100% cotton compatibility
 
 - intent: faq/075
   examples: |
     - Do you print on polyester?
+    - poly blend shirts
+    - dri fit printing
+    - sport shirts
+    - moisture wicking fabric
 
 - intent: faq/076
   examples: |
     - Do you print front and back?
+    - two sided printing
+    - logo on back and front
+    - double sided shirts
+    - sleeve printing
 
 - intent: faq/077
   examples: |
     - What shirt sizes do you offer?
+    - do you have 3xl?
+    - kids sizes available?
+    - plus size shirts
+    - size range
 
 - intent: faq/078
   examples: |
     - Can I bring my own shirts?
+    - byo garments
+    - can i drop off my blanks?
+    - providing my own apparel
+    - customer supplied shirts
 
 - intent: faq/079
   examples: |
     - Do you charge extra for bigger sizes?
+    - upcharge for 2xl?
+    - price difference for sizes
+    - plus size pricing
 
 - intent: faq/080
   examples: |
     - Can I print a photo on a shirt?
+    - picture on a tee
+    - full color photo shirt
+    - image printing
+    - family photo shirt
 
 - intent: faq/081
   examples: |
     - Can you match the colors on my design?
+    - color matching on fabric
+    - pantone match for shirts
+    - ink color accuracy
 
 - intent: faq/082
   examples: |
     - Do you offer bulk discounts for shirts?
+    - wholesale t-shirt pricing
+    - price for 50 shirts
+    - quantity break
+    - cheaper if i buy more?
 
 - intent: faq/083
   examples: |
     - How long does a shirt order take?
-
+    - apparel turnaround time
+    - when will shirts be ready?
+    - lead time for 100 shirts
 - intent: faq/084
   examples: |
     - Can I get shirts today?
+    - rush t-shirt printing
+    - same day custom shirts
+    - emergency shirt order
 
 - intent: faq/085
   examples: |
     - Do you press the shirts for me?
+    - pressing service
+    - heat press labor
+    - i dont have a press can you do it?
+    - finished product service
 
 - intent: faq/086
   examples: |
     - Can you fix my artwork?
-
+    - repair my logo
+    - image correction
+    - help with design file
+    - my picture looks bad
 - intent: faq/087
   examples: |
     - Do you vectorize logos?
+    - make it a vector
+    - convert to svg
+    - vectorization service
+    - redraw logo
 
 - intent: faq/088
   examples: |
     - Can you remove the background from my design?
+    - delete white background
+    - make bg transparent
+    - background removal
+    - transparent background
 
 - intent: faq/089
   examples: |
     - Do you fix low-quality images?
+    - enhance resolution
+    - upscale image
+    - make it hd
+    - fix pixelated photo
 
 - intent: faq/090
   examples: |
     - Can you add text to my design?
+    - put a name on it
+    - add phone number
+    - typography help
+    - insert text
 
 - intent: faq/091
   examples: |
     - Can you change the colors in my design?
+    - make the logo red instead of blue
+    - recolor artwork
+    - color swap
+    - edit colors
 
 - intent: faq/092
   examples: |
     - How do I pay?
+    - payment methods
+    - do you take credit cards?
+    - paypal accepted?
+    - payment options
 
 - intent: faq/093
   examples: |
     - Do you take CashApp or Zelle?
+    - can i venmo you?
+    - zelle payment
+    - cash app handle
+    - mobile payment
 
 - intent: faq/094
   examples: |
     - Can I cancel my order?
+    - i want to cancel
+    - stop my order
+    - refund request
+    - mistake in order cancel please
 
 - intent: faq/095
   examples: |
     - Do you refund bad prints?
+    - money back guarantee
+    - my print is messed up
+    - reprint policy
+    - damaged item refund
 
 - intent: faq/096
   examples: |
     - Can I change my file after ordering?
+    - i sent the wrong file
+    - update my upload
+    - replace artwork
+    - fix mistake in file
 
 - intent: faq/097
   examples: |
     - Do you accept last-minute jobs?
+    - emergency job
+    - rush printing needed
+    - super urgent order
+    - tight deadline
 
 - intent: faq/098
   examples: |
     - Do you check files before printing?
+    - file review
+    - quality check
+    - do you verify the artwork?
+    - pre-print check
 
 - intent: faq/099
   examples: |
     - Are your prints good quality?
+    - print resolution
+    - premium dtf?
+    - quality assurance
+    - best quality transfers
 
 - intent: faq/100
   examples: |
     - Why should I buy from you?
+    - what makes you different?
+    - why choose your shop?
+    - customer reviews
+    - best dtf provider
