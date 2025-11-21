@@ -306,8 +306,6 @@ responses:
             payload: '/inform{{"carrier":"UPS 2nd Day"}}'
           - title: "UPS Next Day"
             payload: '/inform{{"carrier":"UPS Next Day"}}'
-          - title: "USPS"
-            payload: '/inform{{"carrier":"USPS"}}'
 
   # --- INICIO DEL NUEVO BLOQUE DE FAQs ---
 
@@ -367,7 +365,7 @@ responses:
   utter_faq/order_minimum_quantity:
     - text: "No minimums you can order one sheet or bulk wholesale quantities."
   utter_faq/order_what_file_formats:
-    - text: "We accept PNG, PDF, or AI files with transparent backgrounds for best results."
+    - text: "We accept PNG, PDF, AI, and SVG files. For the best experience, we recommend uploading them directly into our Free Gang Sheet Builder, which accepts all these formats."
   utter_faq/order_check_artwork_before_printing:
     - text: "Yes, we review artwork for quality, resolution, and alignment before production."
   utter_faq/order_what_resolution_file:
@@ -982,6 +980,30 @@ responses:
             payload: '/inform{{"tshirt_subtype":"DTF + Heat Press Service"}}'
           - title: "Custom T-shirts"
             payload: '/inform{{"tshirt_subtype":"Custom T-shirts"}}'
+
+  utter_faq/software_gangsheet_builder:
+    - text: "Yes! We have a Free Gang Sheet Builder with AI tools. You can design, auto-arrange, and resize your sheet up to 300 inches long right on our website."
+
+  utter_faq/product_uv_transfers:
+    - text: "Yes, we print UV DTF transfers for hard surfaces like cups and glass. You can select 'UV Gang Sheet' in our menu."
+
+  utter_faq/software_image_fix:
+    - text: "Yes! Our Builder includes an AI Image Enhancer that can help improve low-resolution images automatically."
+
+  utter_faq/software_preview:
+    - text: "Yes! The Builder shows a live preview of your gang sheet so you can see exactly how it will print before you pay."
+
+  utter_faq/software_features:
+    - text: "Our Builder is powerful: you can upload multiple files, duplicate designs, rotate them, and use auto-arrange to save money."
+
+  utter_faq/product_neck_labels:
+    - text: "Absolutely. You can fit neck labels, logos, and small tags onto any empty space in your gang sheet."
+
+  utter_faq/color_mode:
+    - text: "We print in CMYK + White. RGB files are OK—the Builder converts them automatically."
+
+  utter_faq/design_service:
+    - text: "Yes! We offer design and layout assistance if you need help with your gang sheet."
 
 actions:
   - action_get_price

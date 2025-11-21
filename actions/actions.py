@@ -311,58 +311,57 @@ class ValidateOrderForm(FormValidationAction):
         return {"carrier": str(slot_value)}
 
 
-# -------------------------------------------------------------------------
-# CLASE 3: ENVIAR A LARAVEL API (Con Uploader para todos)
-# -------------------------------------------------------------------------
+# Asegúrate de tener estas importaciones al inicio del archivo:
+# import re
+# import requests
+
 class ActionSubmitOrderToApi(Action):
     def name(self) -> Text:
         return "action_submit_order_to_api"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # 1. OBTENER DATOS
+        # --- FUNCIÓN DE LIMPIEZA (ESTO ES LO QUE SOLUCIONA TU PROBLEMA) ---
+        def clean_slot_string(value):
+            if not value:
+                return ""
+            val = str(value)
+            # Si el slot viene sucio como: /inform{"carrier":"UPS Ground"} extraemos solo el texto
+            if ":" in val and "{" in val:
+                 match = re.search(r':"([^"]+)"', val)
+                 if match:
+                     val = match.group(1)
+            # Quitamos comillas extra, llaves y corchetes que confunden a PHP
+            return val.replace('"', '').replace('}', '').replace('{', '').replace("'", "").replace("[", "").replace("]", "").strip()
+
+        # 1. OBTENER Y LIMPIAR DATOS
         category = tracker.get_slot("category")
         custom_inches = tracker.get_slot("custom_inches")
         sheet_size = tracker.get_slot("sheet_size")
         quantity = tracker.get_slot("quantity")
         
-        # Obtener nombres crudos
-        product_generic = tracker.get_slot("product_name")
+        # Limpieza de nombres y carrier
+        raw_product = tracker.get_slot("product_name")
         subtype = tracker.get_slot("tshirt_subtype")
-        
-        # 2. LIMPIEZA DEL NOMBRE (REGEX CORREGIDO Y AGRESIVO)
-        # Prioridad: Subtipo (Camisetas) > Genérico
-        raw_name = subtype if subtype else product_generic
-        final_product_name = str(raw_name) # Asegurar que es string
+        raw_carrier = tracker.get_slot("carrier") # Valor crudo de Rasa
 
-        # Si detectamos formato JSON de Rasa (/inform{...}), extraemos lo de adentro
-        if "{" in final_product_name and ":" in final_product_name:
-            match = re.search(r':"([^"]+)"', final_product_name)
-            if match:
-                final_product_name = match.group(1) # Extrae: Custom T-shirts
-        
-        # Limpieza extra por si quedan comillas o llaves
-        final_product_name = final_product_name.replace('"}', '').replace('"', '').strip()
+        # Aplicamos limpieza
+        base_prod = subtype if subtype else raw_product
+        final_product_name = clean_slot_string(base_prod)
+        final_carrier = clean_slot_string(raw_carrier) # <--- AQUÍ ESTÁ LA CLAVE
 
+        # Debug para que veas en la consola de Rasa qué se está enviando
+        print(f"DEBUG RASA -> Carrier enviado a Laravel: '{final_carrier}'")
 
-        # 3. LÓGICA DE TAMAÑO (SIZE) - ORDEN CORREGIDO
-        # El error antes era filtrar por nombre. Ahora filtramos por DATOS.
-        
-        final_size_str = "N/A (Apparel/Service)" # Valor por defecto (para Polos)
+        # 3. LÓGICA DE TAMAÑO (SIZE)
+        final_size_str = "N/A (Apparel/Service)"
 
-        # A. ¿Es Print by Size? (Prioridad 1)
         if category == "Print by size" and custom_inches:
             final_size_str = f"{custom_inches} Inches (Custom)"
-            
-        # B. ¿Tiene un sheet_size definido? (Prioridad 2 - DTF y UV Estándar)
-        # ESTO CORRIGE EL DTF. Si sheet_size existe (ej: 22x12), LO USA, 
-        # sin importar si el nombre dice "Custom".
         elif sheet_size:
             final_size_str = sheet_size
 
-        # C. Si no es ninguno de los anteriores, se queda como "N/A (Apparel/Service)"
-            
-        # 4. PREPARAR DATOS
+        # 4. PREPARAR DATOS PARA LARAVEL
         order_data = {
             "product": final_product_name, 
             "category": category if category else "Apparel",
@@ -370,7 +369,7 @@ class ActionSubmitOrderToApi(Action):
             "size": final_size_str,
             "customer_name": tracker.get_slot("user_name"),
             "customer_email": tracker.get_slot("user_email"),
-            "shipping_method": tracker.get_slot("carrier"),
+            "shipping_method": final_carrier, # <--- ENVIAMOS EL DATO LIMPIO
             "sender_id": tracker.sender_id
         }
 
@@ -384,7 +383,8 @@ class ActionSubmitOrderToApi(Action):
             
             if order_id:
                 link = f"{LARAVEL_UPLOAD_PAGE_URL}/{order_id}"
-                dispatcher.utter_message(text=f"Success! Your order #{order_id} has been created.")
+                # Mostramos el carrier en el mensaje para confirmar
+                dispatcher.utter_message(text=f"Success! Order #{order_id} created. Shipping via: {final_carrier}")
                 dispatcher.utter_message(text=f"**IMPORTANT:** Please upload your design file using this link:\n[Click here to upload design]({link})")
                 dispatcher.utter_message(text=f"A confirmation email was sent to {order_data['customer_email']}.")
             else:
@@ -395,9 +395,6 @@ class ActionSubmitOrderToApi(Action):
 
         # Reseteamos slots
         return [SlotSet(s, None) for s in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype"]]
-# -------------------------------------------------------------------------
-# OTRAS CLASES (Cancelación, Hand-off)
-# -------------------------------------------------------------------------
 
 class ActionCancelOrder(Action):
     def name(self) -> Text:

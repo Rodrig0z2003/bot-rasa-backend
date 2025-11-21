@@ -268,6 +268,12 @@ nlu:
       - file type? 
       - what filetype for upload
       - format for my art
+      - What type of files do you accept?
+      - Which formats do you take?
+      - Do you accept PNG?
+      - Can I upload PDF files?
+      - Do you take SVG?
+      - Can I upload Illustrator files?
   - intent: faq/order_check_artwork_before_printing
     examples: |
       - Do you check artwork before printing?
@@ -277,6 +283,11 @@ nlu:
       - What resolution should my file be?
       - 300 dpi?
       - what dpi do I need?
+      - What DPI do you recommend?
+      - How many DPI?
+      - How do I know if my image is good quality?
+      - Does the builder show DPI?
+      - How do I check the DPI?
   - intent: faq/order_can_reorder_design
     examples: |
       - Can I reorder the same design later?
@@ -786,6 +797,10 @@ nlu:
       - how much for a 22x60 sheet?
       - pricing breakdown
       - cost?
+      - What is your pricing?
+      - How do you charge?
+      - How much per inch?
+      - Do you have bulk pricing?
 
   - intent: faq/003
     examples: |
@@ -1609,3 +1624,61 @@ nlu:
       - why choose your shop?
       - customer reviews
       - best dtf provider
+
+  - intent: faq/software_gangsheet_builder
+    examples: |
+      - Do you have a Gang Sheet Builder?
+      - Where is the gang sheet builder?
+      - Do you offer a free builder?
+      - How can I build my gang sheet?
+      - Can I design my gang sheet on your site?
+      - Can I add text in the builder?
+      - Can the builder auto-fit my images?
+      - Do you offer auto-arrange?
+
+  - intent: faq/product_uv_transfers
+    examples: |
+      - Do you print UV transfers?
+      - Do you offer UV prints?
+      - Can I order UV sheets?
+      - Do you have UV printing?
+
+  - intent: faq/software_image_fix
+    examples: |
+      - Do you fix low-quality images?
+      - Can you enhance my image?
+      - Can you improve the quality?
+      - My image is blurry, can you fix it?
+
+  - intent: faq/software_preview
+    examples: |
+      - Can I see a preview before printing?
+      - Do you show a preview?
+      - Do I see the layout before paying?
+      - Can I change the background color in preview?
+
+  - intent: faq/software_features
+    examples: |
+      - Can I duplicate images?
+      - Can I rotate my images?
+      - Can I flip my artwork?
+      - Can I upload multiple PDFs?
+
+  - intent: faq/product_neck_labels
+    examples: |
+      - Can I print neck labels?
+      - Can I print small tags?
+      - Can I print tiny logos?
+
+  - intent: faq/color_mode
+    examples: |
+      - Do you print RGB or CMYK?
+      - What color format do you use?
+      - Do you print CMYK?
+      - Does RGB work?
+
+  - intent: faq/design_service
+    examples: |
+      - Do you offer design services?
+      - Can you help me arrange my sheet?
+      - Can you build my gang sheet?
