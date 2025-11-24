@@ -33,8 +33,18 @@ entities:
   - user_name
   - category
   - carrier
+  - state
 
 slots:
+  state:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: order_form
+            requested_slot: state
+
   sheet_size:
     type: text
     influence_conversation: true
@@ -1004,6 +1014,9 @@ responses:
 
   utter_faq/design_service:
     - text: "Yes! We offer design and layout assistance if you need help with your gang sheet."
+
+  utter_ask_state:
+    - text: "Which US State are you shipping to? (e.g., TX, FL, NY)"
 
 actions:
   - action_get_price

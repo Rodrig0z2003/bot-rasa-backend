@@ -15,6 +15,21 @@ LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 
 # ---------------------------------
 
+# --- MAPA DE ESTADOS DE EE.UU. ---
+US_STATES_MAP = {
+    "alabama": "AL", "alaska": "AK", "arizona": "AZ", "arkansas": "AR", "california": "CA",
+    "colorado": "CO", "connecticut": "CT", "delaware": "DE", "florida": "FL", "georgia": "GA",
+    "hawaii": "HI", "idaho": "ID", "illinois": "IL", "indiana": "IN", "iowa": "IA",
+    "kansas": "KS", "kentucky": "KY", "louisiana": "LA", "maine": "ME", "maryland": "MD",
+    "massachusetts": "MA", "michigan": "MI", "minnesota": "MN", "mississippi": "MS", "missouri": "MO",
+    "montana": "MT", "nebraska": "NE", "nevada": "NV", "new hampshire": "NH", "new jersey": "NJ",
+    "new mexico": "NM", "new york": "NY", "north carolina": "NC", "north dakota": "ND", "ohio": "OH",
+    "oklahoma": "OK", "oregon": "OR", "pennsylvania": "PA", "rhode island": "RI", "south carolina": "SC",
+    "south dakota": "SD", "tennessee": "TN", "texas": "TX", "utah": "UT", "vermont": "VT",
+    "virginia": "VA", "washington": "WA", "west virginia": "WV", "wisconsin": "WI", "wyoming": "WY",
+    "district of columbia": "DC", "puerto rico": "PR"
+}
+
 # --- PRECIOS LINEALES (Base por 12 pulgadas) ---
 DTF_PRICE_PER_FOOT = 5.00  # Base 22" ancho
 UV_PRICE_PER_FOOT = 6.00   # Base 11" ancho
@@ -152,7 +167,7 @@ class ActionAskCategory(Action):
 
 
 # -------------------------------------------------------------------------
-# NUEVA CLASE: PREGUNTAR CANTIDAD (DINÁMICO)
+# CLASE: PREGUNTAR CANTIDAD (DINÁMICO)
 # -------------------------------------------------------------------------
 class ActionAskQuantity(Action):
     def name(self) -> Text:
@@ -164,7 +179,7 @@ class ActionAskQuantity(Action):
 
         # Obtenemos AMBOS slots
         product = tracker.get_slot("product_name")
-        subtype = tracker.get_slot("tshirt_subtype") # <--- ESTE ES EL IMPORTANTE
+        subtype = tracker.get_slot("tshirt_subtype") 
 
         # Normalizamos (quitamos espacios y ponemos minúsculas para comparar)
         check_val = ""
@@ -173,8 +188,7 @@ class ActionAskQuantity(Action):
         elif product:
             check_val = product.lower().strip()
 
-        # LÓGICA DE MENSAJES (Usando 'in' para ser más flexible)
-        
+        # LÓGICA DE MENSAJES
         # CASO 1: Custom T-shirts ($10.99) -> CON ADVERTENCIA
         if "custom t-shirts" in check_val or "customs t-shirt" in check_val:
             dispatcher.utter_message(text="⚠️ **Note:** Sizes 2XL, 3XL, and larger have an additional cost.")
@@ -211,19 +225,19 @@ class ValidateOrderForm(FormValidationAction):
         product = tracker.get_slot("product_name")
         subtype = tracker.get_slot("tshirt_subtype")
         category = tracker.get_slot("category")
+        carrier = tracker.get_slot("carrier") # <-- Obtenemos el carrier actual
 
         # --- CASO 1: SERVICIOS DE ROPA (T-Shirts & Heat Press) ---
-        # Agrupamos aquí todo lo que NO sea Gang Sheet (no necesita sheet_size ni custom_inches)
         if product in ["Customs T-Shirt", "Custom T-shirts", "DTF + Heat Press Service"]:
-            
-            # Solo "Customs T-Shirt" original requería el subtipo para elegir color/estilo
             if product == "Customs T-Shirt":
                 if not subtype:
                     required.append("tshirt_subtype")
-            
-            # Una vez resuelto el subtipo, pedimos lo común. 
-            # NO pedimos 'category' ni 'sheet_size'.
             required.extend(["quantity", "user_name", "user_email", "carrier"])
+            
+            # Lógica de Estado también para ropa si hay envío
+            if carrier and ("UPS" in carrier or "Shipping" in carrier):
+                required.append("state")
+            
             return required
 
         # --- CASO 2: GANG SHEETS (DTF / UV) ---
@@ -236,6 +250,12 @@ class ValidateOrderForm(FormValidationAction):
             # CAMINO B: Standard (Quantity -> Sheet Size)
             required.extend(["quantity", "sheet_size", "user_name", "user_email", "carrier"])
 
+        # --- LÓGICA DE ESTADO (Común para Gang Sheets) ---
+        # Si es ENVÍO (UPS/Shipping), agregamos 'state' para que pregunte.
+        # Si es Pickup, NO agregamos 'state' (se llenará automáticamente con "CA" en validate_carrier).
+        if carrier and ("UPS" in carrier or "Shipping" in carrier):
+            required.append("state")
+
         return required
 
     def validate_product_name(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
@@ -243,7 +263,6 @@ class ValidateOrderForm(FormValidationAction):
 
     def validate_tshirt_subtype(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         subtype = str(slot_value)
-        # Actualizamos product_name para que sea específico (ej. "Black T-Shirt")
         return {"tshirt_subtype": subtype, "product_name": subtype}
 
     def validate_quantity(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
@@ -308,12 +327,35 @@ class ValidateOrderForm(FormValidationAction):
         return {"user_email": str(slot_value)}
 
     def validate_carrier(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        return {"carrier": str(slot_value)}
+        val = str(slot_value)
+        
+        # SI ES PICKUP:
+        # 1. Guardamos el carrier.
+        # 2. Forzamos state="CA" (Laravel cobrará tax, shipping será $0).
+        # Agrega aquí todas las variantes de texto que tus botones de pickup usen
+        if "Pickup" in val or "San Dimas" in val or "Covina" in val:
+            return {"carrier": val, "state": "CA"}
+        
+        # SI ES ENVÍO:
+        # Guardamos el carrier y dejamos state=None (o explícitamente None) para que el bot 
+        # detecte que falta este slot (gracias a required_slots) y pregunte por él.
+        return {"carrier": val, "state": None}
 
+    def validate_state(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        # Limpiamos la entrada: quitamos puntos, espacios y pasamos a minúsculas
+        text = str(slot_value).lower().strip().replace(".", "")
+        
+        # Si ya es una abreviatura (ej: "ca", "ny")
+        if len(text) == 2:
+            return {"state": text.upper()}
+        
+        # Si es el nombre completo, buscamos en el mapa
+        if text in US_STATES_MAP:
+            return {"state": US_STATES_MAP[text]}
+        
+        # Fallback: devolvemos en mayúsculas lo que entendió
+        return {"state": text.upper()}
 
-# Asegúrate de tener estas importaciones al inicio del archivo:
-# import re
-# import requests
 
 class ActionSubmitOrderToApi(Action):
     def name(self) -> Text:
@@ -321,17 +363,15 @@ class ActionSubmitOrderToApi(Action):
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # --- FUNCIÓN DE LIMPIEZA (ESTO ES LO QUE SOLUCIONA TU PROBLEMA) ---
+        # --- FUNCIÓN DE LIMPIEZA ---
         def clean_slot_string(value):
             if not value:
                 return ""
             val = str(value)
-            # Si el slot viene sucio como: /inform{"carrier":"UPS Ground"} extraemos solo el texto
             if ":" in val and "{" in val:
                  match = re.search(r':"([^"]+)"', val)
                  if match:
                      val = match.group(1)
-            # Quitamos comillas extra, llaves y corchetes que confunden a PHP
             return val.replace('"', '').replace('}', '').replace('{', '').replace("'", "").replace("[", "").replace("]", "").strip()
 
         # 1. OBTENER Y LIMPIAR DATOS
@@ -343,15 +383,17 @@ class ActionSubmitOrderToApi(Action):
         # Limpieza de nombres y carrier
         raw_product = tracker.get_slot("product_name")
         subtype = tracker.get_slot("tshirt_subtype")
-        raw_carrier = tracker.get_slot("carrier") # Valor crudo de Rasa
+        raw_carrier = tracker.get_slot("carrier")
+        
+        # Obtenemos el ESTADO (Ya sea el automático "CA" o el que el usuario escribió)
+        state = tracker.get_slot("state")
 
         # Aplicamos limpieza
         base_prod = subtype if subtype else raw_product
         final_product_name = clean_slot_string(base_prod)
-        final_carrier = clean_slot_string(raw_carrier) # <--- AQUÍ ESTÁ LA CLAVE
+        final_carrier = clean_slot_string(raw_carrier)
 
-        # Debug para que veas en la consola de Rasa qué se está enviando
-        print(f"DEBUG RASA -> Carrier enviado a Laravel: '{final_carrier}'")
+        print(f"DEBUG RASA -> Order: '{final_product_name}', Carrier: '{final_carrier}', State: '{state}'")
 
         # 3. LÓGICA DE TAMAÑO (SIZE)
         final_size_str = "N/A (Apparel/Service)"
@@ -369,7 +411,8 @@ class ActionSubmitOrderToApi(Action):
             "size": final_size_str,
             "customer_name": tracker.get_slot("user_name"),
             "customer_email": tracker.get_slot("user_email"),
-            "shipping_method": final_carrier, # <--- ENVIAMOS EL DATO LIMPIO
+            "shipping_method": final_carrier,
+            "state": state, # <--- ENVIAMOS EL ESTADO A LARAVEL
             "sender_id": tracker.sender_id
         }
 
@@ -383,8 +426,10 @@ class ActionSubmitOrderToApi(Action):
             
             if order_id:
                 link = f"{LARAVEL_UPLOAD_PAGE_URL}/{order_id}"
-                # Mostramos el carrier en el mensaje para confirmar
                 dispatcher.utter_message(text=f"Success! Order #{order_id} created. Shipping via: {final_carrier}")
+                if state:
+                    dispatcher.utter_message(text=f"Destination State: {state}")
+                    
                 dispatcher.utter_message(text=f"**IMPORTANT:** Please upload your design file using this link:\n[Click here to upload design]({link})")
                 dispatcher.utter_message(text=f"A confirmation email was sent to {order_data['customer_email']}.")
             else:
@@ -393,8 +438,8 @@ class ActionSubmitOrderToApi(Action):
         except Exception as e:
             dispatcher.utter_message(text=f"Error submitting order: {e}")
 
-        # Reseteamos slots
-        return [SlotSet(s, None) for s in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype"]]
+        # Reseteamos slots, INCLUYENDO 'state'
+        return [SlotSet(s, None) for s in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype", "state"]]
 
 class ActionCancelOrder(Action):
     def name(self) -> Text:
@@ -404,7 +449,7 @@ class ActionCancelOrder(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(text="OK, I've cancelled this order. What can I help you with next?")
-        return [SlotSet(slot, None) for slot in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype"]]
+        return [SlotSet(slot, None) for slot in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype", "state"]]
 
 
 class ActionAskSheetSize(Action):
