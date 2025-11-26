@@ -8,10 +8,10 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.events import SlotSet, ConversationPaused
 
 # --- ¡CONFIGURA ESTAS URLS! ---
-LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
-#LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
-LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
-#LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+#LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
+LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
+#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
+LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 
 # ---------------------------------
 
@@ -490,8 +490,8 @@ class ActionHumanHandoff(Action):
         dispatcher.utter_message(json_message=custom_json)
 
         try:
-            webhook_url = "http://localhost:8001/api/live-chat-request"
-            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            #webhook_url = "http://localhost:8001/api/live-chat-request"
+            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
@@ -538,8 +538,8 @@ class ActionSubmitHandoff(Action):
         sender_id = tracker.sender_id
 
         try:
-            webhook_url = "http://localhost:8001/api/live-chat-request"
-            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            #webhook_url = "http://localhost:8001/api/live-chat-request"
+            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
@@ -605,8 +605,8 @@ class ActionCheckOrderStatus(Action):
         reference = tracker.get_slot("order_reference")
         
         # URL de tu API Laravel
-        API_URL = "http://localhost:8001/api/rasa-check-status"
-        #API_URL = "https://dev.gangsheet-builders.com/api/rasa-check-status"
+        #API_URL = "http://localhost:8001/api/rasa-check-status"
+        API_URL = "https://dev.gangsheet-builders.com/api/rasa-check-status"
 
         dispatcher.utter_message(text=f"Checking status for order {reference}...")
 
