@@ -5,16 +5,24 @@ nlu:
   # --- Intents Básicos ---
   - intent: greet
     examples: |
-      - hey
       - hello
       - hi
+      - hey
       - good morning
-      - hello there
-      - helo
-      - hye
-      - howdy
-      - star
       - good afternoon
+      - good evening
+      - hello there
+      - hi there
+      - hey there
+      - i need help
+      - can someone help me
+      - i have a question
+      - i need assistance
+      - can you help me
+      - hola
+      - buenas
+      - buenas tardes
+      - buenas noches
   - intent: goodbye
     examples: |
       - bye
@@ -725,18 +733,87 @@ nlu:
 
   - intent: request_human_handoff
     examples: |
-      - I want to talk to an agent
-      - Can I speak to a human?
-      - talk to an advisor
-      - connect me with a person
-      - human please
-      - let me talk to someone
-      - I need a real person
-      - agent
-      - asesor
-      - quiero un asesor
-      - hablar con una persona
-
+      - I need to talk to a real person
+      - I want to speak to a human
+      - Can you connect me to customer service?
+      - Can I talk to someone?
+      - I need a real agent
+      - I want a live representative
+      - Let me talk to a human
+      - I want a real person
+      - Can you transfer me to an agent?
+      - I need customer support
+      - Can I talk with support?
+      - Talk to customer service
+      - Connect me to customer service
+      - I want human support
+      - I don’t want the bot
+      - Please give me a real person
+      - I need help from a human
+      - I want a real person NOW
+      - Don't give me the bot
+      - Stop the bot, give me a real human
+      - This bot is not helping, connect me to someone
+      - I need a real agent right away
+      - Let me talk to a person, not the robot
+      - Human please, not AI
+      - Seriously, give me a person
+      - I want a live person ASAP
+      - Enough, give me customer service
+      - Are you a bot? I want a real person
+      - Is there someone real I can talk to?
+      - Can a person help me?
+      - Is customer service available?
+      - Anyone there I can talk to?
+      - Is there a human agent?
+      - Can I speak to someone real?
+      - real person
+      - talk to human
+      - customer service
+      - talk to agent
+      - agent please
+      - live agent
+      - human help
+      - speak to someone
+      - Quiero hablar con una persona real
+      - Necesito hablar con alguien
+      - Servicio al cliente, por favor
+      - ¿Puedo hablar con un humano?
+      - No quiero el bot
+      - Conéctame con alguien real
+      - Quiero un agente
+      - ¿Puedo hablar con una persona?
+      - Dame servicio al cliente
+      - Necesito ayuda de una persona
+      - ¿Hay alguien ahí?
+      - ¿Puedo hablar con alguien real?
+      - I want hablar con una persona
+      - Necesito customer service
+      - Quiero hablar with a real person
+      - Can I hablar con alguien?
+      - Dame customer support
+      - Talk to una persona real
+      - No bot, quiero un human
+      - tok to human
+      - talk to humman
+      - real prson
+      - i want human pls
+      - custmer servce
+      - customer sevice
+      - human pls
+      - need talk somone
+      - can i talk person
+      - i need a person
+      - conect me human
+      - customer suport
+      - talk human now
+      - speak with person plz
+      - Could you connect me to a real person?
+      - May I speak to customer service?
+      - Can I please speak to a human?
+      - I would like to talk to a live agent, please
+      - Please connect me with someone
+      - May I get assistance from a real person?
   # --- SINÓNIMOS ---
   - synonym: "22x12"
     examples: |
@@ -860,12 +937,12 @@ nlu:
   - intent: faq/008
     examples: |
       - Do you do same-day DTF?
-       - can i get it today?
-       - do you offer same day service?
-       - is same day printing available?
-       - i need it right now
-       - today turnaround
-       - can you print this today?
+      - can i get it today?
+      - do you offer same day service?
+      - is same day printing available?
+      - i need it right now
+      - today turnaround
+      - can you print this today?
 
   - intent: faq/009
     examples: |
@@ -1682,3 +1759,85 @@ nlu:
       - Do you offer design services?
       - Can you help me arrange my sheet?
       - Can you build my gang sheet?
+
+  - intent: inform_reference
+    examples: |
+      - [RASA-ABC1234](order_reference)
+      - It is [RASA-XY9988](order_reference)
+      - It is [DTF-1064642](order_reference)
+      - [UV-03477244](order_reference)
+      - [RASA-12345678](order_reference)
+      - my code is [HP-03477245](order_reference)
+      - [JKRWXRBPF](order_reference)
+      - here is the code [RASA-998877](order_reference)
+      - [RASA-KJS721](order_reference)
+      - the reference is [ABCDEFGHI](order_reference)
+      - [SJRRZZLNG](order_reference)
+      - [JKRWXRBPF](order_reference)
+      - [ABCDEFGHI](order_reference)
+      - [QWERTYUIO](order_reference)
+      - [ZXCVBNMAS](order_reference)
+      - [POIUYTREW](order_reference)
+      - [LKAJHDFGS](order_reference)
+      - [MNBVCXZLK](order_reference)
+      - [YUIOPHJKL](order_reference)
+      - [RFVBGTHNM](order_reference)
+      - [EDCRFVTGB](order_reference)
+      - [TGBNHYUJMK](order_reference)
+      - [QAZWSXEDC](order_reference)
+      - [PLMKOIJNB](order_reference)
+      - The code is [HGYTFRDES](order_reference)
+      - order [MJNUHBVGY](order_reference)
+      - check [KIJUHYGTF](order_reference)
+      - status for [LOIKJUHYG](order_reference)
+  - intent: check_order_status
+    examples: |
+      - I want to check my order status
+      - where is my order?
+      - track my order
+      - check status
+      - is my order ready?
+      - status of order [RASA-A1B2C3](order_reference)
+      - track [DTF-1064642](order_reference) please
+      - check status for [UV-03477244](order_reference)
+      - where is [HP-03477245](order_reference)?
+      - can you track [JKRWXRBPF](order_reference)?
+      - I need to know the status of [RASA-998877](order_reference)
+      - order status please
+      - check my order
+      - shipping status
+      - track package
+      - has my order shipped?
+      - [DTF-555222](order_reference) status
+      - donde esta mi orden?
+      - quiero rastrear mi pedido
+      - estado de la orden [JKRWXRBPF](order_reference)
+
+  # --- ¡IMPORTANTE: REGEX PARA CAPTURAR EL CÓDIGO! ---
+  - regex: order_reference
+    examples: |
+      - ^(RASA|DTF|UV|HP)-[A-Z0-9]+$
+      - ^[A-Z0-9]{9}$
+
+  - intent: contact_option_whatsapp
+    examples: |
+      - whatsapp option
+      - contact by whatsapp
+
+  - intent: contact_option_phone
+    examples: |
+      - phone option
+      - call support
+
+  - intent: contact_option_email
+    examples: |
+      - email option
+      - write an email
+
+  - intent: contact_option_live_chat
+    examples: |
+      - live chat
+      - chat here
+      - talk in this chat
+      - start live agent
+      - chat now

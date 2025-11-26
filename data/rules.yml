@@ -1,112 +1,164 @@
 version: "3.1"
 
 rules:
+  - rule: Respond to bot_challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
 
-- rule: Respond to bot_challenge
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+  # --- REGLAS DE CHIT-CHAT ---
+  - rule: Respond to thankyou
+    steps:
+      - intent: thankyou
+      - action: utter_you_are_welcome
 
-# --- REGLAS DE CHIT-CHAT (Sin cambios) ---
-- rule: Respond to thankyou
-  steps:
-  - intent: thankyou
-  - action: utter_you_are_welcome
+  - rule: Respond to compliment
+    steps:
+      - intent: compliment
+      - action: utter_good_bot
 
-- rule: Respond to compliment
-  steps:
-  - intent: compliment
-  - action: utter_good_bot
+  - rule: Respond to ask_how_are_you
+    steps:
+      - intent: ask_how_are_you
+      - action: utter_how_are_you
 
-- rule: Respond to ask_how_are_you
-  steps:
-  - intent: ask_how_are_you
-  - action: utter_how_are_you
+  # --- REGLAS DEL FORMULARIO DE PEDIDO (COMENTADAS SEGÚN TU CONFIG) ---
+  - rule: Activate Order Form
+    steps:
+      - intent: create_order_dtf
+      - action: order_form
+      - active_loop: order_form
 
-# --- REGLAS DEL FORMULARIO DE PEDIDO (AHORA COMENTADAS) ---
-- rule: Activate Order Form
-  steps:
-  - intent: create_order_dtf
-  - action: order_form
-  - active_loop: order_form
+  - rule: Submit Order Form
+    condition:
+      - active_loop: order_form
+    steps:
+      - action: order_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_submit_order_to_api
 
-- rule: Submit Order Form
-  condition:
-  - active_loop: order_form
-  steps:
-  - action: order_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_submit_order_to_api
+  - rule: Cancel order form with 'stop_order' or 'deny'
+    condition:
+      - active_loop: order_form
+    steps:
+      - or:
+          - intent: stop_order
+          - intent: deny
+      - action: action_cancel_order
+      - active_loop: null
 
-- rule: Cancel order form with 'stop_order' or 'deny'
-  condition:
-  - active_loop: order_form
-  steps:
-  - or:
-    - intent: stop_order
-    - intent: deny
-  - action: action_cancel_order
-  - active_loop: null
+  # --- REGLAS DE FAQs ---
+  - rule: Respond to any FAQ
+    steps:
+      - intent: faq
+      - action: utter_faq
 
-# --- ¡CLAVE! REGLAS DE Q&A INTELIGENTES ---
-# Esta regla reemplaza TUS 20 REGLAS de Q&A
-- rule: Respond to any FAQ
-  steps:
-  - intent: faq # Esto captura CUALQUIER intent "faq/..."
-  - action: utter_faq # Esto responde con la respuesta "utter_faq/..." correcta
+  - rule: Handle any FAQ during form
+    condition:
+      - active_loop: order_form
+    steps:
+      - intent: faq
+      - action: utter_faq
+      - action: order_form
+      - active_loop: order_form
 
-- rule: Handle any FAQ during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: faq # Captura CUALQUIER pregunta
-  - action: utter_faq # Responde la pregunta
-  - action: order_form # Vuelve al formulario
-  - active_loop: order_form
+  # --- REGLAS DE PRECIO ---
+  - rule: Handle ask_price during form
+    condition:
+      - active_loop: order_form
+    steps:
+      - intent: ask_price
+      - action: action_get_price
+      - action: order_form
+      - active_loop: order_form
 
+  - rule: Handle ask_price OUTSIDE form
+    condition:
+      - active_loop: null
+    steps:
+      - intent: ask_price
+      - action: action_get_price
 
-- rule: Handle ask_price during form
-  condition:
-  - active_loop: order_form
-  steps:
-  - intent: ask_price
-  - action: action_get_price
-  - action: order_form
-  - active_loop: order_form
+  - rule: Handle ambiguity (ask for rephrasing)
+    steps:
+      - intent: nlu_fallback
+      - action: utter_ask_rephrase
+      - action: action_listen
 
-- rule: Handle ask_price OUTSIDE form
-  condition:
-  - active_loop: null  # <-- Le dice a Rasa que esto es solo cuando NINGÚN formulario está activo
-  steps:
-  - intent: ask_price
-  - action: action_get_price
+  # --- REGLAS DE HANDOFF (SOPORTE) ---
 
+  # 1. Cuando se completa el formulario (envía a Laravel y pausa)
+  - rule: Submit handoff form
+    condition:
+      - active_loop: handoff_form
+    steps:
+      - action: handoff_form
+      - active_loop: null
+      - action: action_submit_handoff
 
-- rule: Handle ambiguity (ask for rephrasing)
-  # Esta regla se activa si el FallbackClassifier está inseguro
-  # (por debajo de 'threshold' pero por encima de 'ambiguity_threshold')
-  steps:
-  - intent: nlu_fallback
-  - action: utter_ask_rephrase
-  - action: action_listen
+  # 2. Imprimir DTF
+  - rule: Respond to ask_dtf_printing
+    steps:
+      - intent: ask_dtf_printing
+      - action: utter_ask_dtf_printing
 
-- rule: Activate handoff form
-  steps:
-  - intent: request_human_handoff
-  - action: handoff_form
-  - active_loop: handoff_form
+  # --- REGLAS DE STATUS ---
+  - rule: Activate Status Form
+    steps:
+      - intent: check_order_status
+      - action: status_form
+      - active_loop: status_form
 
-- rule: Submit handoff form
-  condition:
-  - active_loop: handoff_form
-  steps:
-  - action: handoff_form
-  - active_loop: null
-  - action: action_submit_handoff
+  - rule: Submit Status Form
+    condition:
+      - active_loop: status_form
+    steps:
+      - action: status_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_check_order_status
 
-- rule: Respond to ask_dtf_printing
-  steps:
-  - intent: ask_dtf_printing
-  - action: utter_ask_dtf_printing
+  # --- SALUDO ---
+  - rule: Greet user
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  # ---------------------------------------------------------
+  # NUEVO SISTEMA DE SOPORTE
+  # ---------------------------------------------------------
+
+  # PASO 1: Usuario pide humano -> Mostrar menú
+  - rule: Show customer service options
+    steps:
+      - intent: request_human_handoff
+      - action: utter_customer_service_options
+
+  # PASO 2: Usuario elige "Live Chat" -> Activar formulario para pedir nombre
+  # (CORREGIDO AQUÍ)
+  - rule: Activate Live Chat Handoff
+    steps:
+      - intent: contact_option_live_chat
+      - action: handoff_form
+      - active_loop: handoff_form
+
+  # OPCIÓN B: WhatsApp (Solo info)
+  - rule: Show WhatsApp Info
+    steps:
+      - intent: contact_option_whatsapp
+      - action: utter_info_whatsapp
+
+  # OPCIÓN C: Teléfono (Solo info)
+  - rule: Show Phone Info
+    steps:
+      - intent: contact_option_phone
+      - action: utter_info_phone
+
+  # OPCIÓN D: Email (Solo info)
+  - rule: Show Email Info
+    steps:
+      - intent: contact_option_email
+      - action: utter_info_email

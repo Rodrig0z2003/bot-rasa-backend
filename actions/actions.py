@@ -8,10 +8,10 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.events import SlotSet, ConversationPaused
 
 # --- ¡CONFIGURA ESTAS URLS! ---
-#LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
-LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
-#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
-LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
+#LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
+LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
+#LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
 
 # ---------------------------------
 
@@ -490,8 +490,8 @@ class ActionHumanHandoff(Action):
         dispatcher.utter_message(json_message=custom_json)
 
         try:
-            #webhook_url = "http://localhost:8001/api/live-chat-request"
-            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            webhook_url = "http://localhost:8001/api/live-chat-request"
+            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
@@ -538,8 +538,8 @@ class ActionSubmitHandoff(Action):
         sender_id = tracker.sender_id
 
         try:
-            #webhook_url = "http://localhost:8001/api/live-chat-request"
-            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            webhook_url = "http://localhost:8001/api/live-chat-request"
+            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
@@ -555,3 +555,92 @@ class ActionSubmitHandoff(Action):
         dispatcher.utter_message(json_message={"type": "handoff_start"})
 
         return [ConversationPaused(), SlotSet("handoff_name", None)]
+
+
+class ValidateStatusForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_status_form"
+
+    def validate_order_reference(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        
+        # Limpiamos el texto
+        clean_ref = str(slot_value).strip().upper()
+        
+        # --- LÓGICA DE VALIDACIÓN ROBUSTA ---
+        # 1. Prefijos conocidos
+        valid_prefixes = ["RASA-", "DTF-", "UV-", "HP-"]
+        has_valid_prefix = any(clean_ref.startswith(prefix) for prefix in valid_prefixes)
+        
+        # 2. Códigos PrestaShop (letras/números aleatorios)
+        # Aceptamos entre 8 y 12 caracteres. Eliminamos espacios internos por si acaso.
+        check_prestashop = clean_ref.replace(" ", "")
+        is_prestashop = (len(check_prestashop) >= 8 and len(check_prestashop) <= 12)
+
+        if has_valid_prefix or is_prestashop:
+            # ¡Es válido! Lo guardamos limpio
+            return {"order_reference": clean_ref}
+        else:
+            # No parece un código válido
+            dispatcher.utter_message(text="⚠️ That doesn't look like a valid order code. It should start with RASA-, DTF-, UV-, or be a 9-letter code.")
+            return {"order_reference": None}
+
+# -------------------------------------------------------------------------
+# CLASE API: CONSULTAR LARAVEL (Simplificada)
+# -------------------------------------------------------------------------
+class ActionCheckOrderStatus(Action):
+    def name(self) -> Text:
+        return "action_check_order_status"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Ya sabemos que el slot existe porque el formulario lo pidió
+        reference = tracker.get_slot("order_reference")
+        
+        # URL de tu API Laravel
+        API_URL = "http://localhost:8001/api/rasa-check-status"
+        #API_URL = "https://dev.gangsheet-builders.com/api/rasa-check-status"
+
+        dispatcher.utter_message(text=f"Checking status for order {reference}...")
+
+        try:
+            response = requests.post(API_URL, json={"reference": reference})
+            # print(f"DEBUG: {response.text}") # Descomentar si falla
+            
+            response.raise_for_status()
+            data = response.json()
+
+            if response.status_code == 200 and data.get("found"):
+                status = data.get("status")
+                carrier = data.get("carrier")
+                track_num = data.get("tracking_number")
+                hold = data.get("hold_reason")
+                customer = data.get("customer")
+
+                msg = f"📦 **Order Status:** {status}\n"
+                msg += f"👤 **Customer:** {customer}\n"
+                msg += f"🚚 **Carrier:** {carrier}\n"
+                
+                if track_num and track_num != "Not assigned yet":
+                    msg += f"🔢 **Tracking #:** {track_num}\n"
+                
+                if hold:
+                    msg += f"⚠️ **HOLD ALERT:** Your order is on hold: {hold}. Please contact us."
+                
+                dispatcher.utter_message(text=msg)
+            else:
+                dispatcher.utter_message(text=f"❌ I searched for **{reference}**, but our system says 'Order not found'. Please double-check the code.")
+                
+        except Exception as e:
+            print(f"Error checking order: {e}")
+            dispatcher.utter_message(text="Sorry, I'm having trouble connecting to the tracking system right now.")
+
+        # Reseteamos el slot al final para permitir una nueva búsqueda limpia después
+        return [SlotSet("order_reference", None)]

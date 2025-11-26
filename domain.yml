@@ -18,6 +18,12 @@ intents:
   - stop_order # <--- ¡COMENTADO!
   - bot_challenge
   - ask_dtf_printing
+  - inform_reference
+  - check_order_status
+  - contact_option_whatsapp
+  - contact_option_phone
+  - contact_option_email
+  - contact_option_live_chat
 
   - faq:
       is_retrieval_intent: true
@@ -34,8 +40,20 @@ entities:
   - category
   - carrier
   - state
+  - order_reference
 
 slots:
+  order_reference:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: order_reference
+      - type: from_text
+        conditions:
+          - active_loop: status_form
+            requested_slot: order_reference
+
   state:
     type: text
     influence_conversation: true
@@ -141,11 +159,9 @@ responses:
   # --- Respuestas Básicas y de Chit-Chat ---
   utter_greet:
     - text: |
-        Thank you for visiting our DTF Transfers chat! 🙌
-        We’re excited to have you here. Whether you’re looking for custom gang sheets, printing tips, or help with your order, our team is ready to make your DTF experience smooth and simple.
-
-        We take pride in delivering bright, durable, and professional-quality transfers every time.
-        How can I help you today? 😊
+        Hello! 👋 I’m Charles, your AI Assistant.
+        I can help you with DTF & UV-DTF questions, place new orders, track your order status, or connect you with Customer Service.
+        How can I assist you today?
   utter_goodbye:
     - text: "Goodbye! Have a great day."
   utter_iamabot:
@@ -1018,6 +1034,32 @@ responses:
   utter_ask_state:
     - text: "Which US State are you shipping to? (e.g., TX, FL, NY)"
 
+  utter_ask_order_reference:
+    - text: "Please enter your Order Reference Number (e.g., RASA-123, DTF-456, or PrestaShop Code)."
+
+  utter_customer_service_options:
+    - custom:
+        type: "grid"
+        text: "Sure! How would you like to connect with our team? Please select an option:"
+        options:
+          - title: "💬 Start Live Chat (Here)"
+            payload: "/contact_option_live_chat"
+          - title: "📱 WhatsApp"
+            payload: "/contact_option_whatsapp"
+          - title: "📞 Phone Call"
+            payload: "/contact_option_phone"
+          - title: "✉️ Email"
+            payload: "/contact_option_email"
+
+  utter_info_whatsapp:
+    - text: "To chat on WhatsApp, message us at: **+1 (866) 985-3606**."
+
+  utter_info_phone:
+    - text: "Give us a call at: **(866) 985-3606** (Business Hours)."
+
+  utter_info_email:
+    - text: "Send your inquiry to: **info@dtftransfersaffordable.com**."
+
 actions:
   - action_get_price
   - action_human_handoff
@@ -1029,9 +1071,15 @@ actions:
   - action_submit_handoff
   - action_ask_quantity
   - action_ask_category
+  - action_check_order_status
+  - validate_status_form
 forms:
   handoff_form:
     required_slots:
       - handoff_name
   order_form:
     required_slots: [] # Manejado dinámicamente en actions.py
+
+  status_form:
+    required_slots:
+      - order_reference
