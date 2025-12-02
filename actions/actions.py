@@ -5,13 +5,18 @@ from typing import Any, Text, Dict, List, Optional
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
-from rasa_sdk.events import SlotSet, ConversationPaused
+from rasa_sdk.events import SlotSet, ConversationPaused ,UserUtteranceReverted ,Restarted
 
 # --- ¡CONFIGURA ESTAS URLS! ---
 #LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
-LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
+#LARAVEL_WEBHOOK_URL = "https://dev.gangsheet-builders.com/api/rasa-order"
 #LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
-LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+#LARAVEL_UPLOAD_PAGE_URL = "https://dev.gangsheet-builders.com/upload-order-file"
+
+# ---------------------------------DTT ORDERS.......
+LARAVEL_WEBHOOK_URL = "https://dttorders.gangsheet-builders.com/api/rasa-order"
+#LARAVEL_UPLOAD_PAGE_URL = "http://localhost:8001/upload-order-file"
+LARAVEL_UPLOAD_PAGE_URL = "https://dttorders.gangsheet-builders.com/upload-order-file"
 
 # ---------------------------------
 
@@ -606,7 +611,8 @@ class ActionCheckOrderStatus(Action):
         
         # URL de tu API Laravel
         #API_URL = "http://localhost:8001/api/rasa-check-status"
-        API_URL = "https://dev.gangsheet-builders.com/api/rasa-check-status"
+        #API_URL = "https://dev.gangsheet-builders.com/api/rasa-check-status"
+        API_URL = "https://dttorders.gangsheet-builders.com/api/rasa-check-status"
 
         dispatcher.utter_message(text=f"Checking status for order {reference}...")
 
@@ -644,3 +650,47 @@ class ActionCheckOrderStatus(Action):
 
         # Reseteamos el slot al final para permitir una nueva búsqueda limpia después
         return [SlotSet("order_reference", None)]
+
+# -------------------------------------------------------------------------
+# CLASES DE FALLBACK PROGRESIVO (Nivel 1, 2, 3)
+# -------------------------------------------------------------------------
+
+class ActionSmartFallback(Action):
+    def name(self) -> Text:
+        return "action_smart_fallback"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # 1. Obtener contador actual
+        current_count = tracker.get_slot("fallback_count")
+        if current_count is None:
+            current_count = 0.0
+        
+        # Convertir a float por seguridad
+        try:
+            current_val = float(current_count)
+        except:
+            current_val = 0.0
+
+        print(f"DEBUG: Fallback triggered. Current count: {current_val}")
+
+        # 2. Lógica de 3 niveles
+        if current_val == 0.0:
+            # Intento 1
+            dispatcher.utter_message(response="utter_default")
+            # SOLO actualizamos el slot, NO revertimos
+            return [SlotSet("fallback_count", 1.0)]
+        
+        elif current_val == 1.0:
+            # Intento 2
+            dispatcher.utter_message(response="utter_default_help")
+            # Actualizamos a 2
+            return [SlotSet("fallback_count", 2.0)]
+        
+        else:
+            # Intento 3 (>= 2.0) -> Reinicio
+            dispatcher.utter_message(response="utter_restart")
+            # Aquí SÍ reiniciamos todo el bot
+            return [Restarted(), SlotSet("fallback_count", 0.0)]

@@ -81,11 +81,11 @@ rules:
       - intent: ask_price
       - action: action_get_price
 
-  - rule: Handle ambiguity (ask for rephrasing)
-    steps:
-      - intent: nlu_fallback
-      - action: utter_ask_rephrase
-      - action: action_listen
+  #- rule: Handle ambiguity (ask for rephrasing)
+  #  steps:
+  #    - intent: nlu_fallback
+  #    - action: utter_ask_rephrase
+  #    - action: action_listen
 
   # --- REGLAS DE HANDOFF (SOPORTE) ---
 
@@ -162,3 +162,10 @@ rules:
     steps:
       - intent: contact_option_email
       - action: utter_info_email
+
+  # --- REGLAS DE FALLBACK PROGRESIVO (CORREGIDAS) ---
+
+  - rule: Handle fallback intelligently
+    steps:
+      - intent: nlu_fallback
+      - action: action_smart_fallback

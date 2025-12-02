@@ -1,45 +1,66 @@
-# config.yml (¡VERSIÓN INTELIGENTE!)
+# config.yml - MODO ESTRICTO (Anti-Basura)
 recipe: default.v1
 language: en
-assistant_id: 20251105-smart-bot # Nuevo ID de asistente
+assistant_id: 20251105-smart-bot
 
 pipeline:
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
+
+  # --- CAPA 1: EL FILTRO DE DICCIONARIO (La clave del éxito) ---
+  # 'analyzer: word' significa: "Si la palabra no la conozco, ignórala".
+  # Esto mata el problema de "kopklñ" porque esa palabra no existe.
   - name: CountVectorsFeaturizer
+    analyzer: word
+    min_ngram: 1
+    max_ngram: 2
+
+  # --- CAPA 2: EL FILTRO DE ERRORES DE DEDO ---
+  # 'min_ngram: 3' significa: "Solo busca patrones si hay 3 letras idénticas seguidas".
+  # Evita que 'da' o 'as' activen cosas.
   - name: CountVectorsFeaturizer
     analyzer: char_wb
-    min_ngram: 1
-    max_ngram: 4
+    min_ngram: 3
+    max_ngram: 5
+
+  # --- CLASIFICADOR ---
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
-  
-  # --- ¡CLAVE! AÑADIDO PARA Q&A INTELIGENTE ---
+    # Esto ayuda a que no se confíe si no está seguro
+    model_confidence: softmax
+
   - name: ResponseSelector
     epochs: 100
-    retrieval_intent: faq # Le decimos que todas las intenciones "faq/..." son para Q&A
+    retrieval_intent: faq
+    constrain_similarities: true
 
   - name: EntitySynonymMapper
-  
-  # --- ¡CLAVE! ACTIVADO PARA ENTENDER NÚMEROS ---
+
   - name: DucklingEntityExtractor
-    url: "http://localhost:8000" # Asegúrate de tener Duckling corriendo
-    dimensions:
-      - number # Extraerá cantidades (1, 5, 10, "twenty")
-  
+    url: "http://localhost:8000"
+    dimensions: ["number"]
+
+  # --- EL JUEZ FINAL ---
+  # Subimos la exigencia a 0.7. Si el bot no está 70% seguro, debe dar error.
   - name: FallbackClassifier
     threshold: 0.7
     ambiguity_threshold: 0.1
 
 policies:
   - name: MemoizationPolicy
+  # --- POLÍTICA DE REGLAS (Maneja el 1-2-3) ---
   - name: RulePolicy
+    # Si la confianza es baja (ej: 0.2), entra aquí y activa nlu_fallback
+    core_fallback_threshold: 0.3
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: True
+
   - name: UnexpecTEDIntentPolicy
     max_history: 5
     epochs: 100
-  - name: TEDPolicy # Esta es la "IA" que aprende de las stories
+  - name: TEDPolicy
     max_history: 5
     epochs: 100
     constrain_similarities: true

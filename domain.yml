@@ -43,6 +43,15 @@ entities:
   - order_reference
 
 slots:
+  fallback_count:
+    type: float
+    initial_value: 0.0
+    min_value: 0.0
+    max_value: 4.0
+    influence_conversation: false # <--- ¡ESTO ES CRUCIAL!
+    mappings:
+      - type: custom
+
   order_reference:
     type: text
     influence_conversation: true
@@ -174,8 +183,8 @@ responses:
     - text: "I'm a bot, so I'm always running at 100%! How can I help you?"
   utter_order_cancelled:
     - text: "OK, I've cancelled this order. What can I help you with next?"
-  utter_default:
-    - text: "Sorry, I'm not sure how to respond to that. Can you try rephrasing?"
+  #utter_default:
+  #  - text: "Sorry, I'm not sure how to respond to that. Can you try rephrasing?"
 
   # --- Respuestas del Formulario (con doble llave) ---
 
@@ -633,10 +642,10 @@ responses:
           - title: "Regular DTF materials?"
             payload: "/faq/general_what_materials"
 
-  utter_ask_rephrase:
-    - text: "Sorry, I'm not 100% sure what you mean. Could you try rephrasing?"
-    - text: "I'm not quite sure I understand. Can you ask that in a different way?"
-    - text: "I'm still learning and didn't quite catch that. Could you rephrase your question?"
+  #utter_ask_rephrase:
+  #  - text: "Sorry, I'm not 100% sure what you mean. Could you try rephrasing?"
+  #  - text: "I'm not quite sure I understand. Can you ask that in a different way?"
+  #  - text: "I'm still learning and didn't quite catch that. Could you rephrase your question?"
 
   # --- NUEVA LÓGICA DE CONTACTO ---
 
@@ -1060,6 +1069,17 @@ responses:
   utter_info_email:
     - text: "Send your inquiry to: **info@dtftransfersaffordable.com**."
 
+  utter_default:
+    - text: "I'm sorry, I didn't understand that. Could you rephrase?"
+
+  # NIVEL 2: Segundo error (Menú de ayuda)
+  utter_default_help:
+    - text: "I'm having trouble understanding. I can help with: 👕 DTF Prices, 📄 Gang Sheets, 🚚 Order Status, or connecting you to support. What do you need?"
+
+  # NIVEL 3: Tercer error (Reinicio)
+  utter_restart:
+    - text: "Let’s start fresh! 😊 How can I help you today?"
+
 actions:
   - action_get_price
   - action_human_handoff
@@ -1073,6 +1093,8 @@ actions:
   - action_ask_category
   - action_check_order_status
   - validate_status_form
+  - action_smart_fallback
+
 forms:
   handoff_form:
     required_slots:
