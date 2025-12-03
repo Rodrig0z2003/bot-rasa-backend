@@ -579,7 +579,7 @@ class ValidateStatusForm(FormValidationAction):
         
         # --- LÓGICA DE VALIDACIÓN ROBUSTA ---
         # 1. Prefijos conocidos
-        valid_prefixes = ["RASA-", "DTF-", "UV-", "HP-"]
+        valid_prefixes = ["RASA-", "DTF-", "UV-", "HP-", "BOT-"]
         has_valid_prefix = any(clean_ref.startswith(prefix) for prefix in valid_prefixes)
         
         # 2. Códigos PrestaShop (letras/números aleatorios)
