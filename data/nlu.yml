@@ -23,6 +23,12 @@ nlu:
       - buenas
       - buenas tardes
       - buenas noches
+      - yo
+      - sup
+      - anyone there?
+      - yooo
+      - u there
+      - hiya
   - intent: goodbye
     examples: |
       - bye
@@ -94,6 +100,14 @@ nlu:
       - cost of [100 inches](sheet_size)
       - [20 inches](sheet_size) total
       - calculate price for [30 inches](sheet_size)
+      - hm is it
+      - price check
+      - whats the damage
+      - how much to cop a sheet
+      - cost?
+      - hm for 22x22
+      - gimme a quote
+      - rates?
   # --- COMENTA ESTE BLOQUE ENTERO ---
   - intent: create_order_dtf
     examples: |
@@ -123,6 +137,13 @@ nlu:
       - i wnt to buy
       - can i orderr
       - plece an order
+      - lemme buy
+      - wanna cop some transfers
+      - finna order
+      - need to reup
+      - get me a gang sheet
+      - order up
+      - lemme get a 22x60
 
   - intent: stop_order
     examples: |
@@ -172,6 +193,16 @@ nlu:
       - that sounds good
       - yup
       - correct
+      - bet
+      - fosho
+      - aight
+      - yup
+      - yea
+      - sure thing
+      - sounds good
+      - k
+      - ok cool
+      - do it
   - intent: deny
     examples: |
       - no
@@ -179,6 +210,13 @@ nlu:
       - I don't think so
       - no way
       - nope
+      - nah
+      - nope
+      - pass
+      - nvm
+      - nevermind
+      - forget it
+      - i'm good
   - intent: bot_challenge
     examples: |
       - are you a bot?
@@ -814,6 +852,16 @@ nlu:
       - I would like to talk to a live agent, please
       - Please connect me with someone
       - May I get assistance from a real person?
+      - u real?
+      - fake bot
+      - lemme talk to a person
+      - stupid bot
+      - i want a human
+      - real person pls
+      - talk to someone
+      - agent
+      - rep
+      - stop bot
   # --- SINÓNIMOS ---
   - synonym: "22x12"
     examples: |
@@ -903,6 +951,12 @@ nlu:
       - do you guys make gang sheets?
       - gang sheet printing service
       - i want to build a gang sheet
+      - i need a gang
+      - looking for gang sheets
+      - build a gang
+      - gang sheet prices
+      - make a sheet
+      - custom gang
 
   - intent: faq/005
     examples: |
@@ -961,6 +1015,11 @@ nlu:
       - how long is the process?
       - average turnaround time
       - typical wait time
+      - whats the tat
+      - tat time?
+      - how long is tat
+      - eta?
+      - wait time
 
   - intent: faq/011
     examples: |
@@ -997,6 +1056,15 @@ nlu:
       - My image is kinda blurry though, can you clean it up?
       - can you make my logo clear?
       - blurry artwork help
+      - my pic looks like trash
+      - is this pixelated?
+      - pic is potato quality
+      - will this look like crap?
+      - its super blurry
+      - low res
+      - can u fix the pixels
+      - image looks bad
+      - clean up my art
 
   - intent: faq/015
     examples: |
@@ -1158,6 +1226,15 @@ nlu:
       - rush fee
       - hurry up options
       - emergency printing
+      - need this asap
+      - i need it like yesterday
+      - can u speed it up
+      - im in a rush
+      - hurry up
+      - super fast pls
+      - rush me
+      - expedite this
+      - how fast can i get it
 
   - intent: faq/033
     examples: |
@@ -1645,6 +1722,12 @@ nlu:
       - zelle payment
       - cash app handle
       - mobile payment
+      - u take cashapp?
+      - can i venmo u?
+      - zelle?
+      - do u take apple pay
+      - how i pay
+      - cash only?
 
   - intent: faq/094
     examples: |
@@ -1812,6 +1895,16 @@ nlu:
       - donde esta mi orden?
       - quiero rastrear mi pedido
       - estado de la orden [JKRWXRBPF](order_reference)
+      - wherz my stuff
+      - where my package at
+      - did it ship yet
+      - any update on my order?
+      - still waiting
+      - tracking?
+      - wheres my pack
+      - status check
+      - has it dropped yet?
+      - yo wheres my order
 
   # --- ¡IMPORTANTE: REGEX PARA CAPTURAR EL CÓDIGO! ---
   - regex: order_reference

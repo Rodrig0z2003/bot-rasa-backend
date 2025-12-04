@@ -1,65 +1,62 @@
-# config.yml - MODO ESTRICTO (Anti-Basura)
+# config.yml - MODO INTELIGENTE (Spacy + Jerga)
 recipe: default.v1
 language: en
 assistant_id: 20251105-smart-bot
 
 pipeline:
-  - name: WhitespaceTokenizer
+  # 1. CEREBRO: Carga el modelo de inglés que instalaste
+  - name: SpacyNLP
+    model: "en_core_web_md"
+
+  # 2. TOKENIZER: Separa mejor las palabras (ej: "I'm", "can't")
+  - name: SpacyTokenizer
+
+  # 3. CONTEXTO: Entiende sinónimos matemáticos (ej: "apparel" ≈ "clothing")
+  - name: SpacyFeaturizer
+    pooling: mean
+
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
 
-  # --- CAPA 1: EL FILTRO DE DICCIONARIO (La clave del éxito) ---
-  # 'analyzer: word' significa: "Si la palabra no la conozco, ignórala".
-  # Esto mata el problema de "kopklñ" porque esa palabra no existe.
+  # 4. PALABRAS EXACTAS: Sigue entendiendo tus comandos precisos
   - name: CountVectorsFeaturizer
     analyzer: word
     min_ngram: 1
     max_ngram: 2
 
-  # --- CAPA 2: EL FILTRO DE ERRORES DE DEDO ---
-  # 'min_ngram: 3' significa: "Solo busca patrones si hay 3 letras idénticas seguidas".
-  # Evita que 'da' o 'as' activen cosas.
+  # 5. ORTOGRAFÍA: Ayuda con errores de dedo (ej: "sheeet", "prrice")
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 3
     max_ngram: 5
 
-  # --- CLASIFICADOR ---
+  # 6. CLASIFICADOR: El corazón del bot
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
-    # Esto ayuda a que no se confíe si no está seguro
     model_confidence: softmax
 
+  - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
     retrieval_intent: faq
     constrain_similarities: true
 
-  - name: EntitySynonymMapper
-
   - name: DucklingEntityExtractor
     url: "http://localhost:8000"
-    dimensions: ["number"]
+    dimensions: ["number", "email"]
 
-  # --- EL JUEZ FINAL ---
-  # Subimos la exigencia a 0.7. Si el bot no está 70% seguro, debe dar error.
+  # 7. FILTRO FLEXIBLE: Bajamos la exigencia a 0.6 para aceptar jerga
   - name: FallbackClassifier
-    threshold: 0.7
+    threshold: 0.6
     ambiguity_threshold: 0.1
 
 policies:
   - name: MemoizationPolicy
-  # --- POLÍTICA DE REGLAS (Maneja el 1-2-3) ---
   - name: RulePolicy
-    # Si la confianza es baja (ej: 0.2), entra aquí y activa nlu_fallback
     core_fallback_threshold: 0.3
     core_fallback_action_name: "action_default_fallback"
     enable_fallback_prediction: True
-
-  - name: UnexpecTEDIntentPolicy
-    max_history: 5
-    epochs: 100
   - name: TEDPolicy
     max_history: 5
     epochs: 100
