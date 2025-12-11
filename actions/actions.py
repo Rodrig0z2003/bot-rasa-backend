@@ -5,7 +5,7 @@ from typing import Any, Text, Dict, List, Optional
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
-from rasa_sdk.events import SlotSet, ConversationPaused ,UserUtteranceReverted ,Restarted
+from rasa_sdk.events import SlotSet, ConversationPaused, UserUtteranceReverted, Restarted
 
 # --- ¡CONFIGURA ESTAS URLS! ---
 #LARAVEL_WEBHOOK_URL = "http://localhost:8001/api/rasa-order"
@@ -211,7 +211,7 @@ class ActionAskQuantity(Action):
 
 
 # -------------------------------------------------------------------------
-# CLASE 2: VALIDAR FORMULARIO DE PEDIDO
+# CLASE 2: VALIDAR FORMULARIO DE PEDIDO (ACTUALIZADO Y SIMPLIFICADO)
 # -------------------------------------------------------------------------
 class ValidateOrderForm(FormValidationAction):
     def name(self) -> Text:
@@ -230,38 +230,33 @@ class ValidateOrderForm(FormValidationAction):
         product = tracker.get_slot("product_name")
         subtype = tracker.get_slot("tshirt_subtype")
         category = tracker.get_slot("category")
-        carrier = tracker.get_slot("carrier") # <-- Obtenemos el carrier actual
+        carrier = tracker.get_slot("carrier")
 
-        # --- CASO 1: SERVICIOS DE ROPA (T-Shirts & Heat Press) ---
+        # --- CASO 1: SERVICIOS DE ROPA ---
         if product in ["Customs T-Shirt", "Custom T-shirts", "DTF + Heat Press Service"]:
             if product == "Customs T-Shirt":
                 if not subtype:
                     required.append("tshirt_subtype")
             required.extend(["quantity", "user_name", "user_email", "carrier"])
-            
-            # Lógica de Estado también para ropa si hay envío
             if carrier and ("UPS" in carrier or "Shipping" in carrier):
                 required.append("state")
-            
             return required
 
-        # --- CASO 2: GANG SHEETS (DTF / UV) ---
+        # --- CASO 2: GANG SHEETS ---
         required.append("category")
 
         if category == "Print by size":
-            # CAMINO A: Print by size (Quantity -> Inches)
-            required.extend(["quantity", "custom_inches", "user_name", "user_email", "carrier"])
+            required.extend(["custom_inches", "quantity", "user_name", "user_email", "carrier"])
         else:
-            # CAMINO B: Standard (Quantity -> Sheet Size)
-            required.extend(["quantity", "sheet_size", "user_name", "user_email", "carrier"])
+            # Aquí pedimos sheet_size
+            required.extend(["sheet_size", "quantity", "user_name", "user_email", "carrier"])
 
-        # --- LÓGICA DE ESTADO (Común para Gang Sheets) ---
-        # Si es ENVÍO (UPS/Shipping), agregamos 'state' para que pregunte.
-        # Si es Pickup, NO agregamos 'state' (se llenará automáticamente con "CA" en validate_carrier).
         if carrier and ("UPS" in carrier or "Shipping" in carrier):
             required.append("state")
 
         return required
+
+    # --- VALIDACIONES ---
 
     def validate_product_name(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         return {"product_name": str(slot_value)}
@@ -273,13 +268,61 @@ class ValidateOrderForm(FormValidationAction):
     def validate_quantity(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         try:
             qty = float(slot_value)
-            if qty < 1:
-                dispatcher.utter_message(text="Quantity must be at least 1.")
-                return {"quantity": None}
-            return {"quantity": qty}
+            return {"quantity": qty} if qty >= 1 else {"quantity": None}
         except:
             dispatcher.utter_message(text="Please enter a valid number.")
             return {"quantity": None}
+
+    def validate_category(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        cat = str(slot_value).lower()
+        product = tracker.get_slot("product_name")
+        if "print" in cat: return {"category": "Print by size"}
+        if product and "uv" in product.lower(): return {"category": "UV DTF Gang Sheet"}
+        return {"category": "DTF Gang Sheet"}
+
+    # --- NUEVA LÓGICA ROBUSTA PARA SHEET_SIZE ---
+    def validate_sheet_size(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        # 1. Limpieza agresiva para obtener solo el texto (quitamos json artifacts si los hay)
+        raw_val = str(slot_value)
+        # Regex busca patrón NUMxNUM (ej: 22x24)
+        match = re.search(r'(\d+\s*x\s*\d+)', raw_val, re.IGNORECASE)
+        
+        if match:
+            # Encontramos un tamaño válido (ej: "22x24")
+            clean_size = match.group(1).replace(" ", "").lower()
+            print(f"✅ DEBUG VALIDATION: Tamaño válido encontrado -> {clean_size}")
+            return {"sheet_size": clean_size}
+        
+        # Si no encontramos patrón, intentamos buscar en el historial por si Rasa se confundió con el texto del botón
+        print(f"⚠️ DEBUG VALIDATION: Valor '{raw_val}' no parece un tamaño estándar. Buscando en historial...")
+        for event in reversed(tracker.events):
+            if event.get("event") == "slot" and event.get("name") == "sheet_size":
+                prev = str(event.get("value", ""))
+                if "x" in prev:
+                    return {"sheet_size": prev}
+
+        dispatcher.utter_message(text="Please select a valid size (e.g., 22x12).")
+        return {"sheet_size": None}
+
+    def validate_user_name(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        name = str(slot_value).strip()
+        if name.lower() in ["stop", "cancel"]: return {"user_name": None}
+        return {"user_name": name.title()}
+
+    def validate_user_email(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        return {"user_email": str(slot_value)}
+    
+    def validate_carrier(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        val = str(slot_value)
+        if "Pickup" in val or "San Dimas" in val or "Covina" in val:
+            return {"carrier": val, "state": "CA"}
+        return {"carrier": val, "state": None}
+
+    def validate_state(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+        text = str(slot_value).upper().replace(".", "")
+        if len(text) == 2: return {"state": text}
+        if text.lower() in US_STATES_MAP: return {"state": US_STATES_MAP[text.lower()]}
+        return {"state": text}
 
     def validate_custom_inches(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         try:
@@ -293,14 +336,13 @@ class ValidateOrderForm(FormValidationAction):
             dispatcher.utter_message(text="🛑 The size cannot be 0 or negative.")
             return {"custom_inches": None}
 
-        # Calcular y mostrar precio estimado
+        # Calcular y mostrar precio estimado (Lógica original mantenida para UX)
         inches_int = int(inches)
-        bundle_prices = globals().get('DTF_BUNDLE_PRICES', {})
         dtf_price = globals().get('DTF_PRICE_PER_FOOT', 5.00)
         uv_price = globals().get('UV_PRICE_PER_FOOT', 6.00)
         
-        if inches_int in bundle_prices:
-             price = bundle_prices[inches_int]
+        if inches_int in DTF_BUNDLE_PRICES:
+             price = DTF_BUNDLE_PRICES[inches_int]
              dispatcher.utter_message(text=f"✅ Got it. {inches_int} inches. Special Bundle Price: **${price:.2f}**!")
         else:
             prod = tracker.get_slot("product_name")
@@ -311,139 +353,104 @@ class ValidateOrderForm(FormValidationAction):
         
         return {"custom_inches": inches}
 
-    def validate_category(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        cat = str(slot_value).lower()
-        product = tracker.get_slot("product_name")
-        if "print" in cat: return {"category": "Print by size"}
-        if product and "uv" in product.lower(): return {"category": "UV DTF Gang Sheet"}
-        return {"category": "DTF Gang Sheet"}
 
-    def validate_sheet_size(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        return {"sheet_size": str(slot_value)}
-        
-    def validate_user_name(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        name = str(slot_value).strip()
-        if name.lower() in ["stop", "cancel"]:
-             dispatcher.utter_message(text="OK, cancelling order.")
-             return {"user_name": None, "requested_slot": None}
-        return {"user_name": name.title()}
-
-    def validate_user_email(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        return {"user_email": str(slot_value)}
-
-    def validate_carrier(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        val = str(slot_value)
-        
-        # SI ES PICKUP:
-        # 1. Guardamos el carrier.
-        # 2. Forzamos state="CA" (Laravel cobrará tax, shipping será $0).
-        # Agrega aquí todas las variantes de texto que tus botones de pickup usen
-        if "Pickup" in val or "San Dimas" in val or "Covina" in val:
-            return {"carrier": val, "state": "CA"}
-        
-        # SI ES ENVÍO:
-        # Guardamos el carrier y dejamos state=None (o explícitamente None) para que el bot 
-        # detecte que falta este slot (gracias a required_slots) y pregunte por él.
-        return {"carrier": val, "state": None}
-
-    def validate_state(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
-        # Limpiamos la entrada: quitamos puntos, espacios y pasamos a minúsculas
-        text = str(slot_value).lower().strip().replace(".", "")
-        
-        # Si ya es una abreviatura (ej: "ca", "ny")
-        if len(text) == 2:
-            return {"state": text.upper()}
-        
-        # Si es el nombre completo, buscamos en el mapa
-        if text in US_STATES_MAP:
-            return {"state": US_STATES_MAP[text]}
-        
-        # Fallback: devolvemos en mayúsculas lo que entendió
-        return {"state": text.upper()}
-
-
+# -------------------------------------------------------------------------
+# CLASE: ENVIAR PEDIDO A API (ACTUALIZADA Y SIMPLIFICADA)
+# -------------------------------------------------------------------------
 class ActionSubmitOrderToApi(Action):
     def name(self) -> Text:
         return "action_submit_order_to_api"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # --- FUNCIÓN DE LIMPIEZA ---
-        def clean_slot_string(value):
-            if not value:
-                return ""
-            val = str(value)
-            if ":" in val and "{" in val:
-                 match = re.search(r':"([^"]+)"', val)
-                 if match:
-                     val = match.group(1)
-            return val.replace('"', '').replace('}', '').replace('{', '').replace("'", "").replace("[", "").replace("]", "").strip()
+        # Función auxiliar simple
+        def clean_str(val):
+            if not val: return ""
+            return str(val).replace('"', '').replace("'", "").replace("[", "").replace("]", "").strip()
 
-        # 1. OBTENER Y LIMPIAR DATOS
+        # 1. RECUPERAR DATOS DEL TRACKER
         category = tracker.get_slot("category")
         custom_inches = tracker.get_slot("custom_inches")
-        sheet_size = tracker.get_slot("sheet_size")
         quantity = tracker.get_slot("quantity")
-        
-        # Limpieza de nombres y carrier
+        state = tracker.get_slot("state")
         raw_product = tracker.get_slot("product_name")
         subtype = tracker.get_slot("tshirt_subtype")
-        raw_carrier = tracker.get_slot("carrier")
+        carrier = clean_str(tracker.get_slot("carrier"))
         
-        # Obtenemos el ESTADO (Ya sea el automático "CA" o el que el usuario escribió)
-        state = tracker.get_slot("state")
+        # 2. RECUPERAR TAMAÑO ACTUAL
+        current_slot_size = clean_str(tracker.get_slot("sheet_size"))
 
-        # Aplicamos limpieza
-        base_prod = subtype if subtype else raw_product
-        final_product_name = clean_slot_string(base_prod)
-        final_carrier = clean_slot_string(raw_carrier)
+        # --- 🛡️ LÓGICA DE RECUPERACIÓN (ANTI-SOBREESCRITURA) ---
+        # Si el tamaño actual es inválido (ej: es "1" o vacío), buscamos en el historial
+        final_sheet_size = current_slot_size
 
-        print(f"DEBUG RASA -> Order: '{final_product_name}', Carrier: '{final_carrier}', State: '{state}'")
+        if not (final_sheet_size and "x" in final_sheet_size.lower()):
+            print(f"⚠️ DEBUG: El tamaño actual '{final_sheet_size}' parece incorrecto (falta 'x'). Buscando en historial...")
+            for event in reversed(tracker.events):
+                if event.get("event") == "slot" and event.get("name") == "sheet_size":
+                    prev_val = clean_str(event.get("value"))
+                    # Si encontramos un valor antiguo que SÍ tenga 'x' (ej: 22x12), lo rescatamos
+                    if prev_val and "x" in prev_val.lower():
+                        final_sheet_size = prev_val
+                        print(f"✅ DEBUG: ¡Tamaño recuperado del historial! -> {final_sheet_size}")
+                        break
+        # -------------------------------------------------------
 
-        # 3. LÓGICA DE TAMAÑO (SIZE)
-        final_size_str = "N/A (Apparel/Service)"
+        # 3. DETERMINAR EL STRING FINAL PARA LARAVEL
+        size_to_send = "N/A (Apparel/Service)" 
 
+        # Caso A: Print by Size
         if category == "Print by size" and custom_inches:
-            final_size_str = f"{custom_inches} Inches (Custom)"
-        elif sheet_size:
-            final_size_str = sheet_size
+            size_to_send = f"{custom_inches} Inches (Custom)"
+        
+        # Caso B: Gang Sheets (Usamos el valor recuperado)
+        elif final_sheet_size and "x" in final_sheet_size.lower():
+            size_to_send = final_sheet_size
+        
+        # 4. DEBUG FINAL
+        print(f"\n🚀 ENVIO A LARAVEL:")
+        print(f"   - Category: {category}")
+        print(f"   - Qty: {quantity}")
+        print(f"   - Size Final: {size_to_send}")
 
-        # 4. PREPARAR DATOS PARA LARAVEL
+        # 5. PREPARAR NOMBRE DEL PRODUCTO
+        final_product = clean_str(subtype if subtype else raw_product)
+
+        # 6. CONSTRUIR JSON
         order_data = {
-            "product": final_product_name, 
+            "product": final_product, 
             "category": category if category else "Apparel",
             "quantity": quantity,
-            "size": final_size_str,
+            "size": size_to_send, # <--- Valor corregido
             "customer_name": tracker.get_slot("user_name"),
             "customer_email": tracker.get_slot("user_email"),
-            "shipping_method": final_carrier,
-            "state": state, # <--- ENVIAMOS EL ESTADO A LARAVEL
+            "shipping_method": carrier,
+            "state": state,
             "sender_id": tracker.sender_id
         }
 
         dispatcher.utter_message(text="Perfect! Submitting your order details...")
 
-        # 5. ENVIAR A LARAVEL
+        # 7. ENVIAR A LARAVEL
         try:
             response = requests.post(LARAVEL_WEBHOOK_URL, json=order_data)
             response.raise_for_status()
-            order_id = response.json().get("order_id")
+            data_resp = response.json()
+            order_id = data_resp.get("order_id")
             
             if order_id:
                 link = f"{LARAVEL_UPLOAD_PAGE_URL}/{order_id}"
-                dispatcher.utter_message(text=f"Success! Order #{order_id} created. Shipping via: {final_carrier}")
-                if state:
-                    dispatcher.utter_message(text=f"Destination State: {state}")
-                    
-                dispatcher.utter_message(text=f"**IMPORTANT:** Please upload your design file using this link:\n[Click here to upload design]({link})")
-                dispatcher.utter_message(text=f"A confirmation email was sent to {order_data['customer_email']}.")
+                # Mostrar total calculado por Laravel
+                total_msg = f" Total: ${data_resp.get('total', '??')}" if 'total' in data_resp else ""
+                dispatcher.utter_message(text=f"Success! Order #{order_id} created.{total_msg}")
+                dispatcher.utter_message(text=f"**IMPORTANT:** Please upload your design file here:\n[Click to upload]({link})")
             else:
-                dispatcher.utter_message(text="Order created successfully. Check your email.")
+                dispatcher.utter_message(text="Order created. Check your email.")
         
         except Exception as e:
-            dispatcher.utter_message(text=f"Error submitting order: {e}")
+            print(f"❌ ERROR LARAVEL: {e}")
+            dispatcher.utter_message(text="Error submitting order. Please try again.")
 
-        # Reseteamos slots, INCLUYENDO 'state'
         return [SlotSet(s, None) for s in ["product_name", "quantity", "sheet_size", "category", "user_name", "user_email", "carrier", "custom_inches", "tshirt_subtype", "state"]]
 
 class ActionCancelOrder(Action):

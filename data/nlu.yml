@@ -108,6 +108,11 @@ nlu:
       - hm for 22x22
       - gimme a quote
       - rates?
+      - hm for a [22x60](sheet_size) sheet?
+      - pricing for [22x22](sheet_size)
+      - how much is [22x300](sheet_size)
+      - whats the damage for [22x12](sheet_size)
+      - [22x60](sheet_size) cost?
   # --- COMENTA ESTE BLOQUE ENTERO ---
   - intent: create_order_dtf
     examples: |
@@ -144,6 +149,29 @@ nlu:
       - get me a gang sheet
       - order up
       - lemme get a 22x60
+      - hm for a gang sheet?
+      - price?
+      - pricing?
+      - hm?
+      - $$?
+      - how much to cop a sheet?
+      - what's the dmg?
+      - quote for [22x60](sheet_size)
+      - rates for dtf
+      - cheap dtf prices
+      - how expansive is it
+      - lemme buy
+      - need to cop some transfers
+      - finna order
+      - wanna buy
+      - get me a gang sheet
+      - need a reup
+      - order up
+      - lemme get a 22x60
+      - lemme cop a gang sheet
+      - i wanna buy
+      - lemme order
+      - get me a [22x60](sheet_size)
 
   - intent: stop_order
     examples: |
@@ -862,6 +890,19 @@ nlu:
       - agent
       - rep
       - stop bot
+      - lemme talk to a person
+      - real person rn
+      - agent pls
+      - rep
+      - representative
+      - i hate bots
+      - stupid bot give me a human
+      - connect me to someone real
+      - live chat
+      - talk to support
+      - human help
+      - get me a manager
+      - customer service
   # --- SINÓNIMOS ---
   - synonym: "22x12"
     examples: |
@@ -1020,6 +1061,10 @@ nlu:
       - how long is tat
       - eta?
       - wait time
+      - whats the tat?
+      - tat?
+      - how long is tat
+      - whats the turn around
 
   - intent: faq/011
     examples: |
@@ -1065,6 +1110,9 @@ nlu:
       - can u fix the pixels
       - image looks bad
       - clean up my art
+      - my image looks like trash can u fix?
+      - potato quality fix
+      - its super blurry
 
   - intent: faq/015
     examples: |
@@ -1075,6 +1123,12 @@ nlu:
       - do you take ai or psd?
       - format needed for printing
       - what kind of file do you need?
+      - is this res ok?
+      - pic looks fuzzy
+      - low res fix?
+      - enhance my photo
+      - can you upscale this?
+      - quality check pls
 
   - intent: faq/016
     examples: |
@@ -1103,6 +1157,12 @@ nlu:
       - i don't know how to remove background
       - knock out the background
       - transparent background help
+      - can u make it transparent?
+      - remove the white box
+      - no background pls
+      - transparent bg
+      - take out the background
+      - knock out the white
 
   - intent: faq/019
     examples: |
@@ -1235,6 +1295,16 @@ nlu:
       - rush me
       - expedite this
       - how fast can i get it
+      - i need this like yesterday
+      - super rush pls
+      - i need it asap
+      - in a rush
+      - crunch time
+      - need it super fast
+      - expedite it
+      - emergency print
+      - i have a deadline tmrw
+      - overnight it pls
 
   - intent: faq/033
     examples: |
@@ -1259,6 +1329,13 @@ nlu:
       - will call
       - local pickup option
       - can i drive there?
+      - can i pull up?
+      - i wanna swing by and grab it
+      - curbside pickup?
+      - can i come get it myself?
+      - is will call open?
+      - local grab
+      - drive by pickup
 
   - intent: faq/036
     examples: |
@@ -1728,6 +1805,16 @@ nlu:
       - do u take apple pay
       - how i pay
       - cash only?
+      - u take cashapp?
+      - venmo?
+      - zelle me?
+      - apple pay available?
+      - gpay?
+      - do you take crypto?
+      - cash on delivery?
+      - pay later?
+      - afterpay?
+      - klarna?
 
   - intent: faq/094
     examples: |
@@ -1873,6 +1960,14 @@ nlu:
       - order [MJNUHBVGY](order_reference)
       - check [KIJUHYGTF](order_reference)
       - status for [LOIKJUHYG](order_reference)
+      - [RASA-ABC123](order_reference)
+      - code is [DTF-XYZ999](order_reference)
+      - order # [UV-55555](order_reference)
+      - checking [HP-112233](order_reference)
+      - here: [RASA-777888](order_reference)
+      - ref [DTF-000000](order_reference)
+      - its [UV-123123](order_reference)
+      - [HP-999999](order_reference) thanks
   - intent: check_order_status
     examples: |
       - I want to check my order status
@@ -1905,8 +2000,28 @@ nlu:
       - status check
       - has it dropped yet?
       - yo wheres my order
+      - where is my stuff
+      - wherz my package
+      - any update on [RASA-1234](order_reference)?
+      - did you guys ship [DTF-9988](order_reference) yet?
+      - is my order ready
+      - has it dropped yet?
+      - track [UV-7766](order_reference)
+      - status check pls
+      - checking on my order
+      - still waiting on my package
+      - eta on my order?
+      - where my order at
+      - did it go out today?
+      - shipping update
 
   # --- ¡IMPORTANTE: REGEX PARA CAPTURAR EL CÓDIGO! ---
+  - regex: sheet_size
+    examples: |
+      - \d+x\d+
+      - \d+\s*x\s*\d+
+      - ^[0-9]+x[0-9]+$
+
   - regex: order_reference
     examples: |
       - ^(RASA|DTF|UV|HP)-[A-Z0-9]+$

@@ -78,6 +78,18 @@ slots:
     mappings:
       - type: from_entity
         entity: sheet_size
+      - type: from_text
+        conditions:
+          - active_loop: order_form
+            requested_slot: sheet_size
+      - type: from_entity
+        entity: sheet_size
+        intent: inform
+      - type: from_text
+        conditions:
+          - active_loop: order_form
+            requested_slot: sheet_size
+
   product_name:
     type: text
     influence_conversation: true
