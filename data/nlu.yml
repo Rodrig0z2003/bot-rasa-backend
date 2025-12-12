@@ -113,7 +113,11 @@ nlu:
       - how much is [22x300](sheet_size)
       - whats the damage for [22x12](sheet_size)
       - [22x60](sheet_size) cost?
-  # --- COMENTA ESTE BLOQUE ENTERO ---
+      - hm for the gang sheet?  
+      - whats the dmg on a 22x60?
+      - pricing breakdown pls
+      - how much to cop a sheet? 
+      - gimme the numbers for uv dtf
   - intent: create_order_dtf
     examples: |
       - I want to place an order
@@ -172,6 +176,19 @@ nlu:
       - i wanna buy
       - lemme order
       - get me a [22x60](sheet_size)
+      - get me started
+      - id like to place a request
+      - tryna buy some prints
+      - can u print for me?
+      - looking for dtf service
+      - hook me up with some transfers
+      - let's do business
+      - purchase transfers
+      - acquisition of dtf sheets
+      - start a cart
+      - I gotta get a 22x24
+      - make a purchase
+      - do you take orders right now?
 
   - intent: stop_order
     examples: |
@@ -257,11 +274,10 @@ nlu:
       - What are DTF transfers?
       - tell me about dtf
       - what is a dtf transfer?
-      - wht is dtf 
-      - dtf info 
       - how does dtf printing work
-      - dtf? 
-      - /faq/general_what_is_dtf
+      - explain dtf
+      - what is the meaning of dtf?
+      - show me the video about dtf
   - intent: faq/general_why_dtf_vs_others
     examples: |
       - Why choose DTF over screen printing or vinyl?
@@ -492,6 +508,12 @@ nlu:
       - processing time
       - when will my order ship?
       - how long for shipping?
+      - how fast?
+      - when u ship?
+      - ship time?
+      - wait time?
+      - how long take?
+      - tat?
   - intent: faq/shipping_offer_rush_service
     examples: |
       - Do you offer rush or same-day service?
@@ -922,12 +944,28 @@ nlu:
       - dtf sheet
       - dtf
       - dtf transfer
+      - dtf roll
+      - dtf print
+      - direct to film sheet
+      - the regular transfer
+      - standard sheet
+      - normal dtf
   - synonym: "UV DTF Gang Sheet"
     examples: |
       - UV Gang Sheet
       - uv sheet
       - uv dtf
       - uv transfer
+  - synonym: "price"
+    examples: |
+      - cost
+      - rate
+      - quote
+      - how much
+      - damage
+      - tag
+      - fee
+      - pricing
 
   # --- Nuevas FAQs (001-100) ---
   #- intent: faq/001
@@ -967,6 +1005,23 @@ nlu:
       - How do you charge?
       - How much per inch?
       - Do you have bulk pricing?
+      - how much is it
+      - give me the price
+      - rates
+      - how much for a sheet
+      - whats the cost
+      - how expensive is it
+      - pricelist
+      - how much $$$
+      - quote me
+      - cost of printing
+      - prices for dtf
+      - how much do i pay
+      - value of the sheet
+      - tariff
+      - pricing sheet
+      - how much does a 22x60 cost
+      - cost breakdown
 
   - intent: faq/003
     examples: |
@@ -2049,3 +2104,52 @@ nlu:
       - talk in this chat
       - start live agent
       - chat now
+
+  - lookup: product_name
+    examples: |
+      - DTF Custom Gang Sheet
+      - UV DTF Gang Sheet
+      - Customs T-Shirt
+      - gang sheet
+      - uv sheet
+      - uv transfer
+      - dtf transfer
+      - 6 Pack T-Shirts
+      - 12 Pack T-Shirts
+      - shirt
+      - tee
+      - print
+
+  - lookup: sheet_size
+    examples: |
+      - 22x12
+      - 22x24
+      - 22x300
+      - 11x12
+      - 22 by 12
+      - 22 inches by 60 inches
+
+  - lookup: product_name
+    examples: |
+      - dtf transfer
+      - uv dtf
+      - gang sheet
+      - t-shirts
+      - heat press
+
+  - synonym: "22x300"
+    examples: |
+      - the big one
+      - largest size
+      - max size
+      - huge roll
+      - full roll
+      - 300 inches
+
+  - synonym: "UPS Next Day"
+    examples: |
+      - fastest shipping
+      - overnight
+      - by tomorrow
+      - rush shipping
+      - express

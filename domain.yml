@@ -8,14 +8,14 @@ intents:
   - goodbye
   - request_human_handoff
   - ask_price
-  - create_order_dtf # <--- ¡COMENTADO!
+  - create_order_dtf
   - inform
   - affirm
   - deny
   - thankyou
   - compliment
   - ask_how_are_you
-  - stop_order # <--- ¡COMENTADO!
+  - stop_order
   - bot_challenge
   - ask_dtf_printing
   - inform_reference
