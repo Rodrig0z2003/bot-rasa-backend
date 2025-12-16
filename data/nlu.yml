@@ -66,58 +66,30 @@ nlu:
   - intent: ask_price
     examples: |
       - cost of [DTF + Heat Press](product_name)
-      - [DTF Fluorescent Gang Sheets](product_name) cost
-      - cunto cuesta
-      - q presio tiene
-      - wats the price
       - price for [11x300](sheet_size)
       - how much is [22x300](sheet_size)
       - cost of [22x72](sheet_size)
       - [11x48](sheet_size) price
       - how much is gangsheet of [48 inches](sheet_size)?
       - price for [4 feet](sheet_size) dtf
-      - cost of [10 feet](sheet_size)
-      - how much for [24 inches](sheet_size)
-      - price for [1 sqft](sheet_size) uv
-      - uv price [12x12](sheet_size)
-      - cuanto esta el metro
-      - [48 in](sheet_size) price
-      - hello i need [48 inches](sheet_size) please
-      - i need [48 inches](sheet_size)
-      - price for [48 inches](sheet_size)
-      - cost for [10 inches](sheet_size)
       - how much for [22x60](sheet_size) uv
-      - price for [22x60](sheet_size) uv
-      - uv price [22x60](sheet_size)
       - price for [22x24](sheet_size)
-      - cost of [22x24](sheet_size)
       - how much is a gang sheet
       - price of gang sheet
-      - [50 inches](sheet_size) price
-      - how much is [4 feet](sheet_size)
-      - [10 feet](sheet_size) cost
-      - price for [12x12](sheet_size) uv
-      - cost of [100 inches](sheet_size)
-      - [20 inches](sheet_size) total
-      - calculate price for [30 inches](sheet_size)
       - hm is it
       - price check
       - whats the damage
-      - how much to cop a sheet
       - cost?
-      - hm for 22x22
       - gimme a quote
       - rates?
-      - hm for a [22x60](sheet_size) sheet?
-      - pricing for [22x22](sheet_size)
-      - how much is [22x300](sheet_size)
-      - whats the damage for [22x12](sheet_size)
-      - [22x60](sheet_size) cost?
-      - hm for the gang sheet?  
-      - whats the dmg on a 22x60?
       - pricing breakdown pls
-      - how much to cop a sheet? 
-      - gimme the numbers for uv dtf
+      - give me a price quote
+      - how much do i pay
+      - how much is it
+      - give me the price
+      - whats the cost
+      - quote me
+      - cost of printing
   - intent: create_order_dtf
     examples: |
       - I want to place an order
@@ -269,15 +241,26 @@ nlu:
       - am I talking to a bot?
 
   # --- 🔹 General & Product Info ----
+  - intent: faq/service_overview
+    examples: |
+      - tell me about your services
+      - what kind of printing do you do?
+      - overview of services
+      - what do you guys offer?
+
   - intent: faq/general_what_is_dtf
     examples: |
-      - What are DTF transfers?
-      - tell me about dtf
-      - what is a dtf transfer?
-      - how does dtf printing work
+      - what is dtf?
+      - what does dtf mean?
       - explain dtf
-      - what is the meaning of dtf?
-      - show me the video about dtf
+      - meaning of dtf
+      - direct to film meaning
+      - tell me about dtf
+      - what does dtf stand for?
+      - definition of dtf
+      - dtf explanation
+      - i dont know what dtf is
+
   - intent: faq/general_why_dtf_vs_others
     examples: |
       - Why choose DTF over screen printing or vinyl?
@@ -419,6 +402,13 @@ nlu:
       - can I use a home iron?
       - do I need a heat press?
       - /faq/apply_can_use_household_iron
+      - do I need a heat press machine?
+      - is a regular iron okay?
+      - ironing at home
+      - can i apply this with my iron
+      - will a standard iron work?
+      - is a heat press mandatory?
+
   - intent: faq/apply_need_teflon_sheet
     examples: |
       - Do I need a Teflon sheet?
@@ -675,6 +665,14 @@ nlu:
     examples: |
       - Do you resize or scale my design automatically?
       - will you resize my art?
+      - Do you guys resize images?
+      - can you make my logo bigger?
+      - i need this scaled up
+      - resize service
+      - change dimensions of my art
+      - scaling help
+      - make it smaller
+
   - intent: faq/artwork_remove_background
     examples: |
       - Do you remove the background if I forget?
@@ -967,11 +965,6 @@ nlu:
       - fee
       - pricing
 
-  # --- Nuevas FAQs (001-100) ---
-  #- intent: faq/001
-  #  examples: |
-  #    - Do you guys do DTF prints?
-
   - intent: ask_dtf_printing
     examples: |
       - do you print dtf?
@@ -986,56 +979,31 @@ nlu:
       - do you provide dtf print service?
       - do you do only dtf or other printing too?
       - do you make dtf sheets?
+      - do u do dff
+      - do you print dft
+      - dft printing
+      - do you do dtf?
+      - can i order dff prints
+      - dtf transfers
+      - can you print dtf for me?
 
-  - intent: faq/002
+  - intent: faq/pricing_info
     examples: |
-      - How much are your DTF transfers?
-      - what is the price for dtf?
-      - tell me your pricing
-      - cost of gang sheets
-      - how much do you charge for printing?
-      - give me a price quote
       - are your transfers expensive?
-      - price list please
-      - what are your rates?
-      - how much for a 22x60 sheet?
-      - pricing breakdown
-      - cost?
-      - What is your pricing?
+      - Do you have bulk pricing?
+      - how expensive is it
       - How do you charge?
       - How much per inch?
-      - Do you have bulk pricing?
-      - how much is it
-      - give me the price
-      - rates
-      - how much for a sheet
-      - whats the cost
-      - how expensive is it
-      - pricelist
-      - how much $$$
-      - quote me
-      - cost of printing
-      - prices for dtf
-      - how much do i pay
-      - value of the sheet
       - tariff
       - pricing sheet
-      - how much does a 22x60 cost
-      - cost breakdown
-
-  - intent: faq/003
-    examples: |
-      - What sizes do you offer for DTF?
-      - how big can you print?
-      - what is the max width?
-      - do you have 22 inch rolls?
-      - what are the dimensions of your gang sheets?
-      - biggest sheet size?
-      - do you print large format?
-      - width and length limits?
-      - size availability
-      - max print area
-      - how wide are your transfers?
+      - cost breakdown structure
+      - do you offer discounts?
+      - is it cheap?
+      - are you affordable?
+      - what is your pricing model?
+      - do you charge by the sheet or by size?
+      - tell me about your pricing structure
+      - do you have good rates?
 
   - intent: faq/004
     examples: |
@@ -1121,15 +1089,6 @@ nlu:
       - how long is tat
       - whats the turn around
 
-  - intent: faq/011
-    examples: |
-      - Do you print full color?
-      - is it CMYK?
-      - can you print unlimited colors?
-      - is the print full color?
-      - do you limit the number of colors?
-      - colorful designs support
-
   - intent: faq/012
     examples: |
       - Do you print white ink?
@@ -1169,40 +1128,6 @@ nlu:
       - potato quality fix
       - its super blurry
 
-  - intent: faq/015
-    examples: |
-      - What file types do you accept?
-      - accepted formats?
-      - which files can i upload?
-      - file requirements
-      - do you take ai or psd?
-      - format needed for printing
-      - what kind of file do you need?
-      - is this res ok?
-      - pic looks fuzzy
-      - low res fix?
-      - enhance my photo
-      - can you upscale this?
-      - quality check pls
-
-  - intent: faq/016
-    examples: |
-      - Do you accept PNG files?
-      - is png ok?
-      - can i upload a png?
-      - transparent png supported?
-      - is png better than jpeg?
-      - taking pngs?
-
-  - intent: faq/017
-    examples: |
-      - Do you accept PDF files?
-      - can i send a pdf?
-      - is adobe pdf format okay?
-      - vector pdf accepted?
-      - uploading pdf for print
-      - pdf file support
-
   - intent: faq/018
     examples: |
       - Can you remove the background for me?
@@ -1218,16 +1143,6 @@ nlu:
       - transparent bg
       - take out the background
       - knock out the white
-
-  - intent: faq/019
-    examples: |
-      - Do you guys resize images?
-      - can you make my logo bigger?
-      - i need this scaled up
-      - resize service
-      - change dimensions of my art
-      - scaling help
-      - make it smaller
 
   - intent: faq/020
     examples: |
@@ -1432,29 +1347,17 @@ nlu:
       - order status
       - has it shipped yet?
 
-  - intent: faq/041
+  - intent: faq/sizes_and_limits
     examples: |
+      - What sizes do you offer for DTF?
+      - how big can you print?
+      - what is the max width?
+      - do you have 22 inch rolls?
       - How big can my gang sheet be?
-      - max gang sheet size
       - largest sheet available
-      - gang sheet dimensions
-      - maximum print area
-
-  - intent: faq/042
-    examples: |
+      - max length limit
       - Do you offer 23 inch width?
-      - is the roll 22 or 24 inches?
-      - wide format gang sheets
-      - 22x?
-      - roll width
-
-  - intent: faq/043
-    examples: |
-      - What is the max length for gang sheets?
-      - how long can the roll be?
-      - 300 inches long?
-      - maximum length limit
-      - longest sheet size
+      - what are the dimensions?
 
   - intent: faq/044
     examples: |
@@ -1488,13 +1391,14 @@ nlu:
       - fit more images
       - optimize layout
 
-  - intent: faq/048
+  - intent: faq/file_requirements
     examples: |
+      - What file types do you accept?
+      - is png ok?
+      - can i send a pdf?
       - Do you check for 300 DPI?
-      - resolution check
-      - verify quality
-      - is my file high res?
-      - dpi checker
+      - what resolution do I need?
+      - accepted formats?
 
   - intent: faq/049
     examples: |
@@ -1978,6 +1882,12 @@ nlu:
       - What color format do you use?
       - Do you print CMYK?
       - Does RGB work?
+      - Do you print full color?
+      - is it CMYK?
+      - can you print unlimited colors?
+      - is the print full color?
+      - do you limit the number of colors?
+      - colorful designs support
 
   - intent: faq/design_service
     examples: |
@@ -2119,6 +2029,11 @@ nlu:
       - shirt
       - tee
       - print
+      - dtf transfer
+      - uv dtf
+      - gang sheet
+      - t-shirts
+      - heat press
 
   - lookup: sheet_size
     examples: |
@@ -2128,14 +2043,6 @@ nlu:
       - 11x12
       - 22 by 12
       - 22 inches by 60 inches
-
-  - lookup: product_name
-    examples: |
-      - dtf transfer
-      - uv dtf
-      - gang sheet
-      - t-shirts
-      - heat press
 
   - synonym: "22x300"
     examples: |

@@ -41,10 +41,8 @@ pipeline:
     url: "http://localhost:8000"
     dimensions: ["number", "email"]
 
-  # Si la confianza es menor a 0.5, usa fallback.
-  # (Antes tenías 0.6, bajarlo a 0.5 permite que entienda jergas dudosas)
   - name: FallbackClassifier
-    threshold: 0.7
+    threshold: 0.5
     ambiguity_threshold: 0.1
 
 policies:
