@@ -169,3 +169,26 @@ rules:
     steps:
       - intent: nlu_fallback
       - action: action_smart_fallback
+
+  - rule: Activate Quote Form
+    steps:
+      - intent: ask_quote
+      - action: utter_quote_intro
+      - action: quote_form
+      - active_loop: quote_form
+
+  - rule: Submit Quote Form
+    condition:
+      - active_loop: quote_form
+    steps:
+      - action: quote_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_calculate_quote
+
+  - rule: User does not want to order after quote
+    steps:
+      - action: action_calculate_quote
+      - intent: deny
+      - action: utter_you_are_welcome # O cualquier respuesta de "De nada/Entiendo"

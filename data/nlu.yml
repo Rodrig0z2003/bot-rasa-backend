@@ -80,10 +80,8 @@ nlu:
       - price check
       - whats the damage
       - cost?
-      - gimme a quote
       - rates?
       - pricing breakdown pls
-      - give me a price quote
       - how much do i pay
       - how much is it
       - give me the price
@@ -1933,6 +1931,21 @@ nlu:
       - ref [DTF-000000](order_reference)
       - its [UV-123123](order_reference)
       - [HP-999999](order_reference) thanks
+
+  - intent: ask_quote
+    examples: |
+      - I want a quote
+      - I need a quote
+      - can you give me a price estimate?
+      - how much would it be for a custom job?
+      - quote please
+      - I need to know the price before ordering
+      - get me a quote
+      - i want an estimate
+      - can i get a quote?
+      - pricing estimate
+      - estimate for gang sheets
+
   - intent: check_order_status
     examples: |
       - I want to check my order status

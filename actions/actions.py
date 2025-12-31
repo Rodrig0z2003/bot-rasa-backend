@@ -701,3 +701,93 @@ class ActionSmartFallback(Action):
             dispatcher.utter_message(response="utter_restart")
             # Aquí SÍ reiniciamos todo el bot
             return [Restarted(), SlotSet("fallback_count", 0.0)]
+
+class ActionCalculateQuote(Action):
+    def name(self) -> Text:
+        return "action_calculate_quote"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # 1. Obtener datos de los slots
+        raw_product = tracker.get_slot("quote_product")
+        size = tracker.get_slot("quote_size")
+        qty = tracker.get_slot("quote_quantity")
+        
+        # --- LÓGICA DE LIMPIEZA ---
+        product = str(raw_product)
+        if 'product_name":' in product:
+            product = product.split('":"')[1].replace('"}', '')
+        elif 'quote_product":' in product:
+            product = product.split('":"')[1].replace('"}', '')
+        # --------------------------------
+
+        # Precios base
+        price_per_foot = 5.00  # DTF estándar
+        if product and "uv" in product.lower():
+            price_per_foot = 6.00  # UV DTF
+        
+        try:
+            # Extraer largo en pulgadas (ej: "22x60" -> 60)
+            match = re.search(r'x\s*(\d+)', str(size).lower())
+            inches = float(match.group(1)) if match else 12.0
+            
+            # Lógica de Bundles de DTF
+            length_int = int(inches)
+            
+            # Verificamos si es DTF estándar y si el largo está en el diccionario de bundles
+            # Nota: DTF_BUNDLE_PRICES debe estar definido arriba en tu archivo
+            if not "uv" in product.lower() and 'DTF_BUNDLE_PRICES' in globals() and length_int in DTF_BUNDLE_PRICES:
+                unit_price = DTF_BUNDLE_PRICES[length_int]
+            else:
+                # Cálculo lineal si no es bundle o es UV
+                unit_price = (inches / 12) * price_per_foot
+            
+            # Asegurar que qty sea un número
+            quantity = float(qty) if qty else 1.0
+            total = unit_price * quantity
+
+            # --- MODIFICACIÓN PARA GRID JSON ---
+
+            # 1. Preparamos el texto del mensaje (Sin los botones aquí)
+            message_text = (
+                f"📊 **Instant Quote:**\n"
+                f"- Product: {product}\n"
+                f"- Size: {size}\n"
+                f"- Qty: {quantity:.0f}\n"
+                f"------------------\n"
+                f"💰 Unit Price: ${unit_price:.2f}\n"
+                f"💵 **Total Estimate: ${total:.2f}**\n\n"
+                f"Would you like to place this order now?"
+            )
+
+            # 2. Construimos el JSON para el Grid (Sin emojis en los títulos)
+            custom_grid = {
+                "type": "grid",
+                "text": message_text,
+                "options": [
+                    {
+                        "title": "Yes, Order Now",
+                        "payload": "/create_order_dtf"
+                    },
+                    {
+                        "title": "Just asking",
+                        "payload": "/deny"
+                    }
+                ]
+            }
+            
+            # 3. Enviamos el Grid a través de json_message
+            dispatcher.utter_message(json_message=custom_grid)
+
+        except Exception as e:
+            print(f"Error Quote: {e}")
+            dispatcher.utter_message(text="Sorry, I couldn't calculate that. Please try again with a size like '22x60'.")
+
+        # Limpiamos los slots de cotización para la siguiente consulta
+        return [
+            SlotSet("quote_product", None), 
+            SlotSet("quote_size", None), 
+            SlotSet("quote_quantity", None)
+        ]

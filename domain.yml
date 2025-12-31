@@ -4,6 +4,7 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
+  - ask_quote
   - greet
   - goodbye
   - request_human_handoff
@@ -105,6 +106,37 @@ slots:
         conditions: # <--- ESTO ES LO QUE FALTA
           - active_loop: order_form
             requested_slot: quantity
+  quote_product:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: quote_form
+            requested_slot: quote_product
+
+  quote_size:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: quote_form
+            requested_slot: quote_size
+
+  quote_quantity:
+    type: float
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: number
+        conditions: # <--- ESTO ES VITAL
+          - active_loop: quote_form
+            requested_slot: quote_quantity
+      - type: from_text
+        conditions:
+          - active_loop: quote_form
+            requested_slot: quote_quantity
 
   # --- Nuevos slots del formulario ---
   category:
@@ -1092,7 +1124,30 @@ responses:
   utter_restart:
     - text: "Let’s start fresh! 😊 How can I help you today?"
 
+  utter_quote_intro:
+    - text: "Perfect! I'll help you with a price estimate. Let's get the details."
+
+  # 3. CORRIGE LOS NOMBRES (Deben llevar el nombre del slot nuevo)
+  utter_ask_quote_product:
+    - custom:
+        type: "grid"
+        text: "What product would you like to quote?"
+        options:
+          - title: "DTF Gang Sheet"
+            # CORRECCIÓN: El payload debe apuntar a quote_product
+            payload: '/inform{{"quote_product":"DTF Custom Gang Sheet"}}'
+          - title: "UV DTF Gang Sheet"
+            payload: '/inform{{"quote_product":"UV DTF Gang Sheet"}}'
+
+  utter_ask_quote_size:
+    - text: "Select the size for your quote (e.g., 22x60):"
+
+  # 4. AGREGA ESTA RESPUESTA (Rasa la necesita para preguntar la cantidad)
+  utter_ask_quote_quantity:
+    - text: "How many copies would you like me to calculate?"
+
 actions:
+  - action_calculate_quote
   - action_get_price
   - action_human_handoff
   - validate_order_form
@@ -1117,3 +1172,9 @@ forms:
   status_form:
     required_slots:
       - order_reference
+
+  quote_form:
+    required_slots:
+      - quote_product
+      - quote_size
+      - quote_quantity
