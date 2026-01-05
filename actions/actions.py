@@ -503,7 +503,8 @@ class ActionHumanHandoff(Action):
 
         try:
             #webhook_url = "http://localhost:8001/api/live-chat-request"
-            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            webhook_url = "https://dttorders.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
@@ -551,7 +552,8 @@ class ActionSubmitHandoff(Action):
 
         try:
             #webhook_url = "http://localhost:8001/api/live-chat-request"
-            webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            #webhook_url = "https://dev.gangsheet-builders.com/api/live-chat-request"
+            webhook_url = "https://dttorders.gangsheet-builders.com/api/live-chat-request"
             requests.post(
                 webhook_url,
                 json={
