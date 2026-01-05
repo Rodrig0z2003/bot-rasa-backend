@@ -212,8 +212,14 @@ responses:
   # --- Respuestas Básicas y de Chit-Chat ---
   utter_greet:
     - text: |
-        Hello! 👋 I’m Charles, your AI Assistant.
-        I can help you with DTF & UV-DTF questions, place new orders, track your order status, or connect you with Customer Service.
+        Hello! 👋 I’m **Charles**, your AI Printing Assistant.
+
+        I'm here to help you grow your business with:
+        ✅ **New Orders:** Place a DTF or UV-DTF order in minutes.
+        📦 **Tracking:** Check your order status instantly.
+        ❓ **Support:** Technical questions or help with your files.
+        👤 **Human Agent:** Connect with Customer Service.
+
         How can I assist you today?
   utter_goodbye:
     - text: "Goodbye! Have a great day."
