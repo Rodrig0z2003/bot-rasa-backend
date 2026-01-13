@@ -1152,6 +1152,23 @@ responses:
   utter_ask_quote_quantity:
     - text: "How many copies would you like me to calculate?"
 
+  utter_faq/trouble_not_sticking:
+    - text: |
+        Adhesion issues are usually caused by three things:
+        1. **Low Pressure:** Ensure you are using **Heavy Pressure**. If you can move the shirt under the press, it's too light.
+        2. **Moisture:** Preheat your garment for 5 seconds to remove humidity before pressing.
+        3. **Cold Spots:** Verify your heat press temperature with an infrared thermometer; some presses have "cold spots."
+  utter_faq/trouble_faded_colors:
+    - text: |
+        If colors look dull, check the following:
+        - **Pressure:** Not enough pressure prevents the ink from bonding correctly.
+        - **Second Press:** Always do a "Finishing Press" for 5-10 seconds with a Teflon or Parchment paper to make the colors pop!
+
+  utter_faq/design_small_details:
+    - text: |
+        To ensure a perfect print:
+        - **Minimum Thickness:** Lines should be at least **0.02 inches (0.5mm)** thick. 
+        - **Transparency:** Avoid "glow" effects or semi-transparent edges; DTF needs a solid 100% opacity base to apply the white ink and powder correctly.
 actions:
   - action_calculate_quote
   - action_get_price

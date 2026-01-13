@@ -2027,6 +2027,24 @@ nlu:
       - talk in this chat
       - start live agent
       - chat now
+  - intent: faq/trouble_not_sticking
+    examples: |
+      - Why is my transfer not sticking to the shirt?
+      - The film won't peel off
+      - it is not adhering
+      - why did it ruin my shirt?
+  - intent: faq/trouble_faded_colors
+    examples: |
+      - why do the colors look dull?
+      - my print is not vibrant
+      - the white looks grey
+
+  - intent: faq/design_small_details
+    examples: |
+      - how small can my lines be?
+      - will small text print?
+      - minimum line thickness
+      - thin lines help
 
   - lookup: product_name
     examples: |
