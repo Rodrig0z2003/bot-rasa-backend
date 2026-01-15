@@ -212,13 +212,13 @@ responses:
   # --- Respuestas Básicas y de Chit-Chat ---
   utter_greet:
     - text: |
-        Hello! 👋 I’m **Charles**, your AI Printing Assistant.
+        Hello! I’m Charles, your AI Printing Assistant.
 
-        I'm here to help you grow your business with:
-        ✅ **New Orders:** Place a DTF or UV-DTF order in minutes.
-        📦 **Tracking:** Check your order status instantly.
-        ❓ **Support:** Technical questions or help with your files.
-        👤 **Human Agent:** Connect with Customer Service.
+        I can help you with:
+        • **New Orders:** Place DTF or UV-DTF orders quickly
+        • **Order Tracking:** Check your order status instantly
+        • **Support:** File assistance and technical questions
+        • **Customer Service:** Connect with a human agent if needed
 
         How can I assist you today?
   utter_goodbye:
