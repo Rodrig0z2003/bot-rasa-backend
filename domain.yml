@@ -211,16 +211,20 @@ responses:
 
   # --- Respuestas Básicas y de Chit-Chat ---
   utter_greet:
-    - text: |
-        Hello! I’m Charles, your AI Printing Assistant.
+    - custom:
+        type: "grid"
+        text: |
+          Hello! I’m Charles, your AI Printing Assistant. 🤖
+          I can help you place **DTF and UV-DTF** orders in seconds.
 
-        I can help you with:
-        • **New Orders:** Place DTF or UV-DTF orders quickly
-        • **Order Tracking:** Check your order status instantly
-        • **Support:** File assistance and technical questions
-        • **Customer Service:** Connect with a human agent if needed
-
-        How can I assist you today?
+          🎉 **Chat Exclusive:** Save **10% OFF** by ordering here!
+        options:
+          - title: "📦 New Order"
+            payload: "/create_order_dtf"
+          - title: "🚚 Track Order"
+            payload: "/check_order_status"
+          - title: "💬 Support"
+            payload: "/request_human_handoff"
   utter_goodbye:
     - text: "Goodbye! Have a great day."
   utter_iamabot:
@@ -242,7 +246,7 @@ responses:
   utter_ask_product_name:
     - custom:
         type: "grid"
-        text: "What product would you like to order?"
+        text: "What product would you like to order? (All prices include **10% OFF**!)"
         options:
           - title: "DTF Gang Sheet"
             payload: '/inform{{"product_name":"DTF Custom Gang Sheet"}}'

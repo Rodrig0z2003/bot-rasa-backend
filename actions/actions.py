@@ -109,17 +109,18 @@ class ActionGetPrice(Action):
         # --- CÁLCULO DE PRECIO ---
         if found_calculation:
             length_int = int(length_in_inches)
+            discount_factor = 0.90
 
             if is_uv:
-                price = (length_in_inches / 12) * UV_PRICE_PER_FOOT
-                response_text = f"A **UV DTF Gang Sheet** (11\" wide) of **{description}** costs **${price:.2f}**."
+                price = (length_in_inches / 12) * UV_PRICE_PER_FOOT * discount_factor
+                response_text = f"A **UV DTF Gang Sheet**... costs **${price:.2f}** (10% OFF included!)."
             else:
                 if length_int in DTF_BUNDLE_PRICES:
-                    price = DTF_BUNDLE_PRICES[length_int]
-                    response_text = f"A **DTF Gang Sheet** (22\" wide) of **{description}** has a special bundle price of **${price:.2f}**."
+                    price = DTF_BUNDLE_PRICES[length_int] * discount_factor
+                    response_text = f"A **DTF Gang Sheet**... special bundle price of **${price:.2f}** (10% OFF included!)."
                 else:
-                    price = (length_in_inches / 12) * DTF_PRICE_PER_FOOT
-                    response_text = f"A **DTF Gang Sheet** (22\" wide) of **{description}** costs **${price:.2f}**."
+                    price = (length_in_inches / 12) * DTF_PRICE_PER_FOOT * discount_factor
+                    response_text = f"A **DTF Gang Sheet**... costs **${price:.2f}** (10% OFF included!)."
         else:
             if is_uv:
                 response_text = "Our UV DTF Gang Sheets start at **$6.00 per linear foot**."
@@ -342,14 +343,14 @@ class ValidateOrderForm(FormValidationAction):
         uv_price = globals().get('UV_PRICE_PER_FOOT', 6.00)
         
         if inches_int in DTF_BUNDLE_PRICES:
-             price = DTF_BUNDLE_PRICES[inches_int]
-             dispatcher.utter_message(text=f"✅ Got it. {inches_int} inches. Special Bundle Price: **${price:.2f}**!")
+             price = DTF_BUNDLE_PRICES[inches_int] * 0.90
+             dispatcher.utter_message(text=f"✅ Got it. {inches_int} inches. Special Price (10% OFF): **${price:.2f}**!")
         else:
             prod = tracker.get_slot("product_name")
             rate = uv_price if (prod and "uv" in prod.lower()) else dtf_price
-            feet = inches / 12
-            price = feet * rate
-            dispatcher.utter_message(text=f"✅ Got it. {inches} inches is approx {feet:.1f} feet. Estimated price: **${price:.2f}**.")
+            feet = inches / 12 
+            price = feet * rate * 0.90
+            dispatcher.utter_message(text=f"✅ Got it. Estimated price (10% OFF): **${price:.2f}**.")
         
         return {"custom_inches": inches}
 
@@ -741,10 +742,10 @@ class ActionCalculateQuote(Action):
             # Verificamos si es DTF estándar y si el largo está en el diccionario de bundles
             # Nota: DTF_BUNDLE_PRICES debe estar definido arriba en tu archivo
             if not "uv" in product.lower() and 'DTF_BUNDLE_PRICES' in globals() and length_int in DTF_BUNDLE_PRICES:
-                unit_price = DTF_BUNDLE_PRICES[length_int]
+                unit_price = DTF_BUNDLE_PRICES[length_int] * 0.90
             else:
                 # Cálculo lineal si no es bundle o es UV
-                unit_price = (inches / 12) * price_per_foot
+                unit_price = (inches / 12) * price_per_foot * 0.90
             
             # Asegurar que qty sea un número
             quantity = float(qty) if qty else 1.0
